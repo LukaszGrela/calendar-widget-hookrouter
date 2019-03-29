@@ -1,0 +1,72 @@
+@import './_colors.scss';
+@import './calendar-widget/CalendarWidget.scss';
+@import './LinkedCalendars.scss';
+@import './Home.scss';
+html {
+    font-size: 62.5%;
+}
+
+body {
+    color: $primary-color;
+    background-color: $color-dark-grey;
+    font-size: 1.6rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+article.widgets {
+    display: flex;
+    justify-content: space-around;
+    @media only screen and (max-width: 41rem) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+article {
+    margin: 1rem;
+}
+
+footer {
+    margin: 1rem auto;
+    .credits {
+        text-align: center;
+        font-size: 1.2rem;
+    }
+}
+
+header {
+    margin: 1rem auto;
+    h1 {
+        margin: 0 1rem;
+    }
+}
+
+nav {
+    margin: 1rem auto;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align:center;
+}
+
+nav a {
+    color: $color-blue;
+    font-size: 3.2rem;
+    -webkit-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
+}
+nav a:hover {
+    color: $primary-color;
+}
+
+.page-404 {
+    article {
+        text-align: center;
+    }
+}
