@@ -1,3 +1,12 @@
+# Calendar Widget
+[React Calendar Widget](https://github.com/LukaszGrela/calendar-widget) example, react router was replaced with the [Hookroutes](https://parastudios.de/modern-and-clean-routing-with-hooks/).
+
+
+
+
+
+
+## CRA
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
