@@ -1,63 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { A } from 'hookrouter';
 import PropTypes from 'prop-types';
 import CalendarWidget from '../components/CalendarWidget';
 
-class LinkedCalendars extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      current: props.current || moment(),
-    };
-  }
+const LinkedCalendars = props => {
+  const [current, setCurrent] = useState(() => props.initialDate);
 
-  currentCalendarDateChanged = date => {
-    // set state - this will move next calendar to be one month forward
-    this.setState(() => ({
-      current: date.clone(),
-    }));
-  };
-  nextCalendarDateChanged = date => {
-    // set state to be a month less than selected
-
-    this.setState(() => ({
-      current: date.clone().subtract(1, 'months'),
-    }));
+  const currentCalendarDateChanged = date => {
+    setCurrent(date.clone());
   };
 
-  render = () => {
-    const { current } = this.state;
-    const next = current.clone().add(1, 'months');
-
-    return (
-      <section className="linked-calendars">
-        <article>
-          <p>React Calendar Widget example.</p>
-        </article>
-        <article className="widgets">
-          <CalendarWidget
-            className="linked currentMonth"
-            todayDate={moment()}
-            currentMonth={current}
-            onDateChanged={this.currentCalendarDateChanged}
-          />
-          <CalendarWidget
-            className="linked nextMonth"
-            todayDate={moment()}
-            currentMonth={next}
-            onDateChanged={this.nextCalendarDateChanged}
-          />
-        </article>
-        <nav>
-          <A href="/">Home</A>
-        </nav>
-      </section>
-    );
+  const nextCalendarDateChanged = date => {
+    setCurrent(date.clone().subtract(1, 'months'));
   };
-}
+
+  const today = moment();
+  const next = current.clone().add(1, 'months');
+  return (
+    <section className="linked-calendars">
+      <article>
+        <p>React Calendar Widget example.</p>
+      </article>
+      <article className="widgets">
+        <CalendarWidget
+          className="linked currentMonth"
+          todayDate={today}
+          currentMonth={current}
+          onDateChanged={currentCalendarDateChanged}
+        />
+        <CalendarWidget
+          className="linked nextMonth"
+          todayDate={today}
+          currentMonth={next}
+          onDateChanged={nextCalendarDateChanged}
+        />
+      </article>
+      <nav>
+        <A href="/">Home</A>
+      </nav>
+    </section>
+  );
+};
 
 LinkedCalendars.propTypes = {
-  current: PropTypes.object,
+  initialDate: PropTypes.object,
+};
+LinkedCalendars.defaultProps = {
+  initialDate: moment(),
 };
 export default LinkedCalendars;
