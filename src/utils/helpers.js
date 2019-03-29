@@ -8,10 +8,8 @@ export const getYearList = (start, around) => {
     return years;
 }
 
-import moment from 'moment';
-
 export const calendarDates = (now) => {
-    const monthLength = now.daysInMonth();
+
     const firstOfMonth = now.clone().date(1);
     const startsAt = firstOfMonth.day();
     let weeks = [
