@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRoutes } from 'hookrouter';
+import moment from 'moment';
 
 import Home from './pages/Home';
 import RouterCalendar from './pages/RouterCalendar';
@@ -11,7 +12,7 @@ const routes = {
   '/router-calendar/:year?/:month?/:date?': ({ year, month, date }) => (
     <RouterCalendar year={year} month={month} date={date} />
   ),
-  '/linked-calendars': () => <LinkedCalendars />,
+  '/linked-calendars': () => <LinkedCalendars initialDate={moment().subtract(5, 'months')}/>,
 };
 
 const App = () => {
