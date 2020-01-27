@@ -12,7 +12,7 @@ const GDCalendarDay: React.FC<IProps> = ({
   onClick
 }: IProps): JSX.Element => {
   const classNameMemo = useMemo((): string => {
-    return `calendar-day${className ? ` ${className}` : ""}`;
+    return `GDCalendar_Day${className ? ` ${className}` : ""}`;
   }, [className]);
   const dateResult = useMemo((): string => {
     if (typeof date === "string") {
