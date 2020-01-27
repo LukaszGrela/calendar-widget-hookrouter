@@ -1,17 +1,17 @@
 {
   "name": "hookrouter-example",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "hookrouter": "^1.0.3-beta",
+    "hookrouter": "^1.2.3",
     "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
-    "react": "^16.8.5",
-    "react-dom": "^16.8.5",
-    "react-moment-proptypes": "^1.6.0",
+    "node-sass": "^4.13.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-moment-proptypes": "^1.7.0",
     "react-redux": "^6.0.1",
-    "react-scripts": "^3.0.1",
-    "redux": "^4.0.1",
+    "react-scripts": "^3.3.0",
+    "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
