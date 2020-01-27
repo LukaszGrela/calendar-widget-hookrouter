@@ -1,18 +1,22 @@
-import React from 'react';
-import { useRoutes } from 'hookrouter';
-import moment from 'moment';
+import React from "react";
+import { useRoutes } from "hookrouter";
+import moment from "moment";
 
-import Home from './pages/Home';
-import RouterCalendar from './pages/RouterCalendar';
-import LinkedCalendars from './pages/LinkedCalendars';
-import Page404 from './pages/Page404';
+import Home from "./pages/Home";
+import RouterCalendar from "./pages/RouterCalendar";
+import LinkedCalendars from "./pages/LinkedCalendars";
+import Page404 from "./pages/Page404";
+import TSCalendar from "./pages/TSCalendar";
 
 const routes = {
-  '/': () => <Home />,
-  '/router-calendar/:year?/:month?/:date?': ({ year, month, date }) => (
+  "/": () => <Home />,
+  "/router-calendar/:year?/:month?/:date?": ({ year, month, date }) => (
     <RouterCalendar year={year} month={month} date={date} />
   ),
-  '/linked-calendars': () => <LinkedCalendars initialDate={moment().subtract(5, 'months')}/>,
+  "/linked-calendars": () => (
+    <LinkedCalendars initialDate={moment().subtract(5, "months")} />
+  ),
+  "/ts-calendar": () => <TSCalendar />
 };
 
 const App = () => {
