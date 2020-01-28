@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import GDCalendarRow from "./GDCalendarRow";
 import GDCalendarMonthGrid from "./GDCalendarMonthGrid";
-import { noop } from "../../utils/helpers";
+import { noop } from "./utils";
 import SVGIcon from "./SVGIcon";
 import "./styles/index.scss";
 
