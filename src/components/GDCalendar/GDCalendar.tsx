@@ -1,7 +1,7 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import GDCalendarRow from './GDCalendarRow';
 import GDCalendarMonthGrid from './GDCalendarMonthGrid';
-import { noop } from './utils';
+import { noop, datesSame } from './utils';
 import SVGIcon from './SVGIcon';
 import './styles/index.scss';
 
@@ -25,26 +25,31 @@ const GDCalendar: React.FC<IProps> = ({
   displayMonth = new Date(),
   todayDate = new Date(),
 }: IProps): JSX.Element => {
-  const [currentMonth, setCurrentMonth] = useState(
-    (date && new Date(date.getFullYear(), date.getMonth(), 1)) ||
-      new Date(displayMonth.getFullYear(), displayMonth.getMonth(), 1)
-  );
-  const [selectedDate, setSelectedDate] = useState(date);
-
   const classNameMemo = useMemo((): string => {
     return `GDCalendar${className ? ` ${className}` : ''}`;
   }, [className]);
 
+  const [currentMonth, setCurrentMonth] = useState(
+    (date && new Date(date.getFullYear(), date.getMonth(), 1)) ||
+      new Date(displayMonth.getFullYear(), displayMonth.getMonth(), 1)
+  );
+
+  const [selectedDate, setSelectedDate] = useState(date);
+
   const onDateClick = (date: string | Date): void => {
     if (date instanceof Date) {
+      console.log('onDateClick', date);
       setSelectedDate(date);
+
+      // inform about date change
+      if (onDateChanged) {
+        onDateChanged(selectedDate);
+      }
 
       // auto-navigate when selected not-current month
       if (date && currentMonth) {
-        if (
-          date.getMonth() !== currentMonth.getMonth() ||
-          date.getFullYear() !== currentMonth.getFullYear()
-        ) {
+        if (!datesSame(date, currentMonth, 'month')) {
+          console.log('onDateClick>setCurrentMonth', currentMonth);
           // change to selected month
           setCurrentMonth(new Date(date));
         }
@@ -62,15 +67,9 @@ const GDCalendar: React.FC<IProps> = ({
   const nextMonth = (): void => {
     const date = new Date(currentMonth);
     date.setMonth(date.getMonth() + 1);
+
     setCurrentMonth(date);
   };
-
-  // inform about date change
-  useEffect(() => {
-    if (onDateChanged) {
-      onDateChanged(selectedDate);
-    }
-  }, [onDateChanged, selectedDate]);
 
   return (
     <div className={classNameMemo}>
