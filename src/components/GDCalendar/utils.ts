@@ -1,5 +1,18 @@
 export const noop = () => {};
 
+// 0 day of the week
+const weekReferenceDateSunday = new Date(Date.UTC(2020, 10, 1, 0, 0, 0, 0));
+export const weekDays = (format: "long" | "short" | "narrow"): string[] => {
+  // clone reference date as we will mutate it
+  const date = new Date(weekReferenceDateSunday);
+  let week: string[] = [1, 2, 3, 4, 5, 6, 7].map((i: number): string => {
+    date.setUTCDate(i);
+    return date.toLocaleDateString([], { weekday: format });
+  });
+
+  return week;
+};
+
 export const getYearList = (start: number, around: number): number[] => {
   let years: number[] = [];
   for (let i = start - around; i <= start + around; i++) {
