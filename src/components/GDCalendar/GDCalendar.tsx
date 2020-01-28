@@ -55,6 +55,7 @@ const GDCalendar: React.FC<IProps> = ({
   const prevMonth = (): void => {
     const date = new Date(currentMonth);
     date.setDate(0); // will set to last day of previous month
+    date.setDate(1); // set it to the first day of that month
 
     setCurrentMonth(date);
   };
