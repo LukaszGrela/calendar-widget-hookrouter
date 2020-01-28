@@ -1,7 +1,7 @@
 import React from "react";
 import { A } from "hookrouter";
-import moment from "moment";
 import GDCalendar from "../components/GDCalendar/GDCalendar";
+import { weekDays } from "../components/GDCalendar/utils";
 
 export interface IProps {}
 const TSCalendar: React.FC<IProps> = (props: IProps): JSX.Element => {
@@ -15,7 +15,7 @@ const TSCalendar: React.FC<IProps> = (props: IProps): JSX.Element => {
       </article>
       <article className="widgets">
         <GDCalendar
-          weekdays={moment.weekdaysShort()}
+          weekdays={weekDays("short")}
           onDateChanged={calendarDayClicked}
         />
       </article>
