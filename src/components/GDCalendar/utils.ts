@@ -46,3 +46,200 @@ export const calendarDates = (now: Date) => {
   }
   return weeks;
 };
+
+export const datesSame = (
+  a?: Date,
+  b?: Date,
+  precision:
+    | 'year'
+    | 'month'
+    | 'date'
+    | 'hour'
+    | 'minute'
+    | 'second'
+    | 'ms' = 'ms'
+): boolean => {
+  if (!a && !b) return false; // no dates to compare, surely not the same dates:)
+  if (!a && b) return false;
+  if (a && !b) return false;
+
+  // both dates exist compare by precision
+  if (a && b) {
+    const diffYear = a.getFullYear() !== b.getFullYear();
+    if (precision === 'year') {
+      // stop at year
+      return !diffYear;
+    }
+
+    const diffMonth = a.getMonth() !== b.getMonth();
+    if (precision === 'month') {
+      // stop at month
+      return !diffYear && !diffMonth;
+    }
+
+    const diffDate = a.getDate() !== b.getDate();
+    if (precision === 'date') {
+      // stop at date
+      return !diffYear && !diffMonth && !diffDate;
+    }
+
+    const diffHour = a.getHours() !== b.getHours();
+    if (precision === 'hour') {
+      //stop at hours
+      return !diffYear && !diffMonth && !diffDate && !diffHour;
+    }
+
+    const diffMin = a.getMinutes() !== b.getMinutes();
+    if (precision === 'minute') {
+      // stop at minutes
+      return !diffYear && !diffMonth && !diffDate && !diffHour && !diffMin;
+    }
+    const diffSec = a.getSeconds() !== b.getSeconds();
+    if (precision === 'second') {
+      //stop at seconds
+      return (
+        !diffYear &&
+        !diffMonth &&
+        !diffDate &&
+        !diffHour &&
+        !diffMin &&
+        !diffSec
+      );
+    }
+
+    // check full precision
+    const diffMs = a.getMilliseconds() !== b.getMilliseconds();
+
+    return (
+      !diffYear &&
+      !diffMonth &&
+      !diffDate &&
+      !diffHour &&
+      !diffMin &&
+      !diffSec &&
+      !diffMs
+    );
+  }
+  return false;
+};
+/*
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 14, 15)
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 14, 14)
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 14, 14),
+    'second'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 10, 15),
+    'second'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 10, 15),
+    'minute'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 2, 10, 15),
+    'minute'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 2, 10, 15),
+    'hour'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 13, 2, 10, 15),
+    'hour'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 13, 2, 10, 15),
+    'date'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 14, 13, 2, 10, 15),
+    'date'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 14, 13, 2, 10, 15),
+    'month'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 4, 14, 13, 2, 10, 15),
+    'month'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 4, 14, 13, 2, 10, 15),
+    'year'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1980, 8, 16, 12, 1, 14, 15),
+    'year'
+  )
+);
+console.log(
+  'datesSame',
+  datesSame(undefined, new Date(1980, 8, 16, 12, 1, 14, 15))
+);
+console.log(
+  'datesSame',
+  datesSame(new Date(1980, 8, 16, 12, 1, 14, 15), undefined)
+);
+console.log('datesSame', datesSame(undefined, undefined));
+*/
