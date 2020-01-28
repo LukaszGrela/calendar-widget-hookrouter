@@ -122,6 +122,9 @@ class GDCalendar extends React.Component<IProps, IState> {
             this.displayMonth(new Date(this.state.selectedDate));
           }
         }
+
+        // inform about date change
+        this.props.onDateChanged?.(this.state.selectedDate);
       }
     );
   };
@@ -192,10 +195,8 @@ class GDCalendar extends React.Component<IProps, IState> {
               now={todayDate}
               onClick={(date: string | Date): void => {
                 if (date instanceof Date) {
-                  console.log('onDateClick', date);
+                  // console.log('onDateClick', date);
                   this.selectDate(date);
-                  // inform about date change
-                  onDateChanged(date);
                 }
               }}
             />
