@@ -2,7 +2,7 @@ export const noop = () => {};
 
 // 0 day of the week
 const weekReferenceDateSunday = new Date(Date.UTC(2020, 10, 1, 0, 0, 0, 0));
-export const weekDays = (format: "long" | "short" | "narrow"): string[] => {
+export const weekDays = (format: 'long' | 'short' | 'narrow'): string[] => {
   // clone reference date as we will mutate it
   const date = new Date(weekReferenceDateSunday);
   let week: string[] = [1, 2, 3, 4, 5, 6, 7].map((i: number): string => {

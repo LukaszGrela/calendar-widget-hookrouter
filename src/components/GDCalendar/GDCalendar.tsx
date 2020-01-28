@@ -1,9 +1,9 @@
-import React, { useMemo, useState, useEffect } from "react";
-import GDCalendarRow from "./GDCalendarRow";
-import GDCalendarMonthGrid from "./GDCalendarMonthGrid";
-import { noop } from "./utils";
-import SVGIcon from "./SVGIcon";
-import "./styles/index.scss";
+import React, { useMemo, useState, useEffect } from 'react';
+import GDCalendarRow from './GDCalendarRow';
+import GDCalendarMonthGrid from './GDCalendarMonthGrid';
+import { noop } from './utils';
+import SVGIcon from './SVGIcon';
+import './styles/index.scss';
 
 export interface IProps {
   className?: string;
@@ -23,7 +23,7 @@ const GDCalendar: React.FC<IProps> = ({
   date,
   onDateChanged = noop,
   displayMonth = new Date(),
-  todayDate = new Date()
+  todayDate = new Date(),
 }: IProps): JSX.Element => {
   const [currentMonth, setCurrentMonth] = useState(
     (date && new Date(date.getFullYear(), date.getMonth(), 1)) ||
@@ -32,7 +32,7 @@ const GDCalendar: React.FC<IProps> = ({
   const [selectedDate, setSelectedDate] = useState(date);
 
   const classNameMemo = useMemo((): string => {
-    return `GDCalendar${className ? ` ${className}` : ""}`;
+    return `GDCalendar${className ? ` ${className}` : ''}`;
   }, [className]);
 
   const onDateClick = (date: string | Date): void => {
@@ -80,11 +80,11 @@ const GDCalendar: React.FC<IProps> = ({
           </button>
           <span>
             {currentMonth.toLocaleDateString([], {
-              month: "long",
+              month: 'long',
               year:
                 currentMonth.getFullYear() !== todayDate.getFullYear()
-                  ? "numeric"
-                  : undefined
+                  ? 'numeric'
+                  : undefined,
             })}
           </span>
           <button className="GDCalendar_NextMonth-btn" onClick={nextMonth}>

@@ -1,6 +1,6 @@
-import React, { useMemo, ReactNode } from "react";
-import { calendarDates, noop } from "./utils";
-import GDCalendarRow from "./GDCalendarRow";
+import React, { useMemo, ReactNode } from 'react';
+import { calendarDates, noop } from './utils';
+import GDCalendarRow from './GDCalendarRow';
 
 export interface IProps {
   // selected date
@@ -17,10 +17,10 @@ const GDCalendarMonthGrid: React.FC<IProps> = ({
   date,
   monthDate = new Date(),
   now = new Date(),
-  onClick = noop
+  onClick = noop,
 }: IProps): JSX.Element => {
   const classNameMemo = useMemo((): string => {
-    return `GDCalendar_MonthGrid${className ? ` ${className}` : ""}`;
+    return `GDCalendar_MonthGrid${className ? ` ${className}` : ''}`;
   }, [className]);
 
   const weeks = calendarDates(monthDate);

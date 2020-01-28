@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo } from 'react';
 
 export interface IProps {
   className?: string;
@@ -9,13 +9,13 @@ export interface IProps {
 const GDCalendarDay: React.FC<IProps> = ({
   className,
   date,
-  onClick
+  onClick,
 }: IProps): JSX.Element => {
   const classNameMemo = useMemo((): string => {
-    return `GDCalendar_Day${className ? ` ${className}` : ""}`;
+    return `GDCalendar_Day${className ? ` ${className}` : ''}`;
   }, [className]);
   const dateResult = useMemo((): string => {
-    if (typeof date === "string") {
+    if (typeof date === 'string') {
       return date;
     }
     return `${date.getDate()}`;

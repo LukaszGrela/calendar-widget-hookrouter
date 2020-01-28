@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 const showIcon = (icon: string): JSX.Element => {
   switch (icon) {
-    case "i":
+    case 'i':
       return (
         <path d="M37,16.8V6.5h-10v10.3C27.1,16.8,37,16.8,37,16.8z M37,57.5V26.9h-10v30.4h10V57.5z" />
       );
-    case "info":
+    case 'info':
       return (
         <path
           d="M15,15c4.7-4.7,10.4-7.1,17-7.1s12.3,2.3,17,7.1s7.1,10.4,7.1,17S53.8,44.3,49,49s-10.4,7.1-17,7.1
@@ -14,26 +14,26 @@ const showIcon = (icon: string): JSX.Element => {
           V44L34.4,44.1L34.4,44.1z"
         />
       );
-    case "home":
+    case 'home':
       return <path d="M26,57.5H11v-24H2l30-27l30,27h-9v24H38v-18H26V57.5z" />;
-    case "edit":
+    case 'edit':
       return (
         <path
           d="M10.5,44.5l26.4-26.4l9,9L19.5,53.5h-9V44.5z M52.8,20.1l-4.4,4.4l-9-9l4.4-4.4c0.4-0.4,1-0.7,1.7-0.7
     c0.7,0,1.2,0.2,1.7,0.7l5.6,5.6c0.4,0.4,0.7,1,0.7,1.7C53.5,19.1,53.3,19.7,52.8,20.1z"
         />
       );
-    case "add":
+    case 'add':
       return (
         <path d="M48.7,34.4H34.4v14.3h-4.7V34.4H15.3v-4.7h14.3V15.3h4.7v14.3h14.3V34.4z" />
       );
-    case "subtract":
+    case 'subtract':
       return <path d="M15.3,34.4v-4.8h33.3v4.8H15.3z" />;
-    case "tick":
+    case 'tick':
       return (
         <path d="M24.3,41.4L49.6,16l3.4,3.4L24.3,48L11,34.7l3.2-3.4L24.3,41.4z" />
       );
-    case "cancel":
+    case 'cancel':
       return (
         <path
           d="M48.7,18.7L35.4,32l13.3,13.3l-3.4,3.4L32,35.4L18.7,48.7l-3.4-3.4L28.6,32L15.3,18.7l3.4-3.4L32,28.6
@@ -41,12 +41,12 @@ const showIcon = (icon: string): JSX.Element => {
         />
       );
 
-    case "back":
+    case 'back':
       return (
         <path d="M51.2,29.6v4.7H22l13.3,13.4L32,51.2L12.8,32L32,12.8l3.4,3.4L22,29.6H51.2z" />
       );
 
-    case "calendar":
+    case 'calendar':
       return (
         <path
           d="M42.625,5.313H48v5.375h2.625c1.416,0,2.666,0.543,3.75,1.625C55.457,13.396,56,14.646,56,16.063v37.25
@@ -55,7 +55,7 @@ const showIcon = (icon: string): JSX.Element => {
         h21.25V5.313z M50.625,53.313v-29.25h-37.25v29.25H50.625z M45.375,34.688v13.375H32V34.688H45.375z"
         />
       );
-    case "delete":
+    case 'delete':
       return (
         <path
           d="M40.4,12.8h8.3v4.8H15.3v-4.8h8.3l2.5-2.4h11.9L40.4,12.8z M17.7,48.7V20h28.7v28.7c0,1.3-0.5,2.4-1.5,3.4
@@ -63,7 +63,7 @@ const showIcon = (icon: string): JSX.Element => {
     l-5-5l5-5.2L37,28.3l-5,5.2l-5-5.2L23.5,31.7z"
         />
       );
-    case "details":
+    case 'details':
       return (
         <path
           d="M14.125,17.5C19.457,13.834,25.416,12,32,12c6.582,0,12.541,1.834,17.875,5.5c5.332,3.668,9.166,8.5,11.5,14.5
@@ -76,28 +76,28 @@ const showIcon = (icon: string): JSX.Element => {
         C24,29.834,24.791,27.959,26.375,26.375z"
         />
       );
-    case "up-arrow":
+    case 'up-arrow':
       return (
         <path d="M21,40.9l-3.4-3.4L32,23.1l14.3,14.3L43,40.9l-11-11L21,40.9z" />
       );
-    case "down-arrow":
+    case 'down-arrow':
       return (
         <path d="M21,23.1l11,11l11-11l3.4,3.4L32,40.9L17.7,26.5L21,23.1z" />
       );
-    case "left-arrow":
+    case 'left-arrow':
       return (
         <path d="M40.9,21l-11,11l11,11l-3.4,3.4L23.1,32l14.3-14.3L40.9,21z" />
       );
-    case "right-arrow":
+    case 'right-arrow':
       return (
         <path d="M26.5,17.7L40.9,32L26.5,46.3L23.1,43l11-11l-11-11L26.5,17.7z" />
       );
-    case "warning":
+    case 'warning':
       return (
         <path d="M5.7,49.7L32,4.3l26.3,45.4H5.7z M34.4,33v-9.6h-4.7V33H34.4z M34.4,42.5v-4.8h-4.7v4.8H34.4z" />
       );
 
-    case "time":
+    case 'time':
       return (
         <path
           d="M13.188,13.188C18.395,7.98,24.666,5.375,32,5.375c7.332,0,13.604,2.605,18.813,7.813
@@ -109,7 +109,7 @@ const showIcon = (icon: string): JSX.Element => {
 			v-16H33.375z"
         />
       );
-    case "help":
+    case 'help':
       return (
         <path
           d="M15.1,15.1c4.7-4.7,10.3-7,16.9-7c6.6,0,12.2,2.3,16.9,7c4.7,4.7,7,10.3,7,16.9c0,6.6-2.3,12.2-7,16.9
@@ -135,25 +135,24 @@ const showIcon = (icon: string): JSX.Element => {
 };
 
 export type TIconType =
-  | "add"
-  | "back"
-  | "calendar"
-  | "cancel"
-  | "delete"
-  | "details"
-  | "down-arrow"
-  | "edit"
-  | "help"
-  | "home"
-  | "i"
-  | "info"
-  | "left-arrow"
-  | "right-arrow"
-  | "subtract"
-  | "tick"
-  | "time"
-  | "warning"
-  ;
+  | 'add'
+  | 'back'
+  | 'calendar'
+  | 'cancel'
+  | 'delete'
+  | 'details'
+  | 'down-arrow'
+  | 'edit'
+  | 'help'
+  | 'home'
+  | 'i'
+  | 'info'
+  | 'left-arrow'
+  | 'right-arrow'
+  | 'subtract'
+  | 'tick'
+  | 'time'
+  | 'warning';
 
 interface IProps {
   icon: TIconType;
@@ -166,12 +165,12 @@ const SVGIcon: React.FC<IProps> = ({
   icon,
   iconColour,
   title,
-  className
+  className,
 }: IProps): JSX.Element => (
   <svg
     role="img"
-    className={`SVGIcon${iconColour ? ` ${iconColour}` : ""}${
-      className ? ` ${className}` : ""
+    className={`SVGIcon${iconColour ? ` ${iconColour}` : ''}${
+      className ? ` ${className}` : ''
     }`}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 64 64"

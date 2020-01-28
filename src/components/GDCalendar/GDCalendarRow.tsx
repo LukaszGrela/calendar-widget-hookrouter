@@ -1,5 +1,5 @@
-import React, { useMemo, ReactNode } from "react";
-import GDCalendarDay from "./GDCalendarDay";
+import React, { useMemo, ReactNode } from 'react';
+import GDCalendarDay from './GDCalendarDay';
 
 type TDateOrString = Date | string;
 export interface IProps {
@@ -20,42 +20,42 @@ const GDCalendarRow: React.FC<IProps> = ({
   now,
   date,
   current,
-  onClick = () => {}
+  onClick = () => {},
 }: IProps): JSX.Element => {
   const classNameMemo = useMemo((): string => {
-    return `GDCalendar_Row${className ? ` ${className}` : ""}`;
+    return `GDCalendar_Row${className ? ` ${className}` : ''}`;
   }, [className]);
   return (
     <div className={classNameMemo}>
       {days.map(
         (day, index): ReactNode => {
-          let spill = "";
-          if (typeof day !== "string" && current) {
-            spill = day.getMonth() !== current.getMonth() ? " spill" : "";
+          let spill = '';
+          if (typeof day !== 'string' && current) {
+            spill = day.getMonth() !== current.getMonth() ? ' spill' : '';
           }
 
-          let today = "";
-          if (typeof day !== "string" && now) {
+          let today = '';
+          if (typeof day !== 'string' && now) {
             today =
               day.getMonth() === now.getMonth() &&
               day.getDate() === now.getDate() &&
               day.getFullYear() === now.getFullYear()
-                ? " today"
-                : "";
+                ? ' today'
+                : '';
           }
 
-          let selected = "";
-          if (typeof day !== "string" && date) {
+          let selected = '';
+          if (typeof day !== 'string' && date) {
             selected =
               day.getMonth() === date.getMonth() &&
               day.getDate() === date.getDate() &&
               day.getFullYear() === date.getFullYear()
-                ? " selected"
-                : "";
+                ? ' selected'
+                : '';
           }
 
           let key = `${day}`;
-          if (typeof day === "string") {
+          if (typeof day === 'string') {
             key = `${day}-${index}`;
           }
           return (
