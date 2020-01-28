@@ -38,6 +38,17 @@ const GDCalendar: React.FC<IProps> = ({
   const onDateClick = (date: string | Date): void => {
     if (date instanceof Date) {
       setSelectedDate(date);
+
+      // auto-navigate when selected not-current month
+      if (date && currentMonth) {
+        if (
+          date.getMonth() !== currentMonth.getMonth() ||
+          date.getFullYear() !== currentMonth.getFullYear()
+        ) {
+          // change to selected month
+          setCurrentMonth(new Date(date));
+        }
+      }
     }
   };
 
@@ -59,19 +70,6 @@ const GDCalendar: React.FC<IProps> = ({
       onDateChanged(selectedDate);
     }
   }, [onDateChanged, selectedDate]);
-
-  // auto-navigate when selected not-current month
-  useEffect(() => {
-    if (selectedDate && currentMonth) {
-      if (
-        selectedDate.getMonth() !== currentMonth.getMonth() ||
-        selectedDate.getFullYear() !== currentMonth.getFullYear()
-      ) {
-        // change to selected month
-        setCurrentMonth(new Date(selectedDate));
-      }
-    }
-  }, [selectedDate, currentMonth]);
 
   return (
     <div className={classNameMemo}>
