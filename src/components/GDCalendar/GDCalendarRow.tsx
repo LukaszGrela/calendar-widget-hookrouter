@@ -54,9 +54,13 @@ const GDCalendarRow: React.FC<IProps> = ({
                 : "";
           }
 
+          let key = `${day}`;
+          if (typeof day === "string") {
+            key = `${day}-${index}`;
+          }
           return (
             <GDCalendarDay
-              key={`${day}`}
+              key={key}
               className={`day-${index}${spill}${today}${selected}`}
               date={day}
               onClick={onClick}
