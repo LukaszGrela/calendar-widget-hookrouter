@@ -1,13 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import GDCalendarRow from './GDCalendarRow';
 import GDCalendarMonthGrid from './GDCalendarMonthGrid';
-import { noop, datesSame } from './utils';
+import { noop, datesSame, weekDays } from './utils';
 import SVGIcon from './SVGIcon';
 import './styles/index.scss';
 
 export interface IProps {
   className?: string;
-  weekdays: string[];
+  weekdays?: string[];
   // selected date
   date?: Date;
   // reference date for today
@@ -17,92 +17,193 @@ export interface IProps {
   onDateChanged?: (date: Date | undefined) => void;
 }
 
-const GDCalendar: React.FC<IProps> = ({
-  className,
-  weekdays,
-  date,
-  onDateChanged = noop,
-  displayMonth = new Date(),
-  todayDate = new Date(),
-}: IProps): JSX.Element => {
-  const classNameMemo = useMemo((): string => {
-    return `GDCalendar${className ? ` ${className}` : ''}`;
-  }, [className]);
+interface IState {
+  currentMonth?: Date;
+  selectedDate?: Date;
+}
+class GDCalendar extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
 
-  const [currentMonth, setCurrentMonth] = useState(
-    (date && new Date(date.getFullYear(), date.getMonth(), 1)) ||
-      new Date(displayMonth.getFullYear(), displayMonth.getMonth(), 1)
-  );
+    const { date, displayMonth = new Date() } = props;
+    this.state = {
+      currentMonth:
+        (date && new Date(date.getFullYear(), date.getMonth(), 1)) ||
+        new Date(displayMonth.getFullYear(), displayMonth.getMonth(), 1),
+      selectedDate: date,
+    };
+  }
 
-  const [selectedDate, setSelectedDate] = useState(date);
+  /**
+   * Display previous year
+   */
+  public prevYear = (): void => {
+    this.setState(
+      (prevState: IState): Pick<IState, 'currentMonth'> => {
+        const date = prevState.currentMonth
+          ? new Date(prevState.currentMonth)
+          : new Date();
+        date.setDate(1); // set it to the first day of that month
+        date.setFullYear(date.getFullYear() - 1);
 
-  const onDateClick = (date: string | Date): void => {
-    if (date instanceof Date) {
-      console.log('onDateClick', date);
-      setSelectedDate(date);
-
-      // inform about date change
-      if (onDateChanged) {
-        onDateChanged(selectedDate);
+        return { currentMonth: date };
       }
+    );
+  };
 
-      // auto-navigate when selected not-current month
-      if (date && currentMonth) {
-        if (!datesSame(date, currentMonth, 'month')) {
-          console.log('onDateClick>setCurrentMonth', currentMonth);
-          // change to selected month
-          setCurrentMonth(new Date(date));
+  /**
+   * Display next year
+   */
+  public nextYear = (): void => {
+    this.setState(
+      (prevState: IState): Pick<IState, 'currentMonth'> => {
+        const date = prevState.currentMonth
+          ? new Date(prevState.currentMonth)
+          : new Date();
+
+        date.setDate(1); // set it to the first day of that month
+        date.setFullYear(date.getFullYear() + 1);
+        return { currentMonth: date };
+      }
+    );
+  };
+
+  /**
+   * Display previous month
+   */
+  public prevMonth = (): void => {
+    this.setState(
+      (prevState: IState): Pick<IState, 'currentMonth'> => {
+        const date = prevState.currentMonth
+          ? new Date(prevState.currentMonth)
+          : new Date();
+        date.setDate(0); // will set to last day of previous month
+        date.setDate(1); // set it to the first day of that month
+
+        return { currentMonth: date };
+      }
+    );
+  };
+
+  /**
+   * Display next month
+   */
+  public nextMonth = (): void => {
+    this.setState(
+      (prevState: IState): Pick<IState, 'currentMonth'> => {
+        const date = prevState.currentMonth
+          ? new Date(prevState.currentMonth)
+          : new Date();
+
+        date.setMonth(date.getMonth() + 1);
+        return { currentMonth: date };
+      }
+    );
+  };
+
+  /**
+   * Select requested date
+   */
+  public selectDate = (date?: Date): void => {
+    this.setState(
+      (): Pick<IState, 'selectedDate'> => ({
+        selectedDate: date,
+      }),
+      (): void => {
+        // auto-navigate when selected not-current month
+        if (this.state.selectedDate && this.state.currentMonth) {
+          if (
+            !datesSame(
+              this.state.selectedDate,
+              this.state.currentMonth,
+              'month'
+            )
+          ) {
+            this.displayMonth(new Date(this.state.selectedDate));
+          }
         }
       }
+    );
+  };
+
+  /**
+   * Render requested month
+   */
+  public displayMonth = (date: Date = new Date()): void => {
+    this.setState(
+      (): Pick<IState, 'currentMonth'> => ({
+        currentMonth: new Date(date),
+      })
+    );
+  };
+
+  /*   componentDidUpdate(prevProps: IProps, prevState: IState): void {
+    console.log(
+      'GDCalendar.componentDidUpdate',
+      prevProps.date,
+      this.props.date
+    );
+    if (!datesSame(prevProps.date, this.props.date, 'date')) {
+      // date selected is different
     }
-  };
+  } */
 
-  const prevMonth = (): void => {
-    const date = new Date(currentMonth);
-    date.setDate(0); // will set to last day of previous month
-    date.setDate(1); // set it to the first day of that month
+  render() {
+    const {
+      weekdays = weekDays('short'),
+      onDateChanged = noop,
+      todayDate = new Date(),
+      className,
+    } = this.props;
+    const { selectedDate, currentMonth = new Date() } = this.state;
+    const classNameMemo = `GDCalendar${className ? ` ${className}` : ''}`;
 
-    setCurrentMonth(date);
-  };
-  const nextMonth = (): void => {
-    const date = new Date(currentMonth);
-    date.setMonth(date.getMonth() + 1);
-
-    setCurrentMonth(date);
-  };
-
-  return (
-    <div className={classNameMemo}>
-      <div className="GDCalendar_MonthPage">
-        <div className="GDCalendar_Header">
-          <button className="GDCalendar_PrevMonth-btn" onClick={prevMonth}>
-            <SVGIcon icon="left-arrow" />
-          </button>
-          <span>
-            {currentMonth.toLocaleDateString([], {
-              month: 'long',
-              year:
-                currentMonth.getFullYear() !== todayDate.getFullYear()
-                  ? 'numeric'
-                  : undefined,
-            })}
-          </span>
-          <button className="GDCalendar_NextMonth-btn" onClick={nextMonth}>
-            <SVGIcon icon="right-arrow" />
-          </button>
-        </div>
-        <div className="GDCalendar_View">
-          <GDCalendarRow className="GDCalendar_WeekHeader" days={weekdays} />
-          <GDCalendarMonthGrid
-            date={selectedDate}
-            monthDate={currentMonth}
-            now={todayDate}
-            onClick={onDateClick}
-          />
+    return (
+      <div className={classNameMemo}>
+        <div className="GDCalendar_MonthPage">
+          <div className="GDCalendar_Header">
+            <button
+              className="GDCalendar_PrevMonth-btn"
+              onClick={this.prevMonth}
+            >
+              <SVGIcon icon="left-arrow" />
+            </button>
+            <span>
+              {currentMonth.toLocaleDateString([], {
+                month: 'long',
+                year:
+                  currentMonth.getFullYear() !== todayDate.getFullYear()
+                    ? 'numeric'
+                    : undefined,
+              })}
+            </span>
+            <button
+              className="GDCalendar_NextMonth-btn"
+              onClick={this.nextMonth}
+            >
+              <SVGIcon icon="right-arrow" />
+            </button>
+          </div>
+          <div className="GDCalendar_View">
+            <GDCalendarRow className="GDCalendar_WeekHeader" days={weekdays} />
+            <GDCalendarMonthGrid
+              date={selectedDate}
+              monthDate={currentMonth}
+              now={todayDate}
+              onClick={(date: string | Date): void => {
+                if (date instanceof Date) {
+                  console.log('onDateClick', date);
+                  this.selectDate(date);
+                  // inform about date change
+                  onDateChanged(date);
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default GDCalendar;
