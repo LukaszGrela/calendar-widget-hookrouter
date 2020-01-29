@@ -1,7 +1,7 @@
 import React from 'react';
 import GDCalendarRow from './GDCalendarRow';
 import GDCalendarMonthGrid from './GDCalendarMonthGrid';
-import { noop, datesSame, weekDays } from './utils';
+import { datesSame, weekDays } from './utils';
 import SVGIcon from './SVGIcon';
 import './styles/index.scss';
 
@@ -24,7 +24,6 @@ interface IState {
 class GDCalendar extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-
     const { date, displayMonth = new Date() } = props;
     this.state = {
       currentMonth:
@@ -154,7 +153,6 @@ class GDCalendar extends React.Component<IProps, IState> {
   render() {
     const {
       weekdays = weekDays('short'),
-      onDateChanged = noop,
       todayDate = new Date(),
       className,
     } = this.props;
