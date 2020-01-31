@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { momentObj } from "react-moment-proptypes";
-import { noop } from "../utils/helpers";
+import { noop } from "../../utils/helpers";
 
 const CalendarDay = props => {
   const clickHandler = () => {

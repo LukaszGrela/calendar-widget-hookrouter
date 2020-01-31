@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { A } from 'hookrouter';
 import PropTypes from 'prop-types';
-import CalendarWidget from '../components/CalendarWidget';
+import CalendarWidget from '../components/CalendarWidget/CalendarWidget';
 
 const LinkedCalendars = props => {
   const [current, setCurrent] = useState(() => props.initialDate);

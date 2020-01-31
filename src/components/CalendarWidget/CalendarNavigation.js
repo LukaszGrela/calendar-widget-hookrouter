@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IconUp from '../icons/IconUp';
-import IconDown from '../icons/IconDown';
-import { noop } from '../utils/helpers';
+import IconUp from '../../icons/IconUp';
+import IconDown from '../../icons/IconDown';
+import { noop } from '../../utils/helpers';
 
 const CalendarNavigation = (props) => {
     const { className, navigateUp = noop, navigateDown = noop } = props;

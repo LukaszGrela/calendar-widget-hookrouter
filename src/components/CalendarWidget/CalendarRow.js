@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CalendarDay from './CalendarDay';
 import { momentObj } from 'react-moment-proptypes';
-import { noop } from '../utils/helpers';
+import { noop } from '../../utils/helpers';
 
 const CalendarRow = props => {
   const renderCalendarDays = () => {

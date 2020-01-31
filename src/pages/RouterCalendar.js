@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { A, navigate } from 'hookrouter';
-import CalendarWidget from '../components/CalendarWidget';
+import CalendarWidget from '../components/CalendarWidget/CalendarWidget';
 
 class RouterCalendar extends React.Component {
   calendarDateChanged = date => {

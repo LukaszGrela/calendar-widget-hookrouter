@@ -6,7 +6,7 @@ import CalendarRow from './CalendarRow';
 import CalendarMonthGrid from './CalendarMonthGrid';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarYearMonthSelectors from './CalendarYearMonthSelectors';
-import { noop } from '../utils/helpers';
+import { noop } from '../../utils/helpers';
 
 class CalendarWidget extends React.Component {
   nextMonth = () => {
