@@ -2,71 +2,73 @@
 @import './calendar-widget/CalendarWidget.scss';
 @import './LinkedCalendars.scss';
 @import './Home.scss';
+@import './TSCalendar.scss';
+
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 body {
-    color: $primary-color;
-    background-color: $color-dark-grey;
-    font-size: 1.6rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $primary-color;
+  background-color: $color-dark-grey;
+  font-size: 1.6rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 article.widgets {
-    display: flex;
-    justify-content: space-around;
-    @media only screen and (max-width: 41rem) {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+  display: flex;
+  justify-content: space-around;
+  @media only screen and (max-width: 41rem) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 article {
-    margin: 1rem;
+  margin: 1rem;
 }
 
 footer {
-    margin: 1rem auto;
-    .credits {
-        text-align: center;
-        font-size: 1.2rem;
-    }
+  margin: 1rem auto;
+  .credits {
+    text-align: center;
+    font-size: 1.2rem;
+  }
 }
 
 header {
-    margin: 1rem auto;
-    h1 {
-        margin: 0 1rem;
-    }
+  margin: 1rem auto;
+  h1 {
+    margin: 0 1rem;
+  }
 }
 
 nav {
-    margin: 1rem auto;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align:center;
+  margin: 1rem auto;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 nav a {
-    color: $color-blue;
-    font-size: 3.2rem;
-    -webkit-transition: all .25s ease;
-    -o-transition: all .25s ease;
-    transition: all .25s ease;
+  color: $color-blue;
+  font-size: 3.2rem;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 nav a:hover {
-    color: $primary-color;
+  color: $primary-color;
 }
 
 .page-404 {
-    article {
-        text-align: center;
-    }
+  article {
+    text-align: center;
+  }
 }

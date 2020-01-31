@@ -1,0 +1,85 @@
+$squareRatio: percentage(1/7);
+$squareRatioHalf: percentage(1/14);
+.GDCalendar {
+  width: 100%;
+  max-width: 64rem;
+  margin: 3.2rem auto;
+
+  &_Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-bottom: 3.2rem;
+  }
+  &_PrevMonth-btn,
+  &_NextMonth-btn {
+    width: 3.2rem;
+    height: 3.2rem;
+    border: none;
+    background: none;
+    svg {
+      width: 2.8rem;
+      fill: $gd-calendar-primary-color;
+    }
+    &:hover svg {
+      fill: $gd-calendar-color-blue;
+    }
+  }
+  &_View {
+    display: flex;
+    flex-direction: column;
+  }
+  &_Day {
+    cursor: default;
+    width: $squareRatio;
+    padding-top: $squareRatioHalf - 2;
+    padding-bottom: $squareRatioHalf - 2;
+    text-align: center;
+    font-weight: bold;
+    min-width: 28px;
+  }
+  &_WeekHeader &_Day {
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-bottom: 2%;
+  }
+  &_Row {
+    display: flex;
+    .spill {
+      color: darken($color: $gd-calendar-primary-color, $amount: 33);
+      font-weight: normal;
+    }
+  }
+  &_MonthGrid &_Day {
+    &:hover {
+      outline: dashed 0.2rem $gd-calendar-color-blue;
+      outline-offset: -0.4rem;
+    }
+    &.today {
+      background-color: $gd-calendar-color-blue;
+      color: $gd-calendar-color-dark-grey;
+      outline: solid 0.2rem $gd-calendar-color-dark-grey;
+      outline-offset: -0.4rem;
+      &:hover {
+        outline-style: dashed;
+      }
+      &.today.selected:hover {
+        background-color: $gd-calendar-color-blue;
+        color: $gd-calendar-color-dark-grey;
+        outline: solid 0.2rem $gd-calendar-color-dark-grey;
+        outline-offset: -0.4rem;
+        outline-style: dashed;
+      }
+    }
+    &.selected {
+      background-color: $gd-calendar-primary-color;
+      color: $gd-calendar-color-dark-grey;
+      &:hover {
+        outline-style: dashed;
+        outline-color: $gd-calendar-color-dark-grey;
+      }
+    }
+  }
+}
