@@ -12,16 +12,18 @@ const TSCalendar: React.FC<IProps> = (props: IProps): JSX.Element => {
   };
 
   return (
-    <section>
+    <section className="ts-calendar">
       <article>
         <p>TypeScript React Calendar Widget</p>
       </article>
-      <article className="widgets">
+      <article className="toolbox">
         <p>
           <span>Selected:</span>
-          <span>{date?.toLocaleDateString()}</span>
+          <span>{date ? date.toLocaleDateString():'not selected'}</span>
         </p>
+
         <button
+          className="btn today"
           onClick={() => {
             if (gdCalendar.current) {
               gdCalendar.current.selectDate(new Date());
@@ -31,6 +33,7 @@ const TSCalendar: React.FC<IProps> = (props: IProps): JSX.Element => {
           Select Today
         </button>
         <button
+          className="btn current-month"
           onClick={() => {
             if (gdCalendar.current) {
               gdCalendar.current.displayMonth(new Date());
