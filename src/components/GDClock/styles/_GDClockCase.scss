@@ -1,0 +1,19 @@
+.GDClockCase {
+  &_dial {
+    fill: $gd-clock-dial;
+  }
+
+  &_center {
+    fill: $gd-clock-hand;
+  }
+  &_hand {
+    line {
+      stroke: $gd-clock-hand;
+    }
+    &_indicator {
+      circle {
+        fill: $gd-clock-hand
+      }
+    }
+  }
+}
