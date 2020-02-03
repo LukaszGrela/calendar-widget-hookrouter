@@ -1,6 +1,8 @@
 import React from 'react';
+import { snapTo } from '../utils';
 
 export interface IProps {
+  show: 'minutes' | 'hours' | '24hours';
   ticks: number[];
   angStep: number;
   center: number;
@@ -9,6 +11,7 @@ export interface IProps {
   onClick: (n: number, inner: boolean) => void;
 }
 const GDClockInteractiveDial: React.FC<IProps> = ({
+  show,
   ticks,
   angStep,
   center,
@@ -33,7 +36,12 @@ const GDClockInteractiveDial: React.FC<IProps> = ({
             <React.Fragment key={n}>
               <polygon
                 onClick={(): void => {
-                  onClick(n, false);
+                  if (show === 'minutes') {
+                    onClick(n, false);
+                  } else {
+                    const snapped = snapTo(n, 5, true) % ticks.length;
+                    onClick(snapped, false);
+                  }
                 }}
                 key={n}
                 points={`${center + cosRadTo * radiusInner},${center +
@@ -48,7 +56,12 @@ const GDClockInteractiveDial: React.FC<IProps> = ({
               />
               <polygon
                 onClick={(): void => {
-                  onClick(n, true);
+                  if (show === 'minutes') {
+                    onClick(n, true);
+                  } else {
+                    const snapped = snapTo(n, 5, true) % ticks.length;
+                    onClick(snapped, true);
+                  }
                 }}
                 key={`${n}-inner`}
                 points={`${center},${center} ${center +

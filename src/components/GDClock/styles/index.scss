@@ -1,5 +1,12 @@
 $gd-clock-dial: #f9f9f9;
-$gd-clock-hand: rgb(107, 164, 221);
-$gd-clock-color-dark-grey: #2f2f2f;
+$gd-clock-hand: #02a8f3;
+$gd-clock-marker: #2f2f2f;
 
-@import './GDClockCase'
+$gd-clock-header: #02a8f3;
+
+$gd-clock-primary: #f1f1f1;
+
+@import './GDClockHand';
+@import './GDClockCase';
+@import './GDClock';
+@import './GDClockInteractiveDial';
