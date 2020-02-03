@@ -1,0 +1,33 @@
+.GDClockHand {
+  transition: transform 0.3s;
+
+  line {
+    stroke: $gd-clock-hand;
+    pointer-events: none;
+    user-select: none;
+  }
+  &_indicator {
+    circle {
+      fill: $gd-clock-hand;
+      pointer-events: none;
+      user-select: none;
+    }
+    text {
+      fill: $gd-clock-primary;
+      pointer-events: none;
+      user-select: none;
+      font-weight: bold;
+    }
+  }
+
+  &_indicator,
+  &_indicator_group {
+    transition: transform 0.3s;
+  }
+
+  &_center {
+    fill: $gd-clock-hand;
+    pointer-events: none;
+    user-select: none;
+  }
+}

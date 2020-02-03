@@ -1,0 +1,50 @@
+.GDClockCase {
+  &_dial {
+    fill: $gd-clock-dial;
+  }
+
+  &_bevel {
+    &-markers {
+      & * {
+        pointer-events: none;
+        user-select: none;
+      }
+      line {
+        stroke: $gd-clock-marker;
+      }
+    }
+    &-hours {
+      & * {
+        pointer-events: none;
+        user-select: none;
+      }
+      .GDClockCase_bevel-hour text {
+        fill: $gd-clock-marker;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+    &-hours-24 {
+      & * {
+        pointer-events: none;
+        user-select: none;
+      }
+      .GDClockCase_bevel-hour-24 text {
+        fill: $gd-clock-marker;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+    &-minutes {
+      & * {
+        pointer-events: none;
+        user-select: none;
+      }
+      .GDClockCase_bevel-minute text {
+        fill: $gd-clock-marker;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+  }
+}
