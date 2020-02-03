@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import GDClockBevelMarkers from './svg/GDClockBevelMarkers';
 import { valueToString, closestEquivalentAngle } from './utils';
 import GDClockInteractiveDial from './svg/GDClockInteractiveDial';
@@ -41,9 +41,13 @@ const GDClockCase: React.FC<IProps> = ({
     };
   }, [size]);
 
-  const [draggedAngle, setDraggedAngle] = useState(
-    value * (show === 'minutes' ? 6 : 30)
-  );
+  const [angle, setAngle] = useState(value * (show === 'minutes' ? 6 : 30));
+
+  useEffect((): void => {
+    setAngle(
+      closestEquivalentAngle(angle, value * (show === 'minutes' ? 6 : 30))
+    );
+  }, [value, show, angle]);
 
   return (
     <svg
@@ -63,8 +67,7 @@ const GDClockCase: React.FC<IProps> = ({
         onClick={(n: number, inner: boolean): void => {
           if (interactive) {
             const newAngle = n * 6;
-            console.log('Clicked on', show, n, inner, draggedAngle, newAngle);
-            setDraggedAngle(closestEquivalentAngle(draggedAngle, newAngle));
+            setAngle(closestEquivalentAngle(angle, newAngle));
             switch (show) {
               case 'minutes':
                 onChange && onChange(n, show);
@@ -92,11 +95,11 @@ const GDClockCase: React.FC<IProps> = ({
         className="GDClockCase"
       />
       <GDClockHand
-        angle={draggedAngle}
+        angle={angle}
         center={details.center}
         radiusOuter={details.radiusOuter}
         radiusLabel={
-          value > 12 && show === '24hours'
+          value >= 12 && show === '24hours'
             ? details.radiusLabelInner
             : details.radiusLabel
         }
