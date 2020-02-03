@@ -20,6 +20,7 @@ class Home extends React.Component {
           <A href="/linked-calendars">Linked Calendars</A>
 
           <A href="/ts-calendar">TypeScript GDCalendar</A>
+          <A href="/ts-clock">TypeScript GDClock</A>
         </nav>
       </section>
     );
