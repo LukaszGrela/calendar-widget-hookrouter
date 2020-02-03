@@ -45,8 +45,6 @@ function clockReducer(state: IClockState, action: IClockAction): IClockState {
         newTime.setHours(state.time.getHours() + 12);
       }
 
-      console.log(flag, newTime.toLocaleTimeString());
-
       return { ...state, isAm: action.value as boolean, time: newTime };
     }
     case ClockActionType.TIME:
@@ -163,7 +161,6 @@ const GDClock: React.FC<IProps> = ({
           value={getValue(time, type)}
           interactive={true}
           onChange={(value: number, type: TTimeSelectorType): void => {
-            console.log(value, type);
             const newTime = new Date(time);
             if (type === 'minutes') {
               newTime.setMinutes(value);
