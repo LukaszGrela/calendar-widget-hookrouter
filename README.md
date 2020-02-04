@@ -3,7 +3,7 @@
 [React Calendar Widget](https://github.com/LukaszGrela/calendar-widget) example, react router was replaced with the [Hookroutes](https://parastudios.de/modern-and-clean-routing-with-hooks/).
 
 [Live Example - Routed Calendar](http://clock-widget.greladesign.co/router-calendar/2020/2/4)
-[Live Example - Linked Calendars](http://clock-widget.greladesign.co/http://clock-widget.greladesign.co/linked-calendars)
+[Live Example - Linked Calendars](http://clock-widget.greladesign.co/linked-calendars)
 
 ## Extra components
 
