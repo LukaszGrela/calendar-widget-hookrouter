@@ -1,7 +1,10 @@
 {
   "name": "hookrouter-example",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
+  "repository": "https://github.com/LukaszGrela/calendar-widget-hookrouter",
+  "author": "Lukasz 'Severiaan' Grela",
+  "license": "MIT",
   "dependencies": {
     "hookrouter": "^1.2.3",
     "moment": "^2.24.0",
