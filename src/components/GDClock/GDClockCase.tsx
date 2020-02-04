@@ -9,11 +9,13 @@ export interface IProps {
   value: number;
   show?: TTimeSelectorType;
   interactive?: boolean;
+  snapMinutes?: 5 | 10 | 15 | 30;
   onChange?: (value: number, type: TTimeSelectorType) => void;
 }
 const GDClockCase: React.FC<IProps> = ({
   value,
   onChange,
+  snapMinutes,
   show = 'hours',
   interactive = false,
 }: IProps): JSX.Element => {
@@ -58,6 +60,7 @@ const GDClockCase: React.FC<IProps> = ({
       height="100%"
     >
       <GDClockInteractiveDial
+        snapMinutes={snapMinutes}
         show={show}
         ticks={details.ticks}
         angStep={details.angStep}
@@ -83,6 +86,7 @@ const GDClockCase: React.FC<IProps> = ({
         }}
       />
       <GDClockBevelMarkers
+        snapMinutes={snapMinutes}
         show={show}
         ticks={details.ticks}
         angStep={details.angStep}

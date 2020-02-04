@@ -2,13 +2,15 @@ import React, { useMemo, useReducer, useEffect } from 'react';
 import GDClockCase, { TTimeSelectorType } from './GDClockCase';
 
 import './styles/index.scss';
-import { valueToString } from './utils';
+import { valueToString, snapTo } from './utils';
 
+type TSnapToMinutes = 5 | 10 | 15 | 30 | undefined;
 interface IClockState {
   time: Date;
   type: TTimeSelectorType;
   isAm: boolean;
   is24Hours: boolean;
+  snapMinutes?: TSnapToMinutes;
 }
 enum ClockActionType {
   TIME = 'clock/change/TIME',
@@ -16,10 +18,11 @@ enum ClockActionType {
   IS_AM = 'clock/change/IS_AM',
   IS_24HOURS = 'clock/change/IS_24HOURS',
   STATE = 'clock/change/STATE',
+  SNAP_TO = 'clock/change/SNAP_TO',
 }
 interface IClockAction {
   type: ClockActionType;
-  value: TTimeSelectorType | Date | boolean | IClockState;
+  value: TTimeSelectorType | Date | boolean | IClockState | TSnapToMinutes;
 }
 
 function clockReducer(state: IClockState, action: IClockAction): IClockState {
@@ -51,6 +54,17 @@ function clockReducer(state: IClockState, action: IClockAction): IClockState {
       return { ...state, time: action.value as Date };
     case ClockActionType.TYPE:
       return { ...state, type: action.value as TTimeSelectorType };
+    case ClockActionType.SNAP_TO: {
+      const snap: TSnapToMinutes = action.value as TSnapToMinutes;
+      let newTime = state.time;
+      if (snap) {
+        newTime = new Date(state.time);
+        newTime.setMinutes(snapTo(newTime.getMinutes(), snap, true) % 60);
+      }
+      console.log(action.type, snap, newTime);
+
+      return { ...state, snapMinutes: snap, time: newTime };
+    }
     default:
       return state;
   }
@@ -60,12 +74,14 @@ export interface IProps {
   hoursType?: '24hours' | 'hours';
   date: Date;
   className?: string;
+  snapMinutes?: TSnapToMinutes;
 
   onDateChanged?: (date: Date | undefined) => void;
 }
 const GDClock: React.FC<IProps> = ({
   className,
   date,
+  snapMinutes,
   onDateChanged = () => {},
   hoursType = 'hours',
 }: IProps): JSX.Element => {
@@ -73,7 +89,10 @@ const GDClock: React.FC<IProps> = ({
     return `GDClock${className ? ` ${className}` : ''}`;
   }, [className]);
 
-  const [{ type, isAm, is24Hours, time }, dispatch] = useReducer(clockReducer, {
+  const [
+    { type, isAm, is24Hours, time, snapMinutes: snapTo },
+    dispatch,
+  ] = useReducer(clockReducer, {
     time: new Date(date),
     type: hoursType,
     isAm: date.getHours() < 12,
@@ -95,6 +114,13 @@ const GDClock: React.FC<IProps> = ({
       value: hoursType === '24hours',
     });
   }, [hoursType]);
+
+  useEffect((): void => {
+    dispatch({
+      type: ClockActionType.SNAP_TO,
+      value: snapMinutes,
+    });
+  }, [snapMinutes]);
 
   useEffect((): void => {
     onDateChanged(time);
@@ -157,6 +183,7 @@ const GDClock: React.FC<IProps> = ({
       </div>
       <div className="GDClock_View">
         <GDClockCase
+          snapMinutes={snapTo}
           show={type}
           value={getValue(time, type)}
           interactive={true}

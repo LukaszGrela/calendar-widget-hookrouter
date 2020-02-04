@@ -9,6 +9,7 @@ export interface IProps {
   radiusOuter: number;
   radiusInner: number;
   onClick: (n: number, inner: boolean) => void;
+  snapMinutes?: 5 | 10 | 15 | 30;
 }
 const GDClockInteractiveDial: React.FC<IProps> = ({
   show,
@@ -18,6 +19,7 @@ const GDClockInteractiveDial: React.FC<IProps> = ({
   radiusOuter,
   radiusInner,
   onClick,
+  snapMinutes,
 }: IProps): JSX.Element => {
   return (
     <g className="GDClockInteractiveDial">
@@ -37,7 +39,13 @@ const GDClockInteractiveDial: React.FC<IProps> = ({
               <polygon
                 onClick={(): void => {
                   if (show === 'minutes') {
-                    onClick(n, false);
+                    if (snapMinutes) {
+                      const snapped =
+                        snapTo(n, snapMinutes, true) % ticks.length;
+                      onClick(snapped, false);
+                    } else {
+                      onClick(n, false);
+                    }
                   } else {
                     const snapped = snapTo(n, 5, true) % ticks.length;
                     onClick(snapped, false);
@@ -57,7 +65,13 @@ const GDClockInteractiveDial: React.FC<IProps> = ({
               <polygon
                 onClick={(): void => {
                   if (show === 'minutes') {
-                    onClick(n, true);
+                    if (snapMinutes) {
+                      const snapped =
+                        snapTo(n, snapMinutes, true) % ticks.length;
+                      onClick(snapped, true);
+                    } else {
+                      onClick(n, true);
+                    }
                   } else {
                     const snapped = snapTo(n, 5, true) % ticks.length;
                     onClick(snapped, true);

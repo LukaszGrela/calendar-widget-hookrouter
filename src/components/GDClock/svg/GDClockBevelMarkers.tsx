@@ -12,6 +12,7 @@ export interface IProps {
   radiusLabelInner: number;
   className?: string;
   showMarkers?: boolean;
+  snapMinutes?: 5 | 10 | 15 | 30;
 }
 
 const GDClockBevelMarkers: React.FC<IProps> = ({
@@ -24,6 +25,7 @@ const GDClockBevelMarkers: React.FC<IProps> = ({
   radiusInnerMarkerHour,
   radiusLabel,
   radiusLabelInner,
+  snapMinutes=5,
   className = 'GDClockBevelMarkers',
   showMarkers = true,
 }: IProps): JSX.Element => {
@@ -167,7 +169,7 @@ const GDClockBevelMarkers: React.FC<IProps> = ({
             (n): ReactNode => {
               // rotate by 15 ticks (90 degrees)
               const rad = angStep * (n - 15) * (Math.PI / 180);
-              const isHour = n % 5 === 0;
+              const isHour = n % snapMinutes === 0;
               const label = n;
 
               return isHour ? (
