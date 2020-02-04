@@ -12,6 +12,8 @@ There are 2 more components made with TypeScript available here
 
 Similar to CalendarWidget, but with TypeScript and more features.
 
+[Live Example - GDCalendar](http://clock-widget.greladesign.co/ts-calendar)
+
 ```JavaScript
 import React, { useState, useRef } from 'react';
 import GDCalendar from './components/GDCalendar/GDCalendar';
@@ -74,6 +76,8 @@ export default Example;
 ### GDClock
 
 Component to select time in form of a watch dial, like in material-ui.
+
+[Live Example - GDClock](http://clock-widget.greladesign.co/ts-clock)
 
 ```JavaScript
 import React, { useState } from 'react';
