@@ -2,8 +2,8 @@
 
 [React Calendar Widget](https://github.com/LukaszGrela/calendar-widget) example, react router was replaced with the [Hookroutes](https://parastudios.de/modern-and-clean-routing-with-hooks/).
 
-[Live Example - Routed Calendar](http://clock-widget.greladesign.co/router-calendar/2020/2/4)
-[Live Example - Linked Calendars](http://clock-widget.greladesign.co/linked-calendars)
+[Live Example - Routed Calendar](https://clock-widget.greladesign.co/router-calendar/2020/2/4)
+[Live Example - Linked Calendars](https://clock-widget.greladesign.co/linked-calendars)
 
 ## Extra components
 
@@ -13,7 +13,7 @@ There are 2 more components made with TypeScript available here
 
 Similar to CalendarWidget, but with TypeScript and more features.
 
-[Live Example - GDCalendar](http://clock-widget.greladesign.co/ts-calendar)
+[Live Example - GDCalendar](https://clock-widget.greladesign.co/ts-calendar)
 
 ```JavaScript
 import React, { useState, useRef } from 'react';
@@ -78,7 +78,7 @@ export default Example;
 
 Component to select time in form of a watch dial, like in material-ui.
 
-[Live Example - GDClock](http://clock-widget.greladesign.co/ts-clock)
+[Live Example - GDClock](https://clock-widget.greladesign.co/ts-clock)
 
 ```JavaScript
 import React, { useState } from 'react';
