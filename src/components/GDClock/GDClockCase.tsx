@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, type ReactNode } from 'react';
+import React, { useMemo, useState, type ReactNode } from 'react';
 import GDClockBevelMarkers from './svg/GDClockBevelMarkers';
 import { valueToString, closestEquivalentAngle } from './utils';
 import GDClockInteractiveDial from './svg/GDClockInteractiveDial';
@@ -43,13 +43,23 @@ const GDClockCase: React.FC<IProps> = ({
     };
   }, [size]);
 
-  const [angle, setAngle] = useState(value * (show === 'minutes' ? 6 : 30));
+  const [angle, setAngle] = useState(
+    closestEquivalentAngle(
+      value * (show === 'minutes' ? 6 : 30),
+      value * (show === 'minutes' ? 6 : 30)
+    )
+  );
 
-  useEffect((): void => {
-    setAngle(
-      closestEquivalentAngle(angle, value * (show === 'minutes' ? 6 : 30))
-    );
-  }, [value, show, angle]);
+  // Better: Adjust the state while rendering
+  if (angle !== value * (show === 'minutes' ? 6 : 30)) {
+    setAngle(value * (show === 'minutes' ? 6 : 30));
+  }
+
+  // useEffect((): void => {
+  //   setAngle((oldAngle) =>
+  //     closestEquivalentAngle(oldAngle, value * (show === 'minutes' ? 6 : 30))
+  //   );
+  // }, [value, show]);
 
   return (
     <svg
@@ -73,13 +83,13 @@ const GDClockCase: React.FC<IProps> = ({
             setAngle(closestEquivalentAngle(angle, newAngle));
             switch (show) {
               case 'minutes':
-                onChange && onChange(n, show);
+                onChange?.(n, show);
                 break;
               case 'hours':
-                onChange && onChange(n / 5, show);
+                onChange?.(n / 5, show);
                 break;
               case '24hours':
-                onChange && onChange(n / 5 + (inner ? 12 : 0), show);
+                onChange?.(n / 5 + (inner ? 12 : 0), show);
                 break;
             }
           }
