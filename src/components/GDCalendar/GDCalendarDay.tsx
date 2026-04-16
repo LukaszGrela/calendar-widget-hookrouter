@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, type ReactNode } from 'react';
 
 export interface IProps {
   className?: string;
@@ -10,7 +10,7 @@ const GDCalendarDay: React.FC<IProps> = ({
   className,
   date,
   onClick,
-}: IProps): JSX.Element => {
+}: IProps): ReactNode => {
   const classNameMemo = useMemo((): string => {
     return `GDCalendar_Day${className ? ` ${className}` : ''}`;
   }, [className]);

@@ -1,4 +1,4 @@
-import React, { useMemo, ReactNode } from 'react';
+import React, { useMemo, type ReactNode } from 'react';
 import GDCalendarDay from './GDCalendarDay';
 
 type TDateOrString = Date | string;
@@ -21,7 +21,7 @@ const GDCalendarRow: React.FC<IProps> = ({
   date,
   current,
   onClick = () => {},
-}: IProps): JSX.Element => {
+}: IProps): ReactNode => {
   const classNameMemo = useMemo((): string => {
     return `GDCalendar_Row${className ? ` ${className}` : ''}`;
   }, [className]);

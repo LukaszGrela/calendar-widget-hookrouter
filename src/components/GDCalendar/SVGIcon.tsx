@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {type ReactNode} from 'react';
 
-const showIcon = (icon: string): JSX.Element => {
+const showIcon = (icon: string): ReactNode => {
   switch (icon) {
     case 'i':
       return (
@@ -166,7 +166,7 @@ const SVGIcon: React.FC<IProps> = ({
   iconColour,
   title,
   className,
-}: IProps): JSX.Element => (
+}: IProps): ReactNode => (
   <svg
     role="img"
     className={`SVGIcon${iconColour ? ` ${iconColour}` : ''}${

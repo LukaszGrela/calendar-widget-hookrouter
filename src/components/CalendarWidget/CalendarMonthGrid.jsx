@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { momentObj } from 'react-moment-proptypes';
 import CalendarRow from './CalendarRow';
 import { calendarDates, noop } from '../../utils/helpers';
 
@@ -22,10 +20,10 @@ const CalendarMonthGrid = props => {
 
   return <div className="month-grid">{renderCalendarWeeks()}</div>;
 };
-CalendarMonthGrid.propTypes = {
-  now: momentObj.isRequired,
-  date: momentObj.isRequired,
-  dayClicked: PropTypes.func,
-};
+// CalendarMonthGrid.propTypes = {
+//   now: momentObj.isRequired,
+//   date: momentObj.isRequired,
+//   dayClicked: PropTypes.func,
+// };
 
 export default CalendarMonthGrid;

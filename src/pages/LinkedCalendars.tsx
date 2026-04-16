@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
-import moment from 'moment';
-import { A } from 'hookrouter';
-import PropTypes from 'prop-types';
+import { useState, type FC } from 'react';
+import { Link } from 'react-router-dom';
+import moment, { type Moment } from 'moment';
 import CalendarWidget from '../components/CalendarWidget/CalendarWidget';
 
-const LinkedCalendars = props => {
-  const [current, setCurrent] = useState(() => props.initialDate);
+interface IProps {
+  initialDate?: Moment;
+}
 
-  const currentCalendarDateChanged = date => {
+const LinkedCalendars: FC<IProps> = ({ initialDate = moment() }) => {
+  const [current, setCurrent] = useState(() => initialDate);
+
+  const currentCalendarDateChanged = (date: Moment) => {
     setCurrent(date.clone());
   };
 
-  const nextCalendarDateChanged = date => {
+  const nextCalendarDateChanged = (date: Moment) => {
     setCurrent(date.clone().subtract(1, 'months'));
   };
 
   const today = moment();
   const next = current.clone().add(1, 'months');
+
   return (
     <section className="linked-calendars">
       <article>
@@ -37,16 +41,10 @@ const LinkedCalendars = props => {
         />
       </article>
       <nav>
-        <A href="/">Home</A>
+        <Link to="/">Home</Link>
       </nav>
     </section>
   );
 };
 
-LinkedCalendars.propTypes = {
-  initialDate: PropTypes.object,
-};
-LinkedCalendars.defaultProps = {
-  initialDate: moment(),
-};
 export default LinkedCalendars;

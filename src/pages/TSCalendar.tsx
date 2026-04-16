@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { A } from 'hookrouter';
+import React, { useState, useRef, type ReactNode } from 'react';
 import GDCalendar from '../components/GDCalendar/GDCalendar';
+import { Link } from 'react-router-dom';
 
-export interface IProps {}
-const TSCalendar: React.FC<IProps> = (props: IProps): JSX.Element => {
+const TSCalendar: React.FC = (): ReactNode => {
   const gdCalendar = useRef<GDCalendar>(null);
   const [date, setDate] = useState<Date>();
   const calendarDayClicked = (date: Date | undefined): void => {
@@ -19,7 +18,7 @@ const TSCalendar: React.FC<IProps> = (props: IProps): JSX.Element => {
       <article className="toolbox">
         <p>
           <span>Selected:</span>
-          <span>{date ? date.toLocaleDateString():'not selected'}</span>
+          <span>{date ? date.toLocaleDateString() : 'not selected'}</span>
         </p>
 
         <button
@@ -51,7 +50,7 @@ const TSCalendar: React.FC<IProps> = (props: IProps): JSX.Element => {
         />
       </article>
       <nav>
-        <A href="/">Home</A>
+        <Link to="/">Home</Link>
       </nav>
     </section>
   );

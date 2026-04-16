@@ -16,10 +16,10 @@ Similar to CalendarWidget, but with TypeScript and more features.
 [Live Example - GDCalendar](https://clock-widget.greladesign.co/ts-calendar)
 
 ```JavaScript
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, type ReactNode } from 'react';
 import GDCalendar from './components/GDCalendar/GDCalendar';
 
-const Example: React.FC = (): JSX.Element => {
+const Example: React.FC = (): ReactNode => {
   const gdCalendar = useRef<GDCalendar>(null);
   const [date, setDate] = useState<Date>();
   const calendarDayClicked = (date: Date | undefined): void => {
@@ -81,11 +81,11 @@ Component to select time in form of a watch dial, like in material-ui.
 [Live Example - GDClock](https://clock-widget.greladesign.co/ts-clock)
 
 ```JavaScript
-import React, { useState } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import GDClock from './components/GDClock/GDClock';
 
 type TSpnapToMinutes = 5 | 10 | 15 | 30 | undefined;
-const Example: React.FC = (): JSX.Element => {
+const Example: React.FC = (): ReactNode => {
   const [date, setDate] = useState<Date>();
   const [hours24, setHours24] = useState(false);
   const [snap, setSnap] = useState<TSpnapToMinutes>(undefined);

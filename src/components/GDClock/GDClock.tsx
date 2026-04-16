@@ -1,5 +1,5 @@
-import React, { useMemo, useReducer, useEffect } from 'react';
-import GDClockCase, { TTimeSelectorType } from './GDClockCase';
+import React, { useMemo, useReducer, useEffect, type ReactNode } from 'react';
+import GDClockCase, { type TTimeSelectorType } from './GDClockCase';
 
 import './styles/index.scss';
 import { valueToString, snapTo } from './utils';
@@ -12,14 +12,17 @@ interface IClockState {
   is24Hours: boolean;
   snapMinutes?: TSnapToMinutes;
 }
-enum ClockActionType {
-  TIME = 'clock/change/TIME',
-  TYPE = 'clock/change/TYPE',
-  IS_AM = 'clock/change/IS_AM',
-  IS_24HOURS = 'clock/change/IS_24HOURS',
-  STATE = 'clock/change/STATE',
-  SNAP_TO = 'clock/change/SNAP_TO',
-}
+const ClockActionType = {
+  TIME: 'clock/change/TIME',
+  TYPE: 'clock/change/TYPE',
+  IS_AM: 'clock/change/IS_AM',
+  IS_24HOURS: 'clock/change/IS_24HOURS',
+  STATE: 'clock/change/STATE',
+  SNAP_TO: 'clock/change/SNAP_TO',
+} as const;
+
+type ClockActionType = typeof ClockActionType[keyof typeof ClockActionType];
+
 interface IClockAction {
   type: ClockActionType;
   value: TTimeSelectorType | Date | boolean | IClockState | TSnapToMinutes;
@@ -84,7 +87,7 @@ const GDClock: React.FC<IProps> = ({
   snapMinutes,
   onDateChanged = () => {},
   hoursType = 'hours',
-}: IProps): JSX.Element => {
+}: IProps): ReactNode => {
   const classNameMemo = useMemo((): string => {
     return `GDClock${className ? ` ${className}` : ''}`;
   }, [className]);

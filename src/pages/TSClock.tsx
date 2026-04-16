@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { A } from 'hookrouter';
+import React, { useState, type ReactNode } from 'react';
 import GDClock from '../components/GDClock/GDClock';
-import { snapTo } from '../components/GDClock/utils';
+import { Link } from 'react-router-dom';
+// import { snapTo } from '../components/GDClock/utils';
 
 type TSpnapToMinutes = 5 | 10 | 15 | 30 | undefined;
-export interface IProps {}
-const TSClock: React.FC<IProps> = (props: IProps): JSX.Element => {
+
+const TSClock: React.FC = (): ReactNode => {
   const [date, setDate] = useState<Date>();
   const [hours24, setHours24] = useState(false);
   const [snap, setSnap] = useState<TSpnapToMinutes>(undefined);
@@ -41,7 +41,7 @@ const TSClock: React.FC<IProps> = (props: IProps): JSX.Element => {
             <select
               className="snap-selector"
               name="snap-selector"
-              onChange={e => {
+              onChange={(e) => {
                 console.log(e.target.value);
                 if (e.target.value === 'none') {
                   setSnap(undefined);
@@ -51,7 +51,7 @@ const TSClock: React.FC<IProps> = (props: IProps): JSX.Element => {
               }}
               value={snap}
             >
-              {['none', '5', '10', '15', '30'].map(n => (
+              {['none', '5', '10', '15', '30'].map((n) => (
                 <option key={n} value={n}>
                   {n}
                 </option>
@@ -71,7 +71,7 @@ const TSClock: React.FC<IProps> = (props: IProps): JSX.Element => {
         />
       </article>
       <nav>
-        <A href="/">Home</A>
+        <Link to="/">Home</Link>
       </nav>
     </section>
   );

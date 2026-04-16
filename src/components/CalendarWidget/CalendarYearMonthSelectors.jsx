@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import moment from 'moment';
 import { getYearList, noop } from '../../utils/helpers';
 
@@ -32,12 +32,12 @@ const CalendarYearMonthSelectors = (props) => {
         </div>
     );
 };
-CalendarYearMonthSelectors.propTypes = {
-    className: PropTypes.string,
-    year: PropTypes.number.isRequired,
-    month: PropTypes.number.isRequired,
-    monthChanged: PropTypes.func,
-    yearChanged: PropTypes.func
-};
+// CalendarYearMonthSelectors.propTypes = {
+//     className: PropTypes.string,
+//     year: PropTypes.number.isRequired,
+//     month: PropTypes.number.isRequired,
+//     monthChanged: PropTypes.func,
+//     yearChanged: PropTypes.func
+// };
 
 export default CalendarYearMonthSelectors;

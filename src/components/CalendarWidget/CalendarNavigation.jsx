@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import IconUp from '../../icons/IconUp';
 import IconDown from '../../icons/IconDown';
 import { noop } from '../../utils/helpers';
@@ -13,10 +12,10 @@ const CalendarNavigation = (props) => {
     );
 };
 
-CalendarNavigation.propTypes = {
-    className: PropTypes.string,
-    navigateUp: PropTypes.func.isRequired,
-    navigateDown: PropTypes.func.isRequired
-};
+// CalendarNavigation.propTypes = {
+//     className: PropTypes.string,
+//     navigateUp: PropTypes.func.isRequired,
+//     navigateDown: PropTypes.func.isRequired
+// };
 
 export default CalendarNavigation;

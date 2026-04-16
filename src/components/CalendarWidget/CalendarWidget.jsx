@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { momentObj } from 'react-moment-proptypes';
 import moment from 'moment';
 import CalendarRow from './CalendarRow';
 import CalendarMonthGrid from './CalendarMonthGrid';
@@ -84,12 +82,12 @@ class CalendarWidget extends React.Component {
   };
 }
 
-CalendarWidget.propTypes = {
-  className: PropTypes.string,
-  dateRef: momentObj,
-  todayDate: momentObj,
-  currentMonth: momentObj,
-  onDateChanged: PropTypes.func,
-};
+// CalendarWidget.propTypes = {
+//   className: PropTypes.string,
+//   dateRef: momentObj,
+//   todayDate: momentObj,
+//   currentMonth: momentObj,
+//   onDateChanged: PropTypes.func,
+// };
 
 export default CalendarWidget;

@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import CalendarDay from './CalendarDay';
-import { momentObj } from 'react-moment-proptypes';
+// import { momentObj } from 'react-moment-proptypes';
 import { noop } from '../../utils/helpers';
 
 const CalendarRow = props => {
@@ -39,12 +39,12 @@ const CalendarRow = props => {
     </div>
   );
 };
-CalendarRow.propTypes = {
-  days: PropTypes.array.isRequired,
-  now: momentObj,
-  current: momentObj,
-  dayClicked: PropTypes.func,
-  className: PropTypes.string,
-};
+// CalendarRow.propTypes = {
+//   days: PropTypes.array.isRequired,
+//   now: momentObj,
+//   current: momentObj,
+//   dayClicked: PropTypes.func,
+//   className: PropTypes.string,
+// };
 
 export default CalendarRow;

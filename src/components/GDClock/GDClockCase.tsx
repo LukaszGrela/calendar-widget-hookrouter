@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, type ReactNode } from 'react';
 import GDClockBevelMarkers from './svg/GDClockBevelMarkers';
 import { valueToString, closestEquivalentAngle } from './utils';
 import GDClockInteractiveDial from './svg/GDClockInteractiveDial';
@@ -18,7 +18,7 @@ const GDClockCase: React.FC<IProps> = ({
   snapMinutes,
   show = 'hours',
   interactive = false,
-}: IProps): JSX.Element => {
+}: IProps): ReactNode => {
   // outer size
   const size = 256;
   // details

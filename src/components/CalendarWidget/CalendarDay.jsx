@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { momentObj } from "react-moment-proptypes";
 import { noop } from "../../utils/helpers";
 
 const CalendarDay = props => {
@@ -21,9 +19,9 @@ const CalendarDay = props => {
   );
 };
 
-CalendarDay.propTypes = {
-  className: PropTypes.string,
-  date: PropTypes.oneOfType([PropTypes.string, momentObj]).isRequired,
-  handleClick: PropTypes.func
-};
+// CalendarDay.propTypes = {
+//   className: PropTypes.string,
+//   date: PropTypes.oneOfType([PropTypes.string, momentObj]).isRequired,
+//   handleClick: PropTypes.func
+// };
 export default CalendarDay;
