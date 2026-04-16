@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 export interface IProps {
   angle: number;
@@ -14,7 +14,7 @@ const GDClockHand: React.FC<IProps> = ({
   radiusLabel,
   angle,
   label,
-}: IProps): JSX.Element => {
+}: IProps): ReactNode => {
   return (
     <>
       <g

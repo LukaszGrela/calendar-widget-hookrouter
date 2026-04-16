@@ -1,17 +1,17 @@
-import React, { useMemo, ReactNode } from 'react';
+import React, { useMemo, type ReactNode } from 'react';
 import GDCalendarDay from './GDCalendarDay';
 
-type TDateOrString = Date | string;
+type TDateOrWeekDay = Date | string;
 export interface IProps {
   className?: string;
-  days: TDateOrString[];
+  days: TDateOrWeekDay[];
   // selected date
   date?: Date;
   // reference date for "now"/"today"
   now?: Date;
   // reference date for current month
   current?: Date;
-  onClick?: (date: string | Date) => void;
+  onClick?: (date: TDateOrWeekDay) => void;
 }
 
 const GDCalendarRow: React.FC<IProps> = ({
@@ -21,7 +21,7 @@ const GDCalendarRow: React.FC<IProps> = ({
   date,
   current,
   onClick = () => {},
-}: IProps): JSX.Element => {
+}: IProps): ReactNode => {
   const classNameMemo = useMemo((): string => {
     return `GDCalendar_Row${className ? ` ${className}` : ''}`;
   }, [className]);

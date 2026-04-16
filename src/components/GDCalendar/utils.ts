@@ -9,7 +9,7 @@ const weekReferenceDateSunday = new Date(Date.UTC(2020, 10, 1, 0, 0, 0, 0));
 export const weekDays = (format: 'long' | 'short' | 'narrow'): string[] => {
   // clone reference date as we will mutate it
   const date = new Date(weekReferenceDateSunday);
-  let week: string[] = [1, 2, 3, 4, 5, 6, 7].map((i: number): string => {
+  const week: string[] = [1, 2, 3, 4, 5, 6, 7].map((i: number): string => {
     date.setUTCDate(i);
     return date.toLocaleDateString([], { weekday: format });
   });
@@ -24,7 +24,7 @@ export const weekDays = (format: 'long' | 'short' | 'narrow'): string[] => {
  * @param around amount before and after of reference number
  */
 export const getYearList = (start: number, around: number): number[] => {
-  let years: number[] = [];
+  const years: number[] = [];
   for (let i = start - around; i <= start + around; i++) {
     years.push(i);
   }
@@ -40,7 +40,7 @@ export const calendarDates = (now: Date) => {
   firstOfMonth.setDate(1);
 
   const startsAt = firstOfMonth.getDay();
-  let weeks: Date[][] = [[], [], [], [], [], []]; //6 weeks always to allow for 31days starting at last day of week
+  const weeks: Date[][] = [[], [], [], [], [], []]; //6 weeks always to allow for 31days starting at last day of week
   let start = -startsAt;
   if (start === 0) {
     // this will make sure previous month is available in the first row

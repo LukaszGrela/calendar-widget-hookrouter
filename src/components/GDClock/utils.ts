@@ -33,10 +33,10 @@ export const snapTo = (
   if (isNaN(value)) return NaN;
   if (isNaN(snapStep)) return value;
   //
-  var x: number = value;
-  var diff: number;
-  var step: number = snapStep;
-  var mod: number = x % step;
+  const x: number = value;
+  let diff: number;
+  const step: number = snapStep;
+  const mod: number = x % step;
 
   if (mod > step >> 1 && p_bUseRound) {
     diff = -(step - mod);
@@ -57,6 +57,6 @@ export const getMousePosition = (
   };
 };
 export const closestEquivalentAngle = (from: number, to: number): number => {
-  var delta = ((((to - from) % 360) + 540) % 360) - 180;
+  const delta = ((((to - from) % 360) + 540) % 360) - 180;
   return from + delta;
 };
