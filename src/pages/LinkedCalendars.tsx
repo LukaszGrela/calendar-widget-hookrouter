@@ -10,12 +10,12 @@ interface IProps {
 const LinkedCalendars: FC<IProps> = ({ initialDate = moment() }) => {
   const [current, setCurrent] = useState(() => initialDate);
 
-  const currentCalendarDateChanged = (date: Moment) => {
-    setCurrent(date.clone());
+  const currentCalendarDateChanged = (date: Moment | string) => {
+    setCurrent(moment(date).clone());
   };
 
-  const nextCalendarDateChanged = (date: Moment) => {
-    setCurrent(date.clone().subtract(1, 'months'));
+  const nextCalendarDateChanged = (date: Moment | string) => {
+    setCurrent(moment(date).clone().subtract(1, 'months'));
   };
 
   const today = moment();

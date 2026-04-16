@@ -8,11 +8,13 @@ const RouterCalendar = () => {
 
   console.log(year, month, date);
 
-  const calendarDateChanged = (date: Moment) => {
+  const calendarDateChanged = (date: Moment | string) => {
     //
-    navigate(
-      `/router-calendar/${date.year()}/${date.month() + 1}/${date.date()}`
-    );
+    if (typeof date !== 'string') {
+      navigate(
+        `/router-calendar/${date.year()}/${date.month() + 1}/${date.date()}`
+      );
+    }
   };
 
   const current = moment();

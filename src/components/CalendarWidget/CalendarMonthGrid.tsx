@@ -1,10 +1,16 @@
-import React from 'react';
+import { useMemo, type FC } from 'react';
 import CalendarRow from './CalendarRow';
 import { calendarDates, noop } from '../../utils/helpers';
+import type { Moment } from 'moment';
 
-const CalendarMonthGrid = props => {
-  const renderCalendarWeeks = () => {
-    const { now, date, dayClicked = noop } = props;
+interface IProps {
+  now: Moment;
+  date: Moment;
+  dayClicked?: (date: Moment | string) => void;
+}
+
+const CalendarMonthGrid: FC<IProps> = ({ now, date, dayClicked = noop }) => {
+  const renderCalendarWeeks = useMemo(() => {
     const weeks = calendarDates(date);
     return weeks.map((week, index) => (
       <CalendarRow
@@ -16,14 +22,9 @@ const CalendarMonthGrid = props => {
         dayClicked={dayClicked}
       />
     ));
-  };
+  }, [date, dayClicked, now]);
 
-  return <div className="month-grid">{renderCalendarWeeks()}</div>;
+  return <div className="month-grid">{renderCalendarWeeks}</div>;
 };
-// CalendarMonthGrid.propTypes = {
-//   now: momentObj.isRequired,
-//   date: momentObj.isRequired,
-//   dayClicked: PropTypes.func,
-// };
 
 export default CalendarMonthGrid;
