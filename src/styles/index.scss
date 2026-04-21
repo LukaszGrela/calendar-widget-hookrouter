@@ -1,17 +1,17 @@
-@import './_colors.scss';
-@import './calendar-widget/CalendarWidget.scss';
-@import './LinkedCalendars.scss';
-@import './Home.scss';
-@import './TSCalendar.scss';
-@import './TSClock.scss';
+@use '_colors.scss';
+@use 'calendar-widget/CalendarWidget.scss';
+@use 'LinkedCalendars.scss';
+@use 'Home.scss';
+@use 'TSCalendar.scss';
+@use 'TSClock.scss';
 
 html {
   font-size: 62.5%;
 }
 
 body {
-  color: $primary-color;
-  background-color: $color-dark-grey;
+  color: colors.$primary-color;
+  background-color: colors.$color-dark-grey;
   font-size: 1.6rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -58,14 +58,14 @@ nav {
 }
 
 nav a {
-  color: $color-blue;
+  color: colors.$color-blue;
   font-size: 3.2rem;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
 }
 nav a:hover {
-  color: $primary-color;
+  color: colors.$primary-color;
 }
 
 .page-404 {

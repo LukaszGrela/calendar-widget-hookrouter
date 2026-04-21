@@ -1,5 +1,10 @@
-$squareRatio: percentage(1/7);
-$squareRatioHalf: percentage(1/14);
+@use "colors";
+
+@use 'sass:color';
+@use 'sass:math';
+
+$squareRatio: math.percentage(math.div(1, 7));
+$squareRatioHalf: math.percentage(math.div(1, 14));
 .GDCalendar {
   width: 100%;
   max-width: 64rem;
@@ -21,10 +26,10 @@ $squareRatioHalf: percentage(1/14);
     background: none;
     svg {
       width: 2.8rem;
-      fill: $gd-calendar-primary-color;
+      fill: colors.$gd-calendar-primary-color;
     }
     &:hover svg {
-      fill: $gd-calendar-color-blue;
+      fill: colors.$gd-calendar-color-blue;
     }
   }
   &_View {
@@ -48,37 +53,37 @@ $squareRatioHalf: percentage(1/14);
   &_Row {
     display: flex;
     .spill {
-      color: darken($color: $gd-calendar-primary-color, $amount: 33);
+      color: color.adjust(colors.$gd-calendar-primary-color, $lightness: -33%);
       font-weight: normal;
     }
   }
   &_MonthGrid &_Day {
     &:hover {
-      outline: dashed 0.2rem $gd-calendar-color-blue;
+      outline: dashed 0.2rem colors.$gd-calendar-color-blue;
       outline-offset: -0.4rem;
     }
     &.today {
-      background-color: $gd-calendar-color-blue;
-      color: $gd-calendar-color-dark-grey;
-      outline: solid 0.2rem $gd-calendar-color-dark-grey;
+      background-color: colors.$gd-calendar-color-blue;
+      color: colors.$gd-calendar-color-dark-grey;
+      outline: solid 0.2rem colors.$gd-calendar-color-dark-grey;
       outline-offset: -0.4rem;
       &:hover {
         outline-style: dashed;
       }
       &.today.selected:hover {
-        background-color: $gd-calendar-color-blue;
-        color: $gd-calendar-color-dark-grey;
-        outline: solid 0.2rem $gd-calendar-color-dark-grey;
+        background-color: colors.$gd-calendar-color-blue;
+        color: colors.$gd-calendar-color-dark-grey;
+        outline: solid 0.2rem colors.$gd-calendar-color-dark-grey;
         outline-offset: -0.4rem;
         outline-style: dashed;
       }
     }
     &.selected {
-      background-color: $gd-calendar-primary-color;
-      color: $gd-calendar-color-dark-grey;
+      background-color: colors.$gd-calendar-primary-color;
+      color: colors.$gd-calendar-color-dark-grey;
       &:hover {
         outline-style: dashed;
-        outline-color: $gd-calendar-color-dark-grey;
+        outline-color: colors.$gd-calendar-color-dark-grey;
       }
     }
   }

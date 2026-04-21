@@ -1,19 +1,21 @@
+@use "colors";
+
 .GDClockHand {
   transition: transform 0.3s;
 
   line {
-    stroke: $gd-clock-hand;
+    stroke: colors.$gd-clock-hand;
     pointer-events: none;
     user-select: none;
   }
   &_indicator {
     circle {
-      fill: $gd-clock-hand;
+      fill: colors.$gd-clock-hand;
       pointer-events: none;
       user-select: none;
     }
     text {
-      fill: $gd-clock-primary;
+      fill: colors.$gd-clock-primary;
       pointer-events: none;
       user-select: none;
       font-weight: bold;
@@ -26,7 +28,7 @@
   }
 
   &_center {
-    fill: $gd-clock-hand;
+    fill: colors.$gd-clock-hand;
     pointer-events: none;
     user-select: none;
   }
