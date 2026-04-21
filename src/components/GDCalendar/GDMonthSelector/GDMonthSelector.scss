@@ -1,0 +1,13 @@
+@use '../styles/colors';
+.GDMonthSelector {
+  outline: none;
+  font-size: 1.6rem;
+  background: colors.$gd-calendar-color-dark-grey;
+  color: colors.$gd-calendar-primary-color;
+  margin: 0.4rem;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  border-bottom: 0.2rem dashed;
+  transition: all 0.25s ease;
+}

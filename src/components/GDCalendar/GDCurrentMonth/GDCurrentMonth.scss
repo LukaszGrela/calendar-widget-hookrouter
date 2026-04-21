@@ -1,0 +1,11 @@
+@use '../styles/colors';
+
+.GDCurrentMonth {
+  cursor: default;
+  color: colors.$gd-calendar-color-blue;
+  font-size: 3.2rem;
+  transition: all 0.25s ease;
+  &:hover {
+    color: #f1f1f1;
+  }
+}
