@@ -1,6 +1,6 @@
 import './GDCalendarWeekRow.scss';
 import { useGDCalendarContext } from '../context/GDCalendarContext';
-import GDCalendarRow from '../GDCalendarRow';
+import { GDCalendarRow } from '../GDCalendarRow';
 
 export const GDCalendarWeekRow = () => {
   const { weekdays } = useGDCalendarContext();

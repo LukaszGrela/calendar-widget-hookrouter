@@ -79,8 +79,21 @@ $squareRatioHalf: math.percentage(math.div(1, 14));
       }
     }
     &.selected {
+      border-radius: 0;
       background-color: colors.$gd-calendar-primary-color;
       color: colors.$gd-calendar-color-dark-grey;
+
+      &.start {
+        border-top-left-radius: 10%;
+        border-bottom-left-radius: 10%;
+      }
+
+      &.end {
+        border-top-right-radius: 10%;
+        border-bottom-right-radius: 10%;
+      }
+
+
       &:hover {
         outline-style: dashed;
         outline-color: colors.$gd-calendar-color-dark-grey;

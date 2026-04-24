@@ -1,7 +1,7 @@
 import React from 'react';
-import GDCalendarRow from './GDCalendarRow';
-import GDCalendarMonthGrid from './GDCalendarMonthGrid';
-import { datesSame, weekDays } from './utils';
+import { GDCalendarRow } from './GDCalendarRow';
+import { GDCalendarMonthGrid } from './GDCalendarMonthGrid';
+import { calendarDates, datesSame, weekDays } from './utils';
 import SVGIcon from './SVGIcon';
 import './styles/index.scss';
 
@@ -37,67 +37,59 @@ class GDCalendar extends React.Component<IProps, IState> {
    * Display previous year
    */
   public prevYear = (): void => {
-    this.setState(
-      (prevState: IState): Pick<IState, 'currentMonth'> => {
-        const date = prevState.currentMonth
-          ? new Date(prevState.currentMonth)
-          : new Date();
-        date.setDate(1); // set it to the first day of that month
-        date.setFullYear(date.getFullYear() - 1);
+    this.setState((prevState: IState): Pick<IState, 'currentMonth'> => {
+      const date = prevState.currentMonth
+        ? new Date(prevState.currentMonth)
+        : new Date();
+      date.setDate(1); // set it to the first day of that month
+      date.setFullYear(date.getFullYear() - 1);
 
-        return { currentMonth: date };
-      }
-    );
+      return { currentMonth: date };
+    });
   };
 
   /**
    * Display next year
    */
   public nextYear = (): void => {
-    this.setState(
-      (prevState: IState): Pick<IState, 'currentMonth'> => {
-        const date = prevState.currentMonth
-          ? new Date(prevState.currentMonth)
-          : new Date();
+    this.setState((prevState: IState): Pick<IState, 'currentMonth'> => {
+      const date = prevState.currentMonth
+        ? new Date(prevState.currentMonth)
+        : new Date();
 
-        date.setDate(1); // set it to the first day of that month
-        date.setFullYear(date.getFullYear() + 1);
-        return { currentMonth: date };
-      }
-    );
+      date.setDate(1); // set it to the first day of that month
+      date.setFullYear(date.getFullYear() + 1);
+      return { currentMonth: date };
+    });
   };
 
   /**
    * Display previous month
    */
   public prevMonth = (): void => {
-    this.setState(
-      (prevState: IState): Pick<IState, 'currentMonth'> => {
-        const date = prevState.currentMonth
-          ? new Date(prevState.currentMonth)
-          : new Date();
-        date.setDate(0); // will set to last day of previous month
-        date.setDate(1); // set it to the first day of that month
+    this.setState((prevState: IState): Pick<IState, 'currentMonth'> => {
+      const date = prevState.currentMonth
+        ? new Date(prevState.currentMonth)
+        : new Date();
+      date.setDate(0); // will set to last day of previous month
+      date.setDate(1); // set it to the first day of that month
 
-        return { currentMonth: date };
-      }
-    );
+      return { currentMonth: date };
+    });
   };
 
   /**
    * Display next month
    */
   public nextMonth = (): void => {
-    this.setState(
-      (prevState: IState): Pick<IState, 'currentMonth'> => {
-        const date = prevState.currentMonth
-          ? new Date(prevState.currentMonth)
-          : new Date();
+    this.setState((prevState: IState): Pick<IState, 'currentMonth'> => {
+      const date = prevState.currentMonth
+        ? new Date(prevState.currentMonth)
+        : new Date();
 
-        date.setMonth(date.getMonth() + 1);
-        return { currentMonth: date };
-      }
-    );
+      date.setMonth(date.getMonth() + 1);
+      return { currentMonth: date };
+    });
   };
 
   /**
@@ -159,6 +151,8 @@ class GDCalendar extends React.Component<IProps, IState> {
     const { selectedDate, currentMonth = new Date() } = this.state;
     const classNameMemo = `GDCalendar${className ? ` ${className}` : ''}`;
 
+    const weeks: Date[][] = calendarDates(currentMonth);
+
     return (
       <div className={classNameMemo}>
         <div className="GDCalendar_MonthPage">
@@ -190,6 +184,7 @@ class GDCalendar extends React.Component<IProps, IState> {
             <GDCalendarMonthGrid
               date={selectedDate}
               monthDate={currentMonth}
+              weeks={weeks}
               now={todayDate}
               onClick={(date: string | Date): void => {
                 if (date instanceof Date) {

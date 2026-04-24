@@ -1,4 +1,4 @@
-import React, {type ReactNode} from 'react';
+import React, { type ReactNode } from 'react';
 
 const showIcon = (icon: string): ReactNode => {
   switch (icon) {
@@ -149,6 +149,7 @@ export type TIconType =
   | 'info'
   | 'left-arrow'
   | 'right-arrow'
+  | 'up-arrow'
   | 'subtract'
   | 'tick'
   | 'time'
@@ -159,6 +160,7 @@ interface IProps {
   iconColour?: string;
   title?: string;
   className?: string;
+  viewBox?: string;
 }
 
 const SVGIcon: React.FC<IProps> = ({
@@ -166,6 +168,7 @@ const SVGIcon: React.FC<IProps> = ({
   iconColour,
   title,
   className,
+  viewBox = '0 0 64 64',
 }: IProps): ReactNode => (
   <svg
     role="img"
@@ -173,7 +176,7 @@ const SVGIcon: React.FC<IProps> = ({
       className ? ` ${className}` : ''
     }`}
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 64 64"
+    viewBox={viewBox}
   >
     {title && <title>{title}</title>}
     {showIcon(icon)}

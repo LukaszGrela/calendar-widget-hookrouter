@@ -8,7 +8,16 @@ import {
 } from 'react';
 import { GDCalendarContext } from './GDCalendarContext';
 import type { TCalendarContext } from './types';
-import { getYearList, monthNames, weekDays } from '../utils';
+import {
+  calendarDates,
+  datesSame,
+  getYearList,
+  monthNames,
+  weekDays,
+  useToday,
+  add,
+  clone,
+} from '../utils';
 import type { IProps } from '../types';
 
 export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
@@ -20,14 +29,15 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   formatWeekDays = 'short',
   formatMonthDays = 'short',
   onDateSelected,
+  mondayFirst = false,
+  locale,
   // className,
 }) => {
-  const [today, setToday] = useState(new Date());
+  const today = useToday();
   const [currentDate, setCurrentDate] = useState(date);
-
   useEffect(() => {
-    setToday(date);
-  }, [date, setToday]);
+    setCurrentDate(date);
+  }, [date]);
 
   const yearList = useMemo(
     () => getYearList(today.getFullYear(), yearSpan),
@@ -67,16 +77,17 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
     // setToday((prevState) => {});
     // onDateChanged?.();
   }, []);
+
   const nextMonth = useCallback(() => {
     setCurrentDate((prevDate) => {
-      const date = new Date(prevDate);
-
-      date.setMonth(date.getMonth() + 1);
+      const date = add(prevDate, 1, 'months');
 
       onDateChanged?.(date);
+
       return date;
     });
   }, [onDateChanged]);
+
   const nextYear = useCallback(() => {
     // onDateChanged?.();
   }, []);
@@ -85,7 +96,7 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   }, []);
   const prevMonth = useCallback(() => {
     setCurrentDate((prevDate) => {
-      const date = new Date(prevDate);
+      const date = clone(prevDate);
 
       date.setDate(0); // will set to last day of previous month
       date.setDate(1); // set it to the first day of that month
@@ -97,12 +108,22 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   const prevYear = useCallback(() => {
     // onDateChanged?.();
   }, []);
-  const selectDate = useCallback((date?: Date) => {
-    onDateSelected?.(date);
-  }, []);
 
-  const weekdays = weekDays(formatWeekDays);
-  const monthList = monthNames(formatMonthDays);
+  const selectDate = useCallback(
+    (date?: Date) => {
+      if (date && !datesSame(date, currentDate, 'month')) {
+        // navigate to this date
+        setCurrentDate(date);
+        onDateChanged?.(date);
+      }
+      onDateSelected?.(date);
+    },
+    [currentDate, onDateChanged, onDateSelected]
+  );
+
+  const weekdays = weekDays(formatWeekDays, locale, mondayFirst);
+  const monthList = monthNames(formatMonthDays, locale);
+  const weeks = calendarDates(currentDate, mondayFirst);
 
   const state: TCalendarContext = useMemo(
     () => ({
@@ -115,7 +136,6 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       today,
       weekdays,
       currentMonth: currentDate,
-      setToday,
       setMonth,
       setYear,
       monthList,
@@ -123,6 +143,9 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       yearList,
       selectedDate,
       selectDate,
+      mondayFirst,
+      locale,
+      weeks,
     }),
     [
       currentDate,
@@ -141,6 +164,9 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       yearList,
       selectedDate,
       selectDate,
+      mondayFirst,
+      locale,
+      weeks,
     ]
   );
   return (

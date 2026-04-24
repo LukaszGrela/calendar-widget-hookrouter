@@ -9,9 +9,8 @@ export type TCalendarContext = {
   setYear: (date: Date) => void;
   setMonth: (date: Date) => void;
 
-  setToday: (date: Date) => void;
-  selectDate: (date?: Date | undefined) => void
-  
+  selectDate: (date?: Date | undefined) => void;
+
   today: Date;
 
   weekdays: string[];
@@ -22,4 +21,8 @@ export type TCalendarContext = {
 
   yearSpan: number;
   yearList: number[];
+
+  mondayFirst: boolean;
+  locale?: Intl.LocalesArgument;
+  weeks: Date[][];
 };

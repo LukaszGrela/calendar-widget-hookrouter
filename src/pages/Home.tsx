@@ -18,6 +18,8 @@ const Home = () => {
 
         <Link to="/ts-calendar">TypeScript GDCalendar</Link>
         <Link to="/ts-clock">TypeScript GDClock</Link>
+        <Link to="/calendar">TypeScript GDCalendar</Link>
+        <Link to="/linked-calendars-2">Linked GDCalendar</Link>
       </nav>
     </section>
   );
