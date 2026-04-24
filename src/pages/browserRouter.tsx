@@ -5,9 +5,7 @@ import LinkedCalendars from './LinkedCalendars';
 import RouterCalendar from './RouterCalendar';
 import TSCalendar from './TSCalendar';
 import TSClock from './TSClock';
-import moment from 'moment';
 import Calendar from './Calendar';
-import LinkedCalendars2 from './LinkedCalendars2';
 import { subtract } from '../components/GDCalendar/utils';
 
 type TRouter = ReturnType<typeof createBrowserRouter>;
@@ -28,12 +26,6 @@ export const getRouteObjectList = (): RouteObject[] => {
         element: <RouterCalendar />,
       },
       {
-        path: '/linked-calendars',
-        element: (
-          <LinkedCalendars initialDate={moment().subtract(5, 'months')} />
-        ),
-      },
-      {
         path: '/ts-calendar',
         element: <TSCalendar />,
       },
@@ -46,9 +38,9 @@ export const getRouteObjectList = (): RouteObject[] => {
         element: <Calendar />,
       },
       {
-        path: '/linked-calendars2',
+        path: '/linked-calendars',
         element: (
-          <LinkedCalendars2 initialDate={subtract(new Date(), 5, 'months')} />
+          <LinkedCalendars initialDate={subtract(new Date(), 5, 'months')} />
         ),
       },
     ] as RouteObject[]

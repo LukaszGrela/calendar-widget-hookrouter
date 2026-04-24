@@ -1,25 +1,27 @@
-import { useState, type FC } from 'react';
+import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
-import moment, { type Moment } from 'moment';
-import CalendarWidget from '../components/CalendarWidget/CalendarWidget';
+import { GDCalendar2 } from '../components/GDCalendar/GDCalendar2';
+import { add, clone, subtract } from '../components/GDCalendar/utils';
 
 interface IProps {
-  initialDate?: Moment;
+  initialDate?: Date;
 }
 
-const LinkedCalendars: FC<IProps> = ({ initialDate = moment() }) => {
+const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
   const [current, setCurrent] = useState(() => initialDate);
+  const [selected, setSelected] = useState<Date | undefined>();
+  // const [current, setCurrent] = useState(() => initialDate);
 
-  const currentCalendarDateChanged = (date: Moment | string) => {
-    setCurrent(moment(date).clone());
-  };
+  const currentCalendarDateChanged = useCallback((date: Date) => {
+    console.log('currentCalendarDateChanged', date.toISOString());
+    setCurrent(clone(date));
+  }, []);
 
-  const nextCalendarDateChanged = (date: Moment | string) => {
-    setCurrent(moment(date).clone().subtract(1, 'months'));
-  };
+  const nextCalendarDateChanged = useCallback((date: Date) => {
+    setCurrent(subtract(date, 1, 'months'));
+  }, []);
 
-  const today = moment();
-  const next = current.clone().add(1, 'months');
+  const next = useMemo(() => add(current, 1, 'months'), [current]);
 
   return (
     <section className="linked-calendars">
@@ -27,17 +29,19 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = moment() }) => {
         <p>React Calendar Widget example.</p>
       </article>
       <article className="widgets">
-        <CalendarWidget
+        <GDCalendar2
           className="linked currentMonth"
-          todayDate={today}
-          currentMonth={current}
+          date={current}
           onDateChanged={currentCalendarDateChanged}
-        />
-        <CalendarWidget
+          selectedDate={selected}
+          onDateSelected={setSelected}
+          />
+        <GDCalendar2
           className="linked nextMonth"
-          todayDate={today}
-          currentMonth={next}
+          date={next}
           onDateChanged={nextCalendarDateChanged}
+          selectedDate={selected}
+          onDateSelected={setSelected}
         />
       </article>
       <nav>
