@@ -1,5 +1,4 @@
-import React from 'react';
-import { A } from 'hookrouter';
+import { Link } from 'react-router-dom';
 
 const Page404 = () => (
   <section className="page-404">
@@ -8,7 +7,7 @@ const Page404 = () => (
       <p>Can&apos;t find what you were after.</p>
     </article>
     <nav>
-      <A href="/">Home</A>
+      <Link to="/">Home</Link>
     </nav>
   </section>
 );
