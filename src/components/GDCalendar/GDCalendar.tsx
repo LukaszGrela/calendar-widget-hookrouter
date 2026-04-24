@@ -1,3 +1,4 @@
+import './styles/index.scss';
 import type { FC } from 'react';
 import { GDCalendarProvider } from './context/GDCalendarProvider';
 import { GDCalendarHeader } from './GDCalendarHeader';
@@ -5,7 +6,7 @@ import type { IProps } from './types';
 import { GDCalendarWeekRow } from './GDCalendarWeekRow';
 import { GDCalendarGrid } from './GDCalendarGrid';
 
-export const GDCalendar2: FC<IProps> = ({
+export const GDCalendar: FC<IProps> = ({
   onDateChanged,
   date = new Date(),
   yearSpan = 100,

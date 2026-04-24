@@ -1,26 +1,12 @@
 # Calendar Widget
 
-[React Calendar Widget](https://github.com/LukaszGrela/calendar-widget) example, react router was replaced with the [Hookroutes](https://parastudios.de/modern-and-clean-routing-with-hooks/).
+[React Calendar Widget](https://github.com/LukaszGrela/calendar-widget) example.
 
-[Live Example - Routed Calendar](https://clock-widget.greladesign.co/router-calendar/2020/2/4)
-[Live Example - Linked Calendars](https://clock-widget.greladesign.co/linked-calendars)
+```TSX
+import { useState, type ReactNode, type FC } from 'react';
+import { GDCalendar } from './components/GDCalendar';
 
-## Extra components
-
-There are 2 more components made with TypeScript available here
-
-### GDCalendar
-
-Similar to CalendarWidget, but with TypeScript and more features.
-
-[Live Example - GDCalendar](https://clock-widget.greladesign.co/ts-calendar)
-
-```JavaScript
-import React, { useState, useRef, type ReactNode } from 'react';
-import GDCalendar from './components/GDCalendar/GDCalendar';
-
-const Example: React.FC = (): ReactNode => {
-  const gdCalendar = useRef<GDCalendar>(null);
+const Example: FC = (): ReactNode => {
   const [date, setDate] = useState<Date>();
   const calendarDayClicked = (date: Date | undefined): void => {
     console.log('Example.calendarDayClicked', date);
@@ -37,33 +23,11 @@ const Example: React.FC = (): ReactNode => {
           <span>Selected:</span>
           <span>{date ? date.toLocaleDateString():'not selected'}</span>
         </p>
-
-        <button
-          className="btn today"
-          onClick={() => {
-            if (gdCalendar.current) {
-              gdCalendar.current.selectDate(new Date());
-            }
-          }}
-        >
-          Select Today
-        </button>
-        <button
-          className="btn current-month"
-          onClick={() => {
-            if (gdCalendar.current) {
-              gdCalendar.current.displayMonth(new Date());
-            }
-          }}
-        >
-          Show current month
-        </button>
       </article>
       <article className="widgets">
         <GDCalendar
-          ref={gdCalendar}
-          date={date}
-          onDateChanged={calendarDayClicked}
+          selectedDate={date}
+          onDateSelected={calendarDayClicked}
         />
       </article>
     </section>
@@ -74,13 +38,15 @@ export default Example;
 
 ```
 
+## Extra components
+
 ### GDClock
 
 Component to select time in form of a watch dial, like in material-ui.
 
 [Live Example - GDClock](https://clock-widget.greladesign.co/ts-clock)
 
-```JavaScript
+```TSX
 import React, { useState, type ReactNode } from 'react';
 import GDClock from './components/GDClock/GDClock';
 

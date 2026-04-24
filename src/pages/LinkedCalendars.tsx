@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
-import { GDCalendar2 } from '../components/GDCalendar/GDCalendar2';
+import { GDCalendar } from '../components/GDCalendar';
 import { add, clone, subtract } from '../components/GDCalendar/utils';
 
 interface IProps {
@@ -29,14 +29,14 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
         <p>React Calendar Widget example.</p>
       </article>
       <article className="widgets">
-        <GDCalendar2
+        <GDCalendar
           className="linked currentMonth"
           date={current}
           onDateChanged={currentCalendarDateChanged}
           selectedDate={selected}
           onDateSelected={setSelected}
-          />
-        <GDCalendar2
+        />
+        <GDCalendar
           className="linked nextMonth"
           date={next}
           onDateChanged={nextCalendarDateChanged}

@@ -1,6 +1,6 @@
 import React, { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { GDCalendar2 } from '../components/GDCalendar/GDCalendar2';
+import { GDCalendar } from '../components/GDCalendar';
 import { datesSame } from '../components/GDCalendar/utils';
 
 const Calendar: React.FC = (): ReactNode => {
@@ -29,7 +29,7 @@ const Calendar: React.FC = (): ReactNode => {
         </p>
       </article>
       <article className="widgets">
-        <GDCalendar2
+        <GDCalendar
           onDateChanged={onDateChanged}
           onDateSelected={calendarDayClicked}
           selectedDate={date}

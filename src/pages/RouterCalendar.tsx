@@ -1,6 +1,6 @@
-import moment, { type Moment } from 'moment';
-import CalendarWidget from '../components/CalendarWidget/CalendarWidget';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { GDCalendar } from '../components/GDCalendar';
+import { useMemo } from 'react';
 
 const RouterCalendar = () => {
   const navigate = useNavigate();
@@ -8,19 +8,21 @@ const RouterCalendar = () => {
 
   console.log(year, month, date);
 
-  const calendarDateChanged = (date: Moment | string) => {
-    //
-    if (typeof date !== 'string') {
-      navigate(
-        `/router-calendar/${date.year()}/${date.month() + 1}/${date.date()}`
-      );
-    }
+  const calendarDateChanged = (date: Date) => {
+    navigate(
+      `/router-calendar/${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+    );
   };
 
-  const current = moment();
-  if (year) current.year(parseInt(year, 10));
-  if (month) current.month((parseInt(month, 10) || 1) - 1);
-  if (date) current.date(parseInt(date, 10) || 1);
+  const current = useMemo(() => {
+    const now = new Date();
+
+    if (year) now.setFullYear(parseInt(year, 10));
+    if (month) now.setMonth((parseInt(month, 10) || 1) - 1);
+    if (date) now.setDate(parseInt(date, 10) || 1);
+
+    return now;
+  }, [date, month, year]);
 
   return (
     <section>
@@ -30,11 +32,7 @@ const RouterCalendar = () => {
         </p>
       </article>
       <article className="widgets">
-        <CalendarWidget
-          todayDate={moment()}
-          currentMonth={current}
-          onDateChanged={calendarDateChanged}
-        />
+        <GDCalendar date={current} onDateChanged={calendarDateChanged} />
       </article>
       <nav>
         <Link to="/">Home</Link>
