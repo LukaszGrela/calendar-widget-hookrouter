@@ -3,7 +3,6 @@ import { type RouteObject, createBrowserRouter } from 'react-router-dom';
 import Home from './Home';
 import LinkedCalendars from './LinkedCalendars';
 import RouterCalendar from './RouterCalendar';
-import TSCalendar from './TSCalendar';
 import TSClock from './TSClock';
 import Calendar from './Calendar';
 import { subtract } from '../components/GDCalendar/utils';
@@ -24,10 +23,6 @@ export const getRouteObjectList = (): RouteObject[] => {
       {
         path: '/router-calendar/:year?/:month?/:date?',
         element: <RouterCalendar />,
-      },
-      {
-        path: '/ts-calendar',
-        element: <TSCalendar />,
       },
       {
         path: '/ts-clock',
