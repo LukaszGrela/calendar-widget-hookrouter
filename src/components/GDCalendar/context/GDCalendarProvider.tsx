@@ -46,31 +46,25 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
 
   const setMonth = useCallback(
     (monthDate: Date) => {
-      setCurrentDate((prevDate) => {
-        const date = new Date(prevDate);
-
-        date.setMonth(monthDate.getMonth());
-
-        onDateChanged?.(date);
-        return date;
-      });
+      const newDate = clone(currentDate);
+      newDate.setMonth(monthDate.getMonth());
+      setCurrentDate(newDate);
+      onDateChanged?.(newDate);
     },
-    [onDateChanged]
+    [onDateChanged, currentDate]
   );
 
   const setYear = useCallback(
     (yearDate: Date) => {
       console.log('GDCalendarProvider.setYear', yearDate);
-      setCurrentDate((prevDate) => {
-        const date = new Date(prevDate);
+      const newDate = clone(currentDate);
 
-        date.setFullYear(yearDate.getFullYear());
+      newDate.setFullYear(yearDate.getFullYear());
+      setCurrentDate(newDate);
 
-        onDateChanged?.(date);
-        return date;
-      });
+      onDateChanged?.(newDate);
     },
-    [onDateChanged]
+    [currentDate, onDateChanged]
   );
 
   const nextDay = useCallback(() => {
@@ -79,14 +73,10 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   }, []);
 
   const nextMonth = useCallback(() => {
-    setCurrentDate((prevDate) => {
-      const date = add(prevDate, 1, 'months');
-
-      onDateChanged?.(date);
-
-      return date;
-    });
-  }, [onDateChanged]);
+    const newDate = add(currentDate, 1, 'month');
+    setCurrentDate(newDate);
+    onDateChanged?.(newDate);
+  }, [currentDate, onDateChanged]);
 
   const nextYear = useCallback(() => {
     // onDateChanged?.();
@@ -95,16 +85,13 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
     // onDateChanged?.();
   }, []);
   const prevMonth = useCallback(() => {
-    setCurrentDate((prevDate) => {
-      const date = clone(prevDate);
+    const newDate = clone(currentDate);
+    newDate.setDate(0); // will set to last day of previous month
+    newDate.setDate(1); // set it to the first day of that month
 
-      date.setDate(0); // will set to last day of previous month
-      date.setDate(1); // set it to the first day of that month
-
-      onDateChanged?.(date);
-      return date;
-    });
-  }, [onDateChanged]);
+    setCurrentDate(newDate);
+    onDateChanged?.(newDate);
+  }, [currentDate, onDateChanged]);
   const prevYear = useCallback(() => {
     // onDateChanged?.();
   }, []);
