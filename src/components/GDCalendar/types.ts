@@ -16,8 +16,17 @@ export interface IProps {
 
   mondayFirst?: boolean;
 
-  locale?: Intl.LocalesArgument
+  locale?: Intl.LocalesArgument;
 }
 
 export type TArrayElementType<A extends readonly unknown[] | null> =
   A extends readonly (infer ElementType)[] ? ElementType : never;
+
+export type TDateData = {
+  date: Date;
+
+  holiday?: boolean;
+  // is it a "spill" day - day outside of current month
+  spill?: boolean;
+  weekend?: boolean;
+};

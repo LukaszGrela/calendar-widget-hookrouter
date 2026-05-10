@@ -1,3 +1,5 @@
+import type { TDateData } from '../types';
+
 export type TUnitOfTime =
   | 'year'
   | 'years'
@@ -195,7 +197,10 @@ export const getYearList = (start: number, around: number): number[] => {
  * @param now reference date
  * @param mondayFirst when `true` calendar week starts on Monday, and dates are offset by 1.
  */
-export const calendarDates = (now: Date, mondayFirst = false) => {
+export const calendarDates = (
+  now: Date,
+  mondayFirst = false
+): TDateData[][] => {
   const firstOfMonth = clone(now);
   firstOfMonth.setDate(1);
 
@@ -203,7 +208,7 @@ export const calendarDates = (now: Date, mondayFirst = false) => {
   /**
    * 6 weeks always to allow for 31days starting at last day of week
    */
-  const weeks: Date[][] = [[], [], [], [], [], []];
+  const weeks: TDateData[][] = [[], [], [], [], [], []];
 
   let start = -startsAt;
 
@@ -220,7 +225,15 @@ export const calendarDates = (now: Date, mondayFirst = false) => {
   while (week < weeks.length) {
     let weekDay = 0;
     while (weekDay < 7) {
-      weeks[week].push(addDay(firstOfMonth, start));
+      const date = startOfDay(addDay(firstOfMonth, start));
+      const sunday = date.getDay() === 0;
+      const data: TDateData = {
+        date,
+        holiday: sunday,
+        spill: firstOfMonth.getMonth() != date.getMonth(),
+        weekend: sunday || date.getDay() === 6,
+      };
+      weeks[week].push(data);
       start++;
       weekDay++;
     }
@@ -332,6 +345,74 @@ export const datesSame = (
   }
   return false;
 };
+
+export const dateWithinRange = (date: Date, range: Date | [Date, Date]) => {
+  if (range instanceof Date) {
+    return datesSame(date, range, 'day');
+  } else {
+    const start = startOfDay(date);
+    const rangeFrom = startOfDay(range[0]);
+    const rangeTo = startOfDay(range[1]);
+    return (
+      datesSame(start, rangeFrom, 'day') ||
+      datesSame(start, rangeTo, 'day') ||
+      (dateLaterThan(start, rangeFrom) && dateEarlierThan(start, rangeTo))
+    );
+  }
+};
+
+/*
+console.log(
+  'dateWithinRange',
+  dateWithinRange(
+    new Date(1979, 5, 13, 12, 1, 14, 16),
+    new Date(1979, 5, 14, 12, 1, 14, 15)
+  ) === false
+);
+console.log(
+  'dateWithinRange',
+  dateWithinRange(
+    new Date(1979, 5, 13, 12, 1, 14, 16),
+    new Date(1979, 5, 13, 12, 1, 14, 15)
+  ) === true
+);
+console.log(
+  'dateWithinRange right',
+  dateWithinRange(new Date(1979, 5, 13, 12, 1, 14, 16), [
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 14, 16),
+  ]) === true
+);
+console.log(
+  'dateWithinRange left',
+  dateWithinRange(new Date(1979, 5, 13, 12, 1, 14, 15), [
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 14, 16),
+  ]) === true
+);
+console.log(
+  'dateWithinRange middle',
+  dateWithinRange(new Date(1979, 5, 13, 12, 1, 14, 16), [
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 14, 17),
+  ]) === true
+);
+console.log(
+  'dateWithinRange out right',
+  dateWithinRange(new Date(1979, 5, 14, 12, 1, 14, 17), [
+    new Date(1979, 5, 13, 12, 1, 14, 15),
+    new Date(1979, 5, 13, 12, 1, 14, 16),
+  ]) === false
+);
+console.log(
+  'dateWithinRange out left',
+  dateWithinRange(new Date(1979, 5, 12, 12, 1, 14, 13), [
+    new Date(1979, 5, 13, 12, 1, 14, 14),
+    new Date(1979, 5, 13, 12, 1, 14, 16),
+  ]) === false
+);
+*/
+
 /* 
 console.log(
   'datesSame',

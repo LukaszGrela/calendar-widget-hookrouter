@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { monthNames, weekDays } from '../utils';
+import { calendarDates, monthNames, weekDays } from '../utils';
 
 describe('utils', () => {
   describe('weekDays', () => {
@@ -85,6 +85,72 @@ describe('utils', () => {
         'N',
         'D',
       ]);
+    });
+  });
+
+  describe('calendarDates', () => {
+    it('returns month matrix of 6 weeks by 7 days', () => {
+      expect(calendarDates(new Date()).flatMap((date) => date)).toHaveLength(
+        6 * 7
+      );
+    });
+    it('marks weekend correctly', () => {
+      const monthData = calendarDates(new Date());
+      expect(monthData.at(0)?.at(0)?.weekend).toBeTruthy();
+      expect(monthData.at(0)?.at(6)?.weekend).toBeTruthy();
+
+      // week starts at corract day
+      const monthData2 = calendarDates(new Date(), true);
+      expect(monthData2.at(0)?.at(5)?.weekend).toBeTruthy();
+      expect(monthData2.at(0)?.at(6)?.weekend).toBeTruthy();
+    });
+    it('marks spill correctly', () => {
+      const monthData = calendarDates(new Date());
+      expect(monthData.at(0)?.at(0)?.spill).toBeTruthy();
+      expect(monthData.at(1)?.at(6)?.spill).toBeFalsy();
+      expect(monthData.at(5)?.at(6)?.spill).toBeTruthy();
+
+      // week starts at corract day
+      const monthData2 = calendarDates(new Date(), true);
+      expect(monthData2.at(0)?.at(0)?.spill).toBeTruthy();
+      expect(monthData2.at(1)?.at(6)?.spill).toBeFalsy();
+      expect(monthData2.at(5)?.at(6)?.spill).toBeTruthy();
+    });
+    it('previous month is available in the first row', () => {
+      // 0 day of the week
+      const weekReferenceDateSunday = new Date(
+        Date.UTC(2020, 10, 1, 0, 0, 0, 0)
+      );
+
+      const monthData = calendarDates(weekReferenceDateSunday);
+
+      // previous month
+      expect(monthData.at(0)?.at(0)?.date.getMonth()).toEqual(
+        weekReferenceDateSunday.getMonth() - 1
+      );
+      // current month
+      expect(monthData.at(1)?.at(0)?.date.getMonth()).toEqual(
+        weekReferenceDateSunday.getMonth()
+      );
+      // next month
+      expect(monthData.at(5)?.at(6)?.date.getMonth()).toEqual(
+        weekReferenceDateSunday.getMonth() + 1
+      );
+
+      const weekReferenceDateMonday = new Date(
+        Date.UTC(2025, 11, 1, 0, 0, 0, 0)
+      );
+      const monthData2 = calendarDates(weekReferenceDateMonday, true);
+      // previous month
+      expect(monthData2.at(0)?.at(0)?.date.getMonth()).toEqual(
+        weekReferenceDateMonday.getMonth() - 1
+      );
+      // current month
+      expect(monthData2.at(1)?.at(0)?.date.getMonth()).toEqual(
+        weekReferenceDateMonday.getMonth()
+      );
+      // next month
+      expect(monthData2.at(5)?.at(6)?.date.getMonth()).toEqual(0);
     });
   });
 });
