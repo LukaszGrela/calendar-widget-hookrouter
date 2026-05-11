@@ -4,8 +4,8 @@ export interface IProps {
   onDateChanged?: (date: Date) => void;
 
   // Selected date
-  selectedDate?: Date;
-  onDateSelected?: (date?: Date) => void;
+  selection?: Date | TRangeSelection;
+  onDateSelected?: (date?: Date | TRangeSelection) => void;
 
   yearSpan?: number;
 

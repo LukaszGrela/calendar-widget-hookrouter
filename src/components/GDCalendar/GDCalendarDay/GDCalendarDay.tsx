@@ -4,16 +4,16 @@ import type { TDateProps } from './types';
 
 const GDCalendarDay: React.FC<TDateProps> = ({
   className,
-  date,
   onClick,
   selected,
-  spill,
   today,
+  data,
 }: TDateProps): ReactNode => {
   const clickHandler = useCallback(() => {
-    onClick(date);
-  }, [date, onClick]);
-
+    console.log('GDCalendarDay', data);
+    onClick(data);
+  }, [data, onClick]);
+  // console.log('GDCalendarDay', data);
   return (
     <div
       className={classNames(
@@ -21,13 +21,15 @@ const GDCalendarDay: React.FC<TDateProps> = ({
         'date',
         className,
         selected && 'selected',
-        spill && 'spill',
+        data.holiday && 'holiday',
+        data.weekend && 'weekend',
+        data.spill && 'spill',
         today && 'today'
       )}
       role={'button'}
       onClick={clickHandler}
     >
-      {date.getDate()}
+      {data.date.getDate()}
     </div>
   );
 };

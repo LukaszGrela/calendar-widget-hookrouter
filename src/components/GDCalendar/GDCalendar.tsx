@@ -13,7 +13,7 @@ export const GDCalendar: FC<IProps> = ({
   formatMonthDays = 'short',
   formatWeekDays = 'short',
   className,
-  selectedDate,
+  selection,
   onDateSelected,
   mondayFirst,
   locale,
@@ -25,7 +25,7 @@ export const GDCalendar: FC<IProps> = ({
       onDateChanged={onDateChanged}
       formatMonthDays={formatMonthDays}
       formatWeekDays={formatWeekDays}
-      selectedDate={selectedDate}
+      selection={selection}
       onDateSelected={onDateSelected}
       mondayFirst={mondayFirst}
       locale={locale}

@@ -1,20 +1,16 @@
 import { useGDCalendarContext } from '../context/GDCalendarContext';
 import { GDCalendarMonthGrid } from '../GDCalendarMonthGrid';
+import type { TDateData } from '../types';
 
 export const GDCalendarGrid = () => {
-  const { today, currentMonth, selectedDate, selectDate, weeks } =
-    useGDCalendarContext();
+  const { today, selection, selectDate, weeks } = useGDCalendarContext();
   return (
     <GDCalendarMonthGrid
-      date={selectedDate}
-      monthDate={currentMonth}
+      selection={selection}
       weeks={weeks}
       now={today}
-      onClick={(date: string | Date): void => {
-        if (date instanceof Date) {
-          console.log('onDateClick', date);
-          selectDate(date);
-        }
+      onClick={(date: TDateData): void => {
+        selectDate(date);
       }}
     />
   );

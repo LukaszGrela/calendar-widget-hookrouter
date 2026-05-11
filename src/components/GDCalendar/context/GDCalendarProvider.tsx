@@ -23,7 +23,7 @@ import type { IProps, TDateData } from '../types';
 export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   children,
   onDateChanged,
-  selectedDate,
+  selection,
   date = new Date(),
   yearSpan = 100,
   formatWeekDays = 'short',
@@ -97,13 +97,13 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   }, []);
 
   const selectDate = useCallback(
-    (selection?: TDateData) => {
-      if (selection && !datesSame(selection.date, currentDate, 'month')) {
+    (args?: TDateData) => {
+      if (args && !datesSame(args.date, currentDate, 'month')) {
         // navigate to this date
-        setCurrentDate(selection.date);
-        onDateChanged?.(selection.date);
+        setCurrentDate(args.date);
+        onDateChanged?.(args.date);
       }
-      onDateSelected?.(selection?.date);
+      onDateSelected?.(args?.date);
     },
     [currentDate, onDateChanged, onDateSelected]
   );
@@ -128,28 +128,28 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       monthList,
       yearSpan,
       yearList,
-      selectedDate,
+      selection,
       selectDate,
       mondayFirst,
       locale,
       weeks,
     }),
     [
-      currentDate,
-      monthList,
       nextDay,
       nextMonth,
       nextYear,
       prevDay,
       prevMonth,
       prevYear,
-      setMonth,
-      setYear,
       today,
       weekdays,
+      currentDate,
+      setMonth,
+      setYear,
+      monthList,
       yearSpan,
       yearList,
-      selectedDate,
+      selection,
       selectDate,
       mondayFirst,
       locale,

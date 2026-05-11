@@ -2,19 +2,22 @@ import React, { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { GDCalendar } from '../components/GDCalendar';
 import { datesSame } from '../components/GDCalendar/utils';
+import type { TRangeSelection } from '../components/GDCalendar/types';
 
 const Calendar: React.FC = (): ReactNode => {
   const [date, setDate] = useState<Date | undefined>();
-  const onDateChanged = (date: Date | undefined): void => {
-    console.log('GDCalendar2.onDateChanged', date);
-    // setDate(date);
+  const [mondayFirst, setMondayFirst] = useState(true);
+  const onDateChanged = (changed: Date | undefined): void => {
+    console.log('Calendar.onDateChanged', changed);
+    // setDate(changed);
   };
-  const calendarDayClicked = (date: Date | undefined): void => {
-    console.log('GDCalendar2.calendarDayClicked', date);
-    setDate((prevState) => {
-      if (datesSame(prevState, date)) return undefined;
-      return date;
-    });
+  const calendarDayClicked = (clicked?: Date | TRangeSelection): void => {
+    if (!clicked || clicked instanceof Date) {
+      setDate((prevState) => {
+        if (datesSame(prevState, clicked)) return undefined;
+        return clicked;
+      });
+    }
   };
 
   return (
@@ -23,17 +26,20 @@ const Calendar: React.FC = (): ReactNode => {
         <p>React Calendar</p>
       </article>
       <article className="toolbox">
-        <p>
+        <button onClick={() => setMondayFirst((old) => !old)}>
+          {!mondayFirst ? 'Monday first' : 'Sunday first'}
+        </button>
+        <div>
           <span>Selected:</span>
           <span>{date ? date.toLocaleDateString() : 'not selected'}</span>
-        </p>
+        </div>
       </article>
       <article className="widgets">
         <GDCalendar
           onDateChanged={onDateChanged}
           onDateSelected={calendarDayClicked}
-          selectedDate={date}
-          mondayFirst
+          selection={date}
+          mondayFirst={mondayFirst}
         />
       </article>
       <nav>

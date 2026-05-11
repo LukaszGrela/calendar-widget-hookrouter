@@ -1,4 +1,4 @@
-@use "colors";
+@use 'colors';
 
 @use 'sass:color';
 @use 'sass:math';
@@ -36,6 +36,7 @@ $squareRatioHalf: math.percentage(math.div(1, 14));
     display: flex;
     flex-direction: column;
   }
+
   &_Day {
     cursor: default;
     width: $squareRatio;
@@ -44,7 +45,21 @@ $squareRatioHalf: math.percentage(math.div(1, 14));
     text-align: center;
     font-weight: bold;
     min-width: 28px;
+
+    &.holiday,
+    &.weekend {
+      font-weight: bold;
+      color: colors.$gd-calendar-color-blue;
+    }
+
+    &.spill {
+      color: color.adjust(colors.$gd-calendar-primary-color, $lightness: -33%);
+      &:not(.holiday):not(.weekend) {
+        font-weight: normal;
+      }
+    }
   }
+
   &_WeekHeader &_Day {
     padding-top: 1%;
     padding-bottom: 1%;
@@ -52,10 +67,6 @@ $squareRatioHalf: math.percentage(math.div(1, 14));
   }
   &_Row {
     display: flex;
-    .spill {
-      color: color.adjust(colors.$gd-calendar-primary-color, $lightness: -33%);
-      font-weight: normal;
-    }
   }
   &_MonthGrid &_Day {
     &:hover {
@@ -92,7 +103,6 @@ $squareRatioHalf: math.percentage(math.div(1, 14));
         border-top-right-radius: 10%;
         border-bottom-right-radius: 10%;
       }
-
 
       &:hover {
         outline-style: dashed;

@@ -1,60 +1,42 @@
 import React, { type ReactNode } from 'react';
-import { GDCalendarDay, GDCalendarWeekDay } from '../GDCalendarDay';
+import { GDCalendarDay } from '../GDCalendarDay';
 import { classNames } from '../../../utils/classNames';
+import type { TDateData, TRangeSelection } from '../types';
+import { datesSame, dateWithinRange } from '../utils';
 
-type TDateOrWeekDay = Date | string;
 export interface IProps {
   className?: string;
-  days: TDateOrWeekDay[];
+  days: TDateData[];
   // selected date
-  date?: Date;
+  selection?: Date | TRangeSelection;
   // reference date for "now"/"today"
   now?: Date;
-  // reference date for current month
-  current?: Date;
-  onClick?: (date: Date) => void;
+  onClick: (data: TDateData) => void;
 }
 
 const GDCalendarRow: React.FC<IProps> = ({
   className,
   days,
   now,
-  date,
-  current,
+  selection,
   onClick = () => {},
 }: IProps): ReactNode => {
   return (
     <div className={classNames('GDCalendar_Row', className)}>
-      {days.map((day, index): ReactNode => {
-        let key = `${day}`;
-        if (typeof day === 'string') {
-          key = `${day}-${index}`;
-        }
-        return typeof day === 'string' ? (
-          <GDCalendarWeekDay
-            key={key}
-            className={`weekday-${index}`}
-            date={day}
-          />
-        ) : (
+      {days.map((data, index): ReactNode => {
+        const { date: day } = data;
+        const key = day.toISOString();
+        // console.log('GDCalendarRow.now', now);
+        // console.log('GDCalendarRow.day', day);
+        // console.log('GDCalendarRow.same', datesSame(day, now, 'day'));
+        return (
           <GDCalendarDay
             key={key}
             className={`day-${index}`}
-            date={day}
+            data={data}
             onClick={onClick}
-            today={
-              now &&
-              day.getMonth() === now.getMonth() &&
-              day.getDate() === now.getDate() &&
-              day.getFullYear() === now.getFullYear()
-            }
-            selected={
-              date &&
-              day.getMonth() === date.getMonth() &&
-              day.getDate() === date.getDate() &&
-              day.getFullYear() === date.getFullYear()
-            }
-            spill={current && day.getMonth() !== current.getMonth()}
+            today={now && datesSame(day, now, 'day')}
+            selected={selection && dateWithinRange(day, selection)}
           />
         );
       })}
