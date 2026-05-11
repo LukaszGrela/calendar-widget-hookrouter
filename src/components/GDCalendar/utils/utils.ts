@@ -27,37 +27,37 @@ export const clone = (date: Date | number | string): Date => new Date(date);
 
 const addMillisecond = (date: Date, amount: number): Date => {
   const change = clone(date);
-  change.setUTCMilliseconds(change.getUTCMilliseconds() + amount);
+  change.setMilliseconds(change.getMilliseconds() + amount);
   return change;
 };
 const addSecond = (date: Date, amount: number): Date => {
   const change = clone(date);
-  change.setUTCSeconds(change.getUTCSeconds() + amount);
+  change.setSeconds(change.getSeconds() + amount);
   return change;
 };
 const addMinute = (date: Date, amount: number): Date => {
   const change = clone(date);
-  change.setUTCMinutes(change.getUTCMinutes() + amount);
+  change.setMinutes(change.getMinutes() + amount);
   return change;
 };
 const addHour = (date: Date, amount: number): Date => {
   const change = clone(date);
-  change.setUTCHours(change.getUTCHours() + amount);
+  change.setHours(change.getHours() + amount);
   return change;
 };
 const addDay = (date: Date, amount: number): Date => {
   const change = clone(date);
-  change.setUTCDate(change.getUTCDate() + amount);
+  change.setDate(change.getDate() + amount);
   return change;
 };
 const addMonth = (date: Date, amount: number): Date => {
   const change = clone(date);
-  change.setUTCMonth(change.getUTCMonth() + amount);
+  change.setMonth(change.getMonth() + amount);
   return change;
 };
 const addYear = (date: Date, amount: number): Date => {
   const change = clone(date);
-  change.setUTCFullYear(change.getUTCFullYear() + amount);
+  change.setFullYear(change.getFullYear() + amount);
   return change;
 };
 
@@ -135,7 +135,7 @@ console.groupEnd();
 */
 
 // 0 day of the week
-const weekReferenceDateSunday = clone(Date.UTC(2020, 10, 1, 0, 0, 0, 0));
+const weekReferenceDateSunday = startOfDay(new Date(2020, 10, 1));
 /**
  * Return a list of current locale week days
  * @param format The `Intl.DateTimeFormatOptions#weekday` values to indicate format of the week day, `long` e.g. Monday, `short` e.g. `Mon` and `narrow` e.g. `M`
@@ -150,7 +150,7 @@ export const weekDays = (
   const week: string[] = (
     mondayFirst ? [2, 3, 4, 5, 6, 7, 8] : [1, 2, 3, 4, 5, 6, 7]
   ).map((i: number): string => {
-    date.setUTCDate(i);
+    date.setDate(i);
     return date.toLocaleDateString(locale, { weekday: format });
   });
 
@@ -168,7 +168,7 @@ export const monthNames = (
 ): string[] => {
   const months: string[] = [];
   for (let monthIndex = 0; monthIndex < 12; monthIndex += 1) {
-    const date = clone(Date.UTC(2020, monthIndex, 1, 0, 0, 0, 0));
+    const date = startOfDay(new Date(2020, monthIndex, 1));
     months.push(
       date.toLocaleDateString(locale, {
         month: format,
@@ -239,7 +239,6 @@ export const calendarDates = (
     }
     week++;
   }
-
   return weeks;
 };
 
@@ -301,36 +300,38 @@ export const datesSame = (
       // compare UTC (unix epoch)
       return a.getTime() === b.getTime();
     }
-    const diffYear = a.getUTCFullYear() !== b.getUTCFullYear();
+    const diffYear = a.getFullYear() !== b.getFullYear();
     if (precision === 'year') {
       // stop at year
       return !diffYear;
     }
-
-    const diffMonth = a.getUTCMonth() !== b.getUTCMonth();
+    console.log('diffYear', diffYear);
+    const diffMonth = a.getMonth() !== b.getMonth();
     if (precision === 'month') {
       // stop at month
       return !diffYear && !diffMonth;
     }
+    console.log('diffMonth', diffMonth);
 
-    const diffDate = a.getUTCDate() !== b.getUTCDate();
+    const diffDate = a.getDate() !== b.getDate();
     if (precision === 'date' || precision === 'day') {
       // stop at date
       return !diffYear && !diffMonth && !diffDate;
     }
+    console.log('diffDate', diffDate);
 
-    const diffHour = a.getUTCHours() !== b.getUTCHours();
+    const diffHour = a.getHours() !== b.getHours();
     if (precision === 'hour') {
       //stop at hours
       return !diffYear && !diffMonth && !diffDate && !diffHour;
     }
 
-    const diffMin = a.getUTCMinutes() !== b.getUTCMinutes();
+    const diffMin = a.getMinutes() !== b.getMinutes();
     if (precision === 'minute') {
       // stop at minutes
       return !diffYear && !diffMonth && !diffDate && !diffHour && !diffMin;
     }
-    const diffSec = a.getUTCSeconds() !== b.getUTCSeconds();
+    const diffSec = a.getSeconds() !== b.getSeconds();
     if (precision === 'second') {
       //stop at seconds
       return (
@@ -362,6 +363,18 @@ export const dateWithinRange = (date: Date, range: Date | [Date, Date]) => {
 };
 
 /*
+console.log(
+  'datesSame, expect false',
+  datesSame(
+    new Date(
+      'Mon May 11 2026 00:00:00 GMT+0200 (Central European Summer Time)'
+    ),
+    new Date(
+      'Sun May 10 2026 12:10:48 GMT+0200 (Central European Summer Time)'
+    ),
+    'day'
+  )
+);
 console.log(
   'dateWithinRange',
   dateWithinRange(
