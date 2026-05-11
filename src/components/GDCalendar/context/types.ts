@@ -1,3 +1,5 @@
+import type { TDateData, TRangeSelection } from '../types';
+
 export type TCalendarContext = {
   prevDay: () => void;
   nextDay: () => void;
@@ -9,7 +11,7 @@ export type TCalendarContext = {
   setYear: (date: Date) => void;
   setMonth: (date: Date) => void;
 
-  selectDate: (date?: Date | undefined) => void;
+  selectDate: (date?: TDateData | undefined) => void;
 
   today: Date;
 
@@ -17,12 +19,12 @@ export type TCalendarContext = {
   monthList: string[];
 
   currentMonth: Date;
-  selectedDate?: Date;
+  selection?: Date | TRangeSelection;
 
   yearSpan: number;
   yearList: number[];
 
   mondayFirst: boolean;
   locale?: Intl.LocalesArgument;
-  weeks: Date[][];
+  weeks: TDateData[][];
 };

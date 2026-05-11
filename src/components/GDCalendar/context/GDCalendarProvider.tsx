@@ -18,7 +18,7 @@ import {
   add,
   clone,
 } from '../utils';
-import type { IProps } from '../types';
+import type { IProps, TDateData } from '../types';
 
 export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   children,
@@ -97,13 +97,13 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   }, []);
 
   const selectDate = useCallback(
-    (date?: Date) => {
-      if (date && !datesSame(date, currentDate, 'month')) {
+    (selection?: TDateData) => {
+      if (selection && !datesSame(selection.date, currentDate, 'month')) {
         // navigate to this date
-        setCurrentDate(date);
-        onDateChanged?.(date);
+        setCurrentDate(selection.date);
+        onDateChanged?.(selection.date);
       }
-      onDateSelected?.(date);
+      onDateSelected?.(selection?.date);
     },
     [currentDate, onDateChanged, onDateSelected]
   );

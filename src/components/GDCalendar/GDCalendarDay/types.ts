@@ -1,3 +1,5 @@
+import type { TDateData } from '../types';
+
 type TWeekDay = {
   date: string;
 };
@@ -7,12 +9,11 @@ export type TWeekProps = {
 } & TWeekDay;
 
 type TDate = {
-  date: Date;
-  onClick: (date: Date) => void;
+  onClick: (data: TDateData) => void;
   selected?: boolean;
-  // is it a "spill" day - day outside of current month
-  spill?: boolean;
   today?: boolean;
+
+  data: TDateData;
 };
 
 export type TDateProps = {

@@ -1,12 +1,12 @@
+import type { TDateData, TRangeSelection } from '../types';
+
 export interface IProps {
   // selected date
-  date?: Date;
+  selection?: Date | TRangeSelection;
   // current date reference
   now?: Date;
-  // display month date
-  monthDate?: Date;
   // current month grid data
-  weeks: Date[][];
+  weeks: TDateData[][];
   className?: string;
-  onClick?: (date: Date) => void;
+  onClick: (data: TDateData) => void;
 }

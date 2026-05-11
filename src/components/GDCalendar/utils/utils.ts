@@ -1,4 +1,4 @@
-import type { TDateData } from '../types';
+import type { TDateData, TRangeSelection } from '../types';
 
 export type TUnitOfTime =
   | 'year'
@@ -305,20 +305,17 @@ export const datesSame = (
       // stop at year
       return !diffYear;
     }
-    console.log('diffYear', diffYear);
     const diffMonth = a.getMonth() !== b.getMonth();
     if (precision === 'month') {
       // stop at month
       return !diffYear && !diffMonth;
     }
-    console.log('diffMonth', diffMonth);
 
     const diffDate = a.getDate() !== b.getDate();
     if (precision === 'date' || precision === 'day') {
       // stop at date
       return !diffYear && !diffMonth && !diffDate;
     }
-    console.log('diffDate', diffDate);
 
     const diffHour = a.getHours() !== b.getHours();
     if (precision === 'hour') {
@@ -347,10 +344,12 @@ export const datesSame = (
   return false;
 };
 
-export const dateWithinRange = (date: Date, range: Date | [Date, Date]) => {
+export const dateWithinRange = (date: Date, range: Date | TRangeSelection) => {
   if (range instanceof Date) {
     return datesSame(date, range, 'day');
   } else {
+    if (range[0] == null || range[1] == null) return false;
+
     const start = startOfDay(date);
     const rangeFrom = startOfDay(range[0]);
     const rangeTo = startOfDay(range[1]);

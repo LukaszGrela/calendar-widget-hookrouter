@@ -30,3 +30,5 @@ export type TDateData = {
   spill?: boolean;
   weekend?: boolean;
 };
+
+export type TRangeSelection = [start: Date | null, end: Date | null];
