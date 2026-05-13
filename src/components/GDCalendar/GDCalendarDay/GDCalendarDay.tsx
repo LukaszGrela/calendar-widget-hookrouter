@@ -8,6 +8,8 @@ const GDCalendarDay: React.FC<TDateProps> = ({
   selected,
   today,
   data,
+  endSelection,
+  startSelection,
 }: TDateProps): ReactNode => {
   const clickHandler = useCallback(() => {
     console.log('GDCalendarDay', data);
@@ -21,6 +23,8 @@ const GDCalendarDay: React.FC<TDateProps> = ({
         'date',
         className,
         selected && 'selected',
+        selected && startSelection && 'start',
+        selected && endSelection && 'end',
         data.holiday && 'holiday',
         data.weekend && 'weekend',
         data.spill && 'spill',

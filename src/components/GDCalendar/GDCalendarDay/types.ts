@@ -10,7 +10,11 @@ export type TWeekProps = {
 
 type TDate = {
   onClick: (data: TDateData) => void;
+
   selected?: boolean;
+  startSelection?: boolean;
+  endSelection?: boolean;
+
   today?: boolean;
 
   data: TDateData;
