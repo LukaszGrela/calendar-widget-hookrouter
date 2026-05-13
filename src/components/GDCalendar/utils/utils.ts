@@ -348,7 +348,12 @@ export const dateWithinRange = (date: Date, range: Date | TRangeSelection) => {
   if (range instanceof Date) {
     return datesSame(date, range, 'day');
   } else {
-    if (range[0] == null || range[1] == null) return false;
+    if (range[0] == null || range[1] == null) {
+      if (range[0] != null) {
+        return datesSame(date, range[0], 'day');
+      }
+      return false;
+    }
 
     const start = startOfDay(date);
     const rangeFrom = startOfDay(range[0]);
