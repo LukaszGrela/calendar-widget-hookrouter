@@ -17,13 +17,35 @@ import {
   useToday,
   add,
   clone,
+  dateWithinRange,
+  dateLaterThan,
+  startOfDay,
+  dateEarlierThan,
 } from '../utils';
-import type { IProps, TDateData } from '../types';
+import type { IProps, TDateData, TRangeSelection } from '../types';
+
+const normalizeSelection = (
+  selection?: Date | TRangeSelection
+): Date | TRangeSelection | undefined => {
+  if (!selection) return undefined;
+  if (selection instanceof Date) return startOfDay(selection);
+
+  const range = selection.map((date) =>
+    date ? startOfDay(date) : null
+  ) as TRangeSelection;
+
+  if (range[0] == null && range[1] != null) {
+    range[0] = range[1];
+    range[1] = null;
+  }
+
+  return range;
+};
 
 export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   children,
   onDateChanged,
-  selection,
+  selection: incomingSelection,
   date = new Date(),
   yearSpan = 100,
   formatWeekDays = 'short',
@@ -34,10 +56,20 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   // className,
 }) => {
   const today = useToday();
+
   const [currentDate, setCurrentDate] = useState(date);
   useEffect(() => {
     setCurrentDate(date);
   }, [date]);
+
+  const [selection, setSelection] = useState(() =>
+    normalizeSelection(incomingSelection)
+  );
+  useEffect(() => {
+    setSelection(normalizeSelection(incomingSelection));
+  }, [incomingSelection]);
+
+  console.log(selection);
 
   const yearList = useMemo(
     () => getYearList(today.getFullYear(), yearSpan),
@@ -99,13 +131,61 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   const selectDate = useCallback(
     (args?: TDateData) => {
       if (args && !datesSame(args.date, currentDate, 'month')) {
-        // navigate to this date
+        // navigate to this dates month
         setCurrentDate(args.date);
         onDateChanged?.(args.date);
       }
-      onDateSelected?.(args?.date);
+      if (selection && !(selection instanceof Date)) {
+        const copy = selection.concat() as TRangeSelection;
+        const currentDate = args?.date ? startOfDay(args.date) : null;
+        if (copy[0] == null) {
+          // [null, null]
+          copy[0] = currentDate;
+        } else if (copy[1] == null) {
+          // [Date, null]
+          if (currentDate == null) {
+            copy[0] = null;
+          } else if (datesSame(currentDate, copy[0], 'date')) {
+            copy[0] = null;
+          } else if (dateLaterThan(currentDate, copy[0])) {
+            copy[1] = currentDate;
+          } else if (currentDate < copy[0]) {
+            /* swap */
+            copy[1] = copy[0];
+            copy[0] = currentDate;
+          }
+        } else {
+          // [Date, Date]
+          if (currentDate == null) {
+            copy[1] = null;
+          } else if (
+            // dateWithinRange(currentDate, copy) &&
+            datesSame(currentDate, copy[1], 'date')
+          ) {
+            // reselected right edge, set to first and nullify second
+            copy[0] = currentDate;
+            copy[1] = null;
+          } else if (datesSame(currentDate, copy[0], 'date')) {
+            // reselected left edge, remove range selection
+            copy[0] = null;
+            copy[1] = null;
+          } else if (dateEarlierThan(currentDate, copy[0])) {
+            // expand selection to left
+            copy[0] = currentDate;
+          } else if (dateLaterThan(currentDate, copy[1])) {
+            // expand selection to right
+            copy[1] = currentDate;
+          } else if (dateWithinRange(currentDate, copy)) {
+            // narrow selection
+            copy[1] = currentDate;
+          }
+        }
+        onDateSelected?.(copy);
+      } else {
+        onDateSelected?.(args?.date);
+      }
     },
-    [currentDate, onDateChanged, onDateSelected]
+    [currentDate, onDateChanged, onDateSelected, selection]
   );
 
   const weekdays = weekDays(formatWeekDays, locale, mondayFirst);

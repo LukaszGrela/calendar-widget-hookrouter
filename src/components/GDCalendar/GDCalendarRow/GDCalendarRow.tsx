@@ -37,6 +37,20 @@ const GDCalendarRow: React.FC<IProps> = ({
             onClick={onClick}
             today={now && datesSame(day, now, 'day')}
             selected={selection && dateWithinRange(day, selection)}
+            startSelection={
+              selection &&
+              !(selection instanceof Date) &&
+              !!selection[0] &&
+              datesSame(day, selection[0])
+            }
+            endSelection={
+              selection &&
+              !(selection instanceof Date) &&
+              ((!!selection[1] && datesSame(day, selection[1])) ||
+                (!!selection[0] &&
+                  !selection[1] &&
+                  datesSame(day, selection[0])))
+            }
           />
         );
       })}
