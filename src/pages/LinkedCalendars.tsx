@@ -9,11 +9,23 @@ interface IProps {
   initialDate?: Date;
 }
 
+const getRange = (range: TRangeSelection): string => {
+  const dates = range.filter(Boolean) as Date[];
+  if (dates.length === 0) return 'not selected';
+  if (dates.length === 1) return dates[0].toLocaleDateString();
+
+  return `${dates[0].toLocaleDateString()} - ${dates[1].toLocaleDateString()}`;
+};
+
 const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
   const [current, setCurrent] = useState(() => initialDate);
-  const [selection, setSelection] = useImmer<TRangeSelection>([null, null]);
+  const [selection, setSelection] = useImmer<TRangeSelection>([
+    add(initialDate, 2, 'day'),
+    add(initialDate, 8, 'day'),
+  ]);
   const handleRangeSelection = useCallback(
     (range?: Date | TRangeSelection) => {
+      // console.log('LinkedCalendar.handleRangeSelection', range);
       if (!(range instanceof Date)) {
         setSelection((draft) => {
           draft[0] = range?.[0] ?? null;
@@ -25,7 +37,6 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
   );
 
   const [mondayFirst, setMondayFirst] = useState(true);
-  // const [current, setCurrent] = useState(() => initialDate);
 
   const currentCalendarDateChanged = useCallback((date: Date) => {
     console.log('currentCalendarDateChanged', date.toISOString());
@@ -49,7 +60,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
         </button>
         <div>
           <span>Selected:</span>
-          {/* <span>{date ? date.toLocaleDateString() : 'not selected'}</span> */}
+          <span>{getRange(selection)}</span>
         </div>
       </article>
       <article className="widgets">
