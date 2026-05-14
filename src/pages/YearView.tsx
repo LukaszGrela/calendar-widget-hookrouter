@@ -1,5 +1,5 @@
 import { useMemo, type FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { add, startOfDay } from '../components/GDCalendar/utils';
 import type { IProps } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
@@ -9,6 +9,7 @@ import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
 import SVGIcon from '../components/GDCalendar/SVGIcon';
 
 const YearView: FC = () => {
+  const navigate = useNavigate();
   const months = useMemo(() => {
     const jan = startOfDay(new Date());
     jan.setDate(1);
@@ -20,6 +21,12 @@ const YearView: FC = () => {
     }
     return list;
   }, []);
+
+  const handleMonthSelected = (month: Date) => {
+    navigate(
+      `/router-calendar/${month.getFullYear()}/${month.getMonth() + 1}/${month.getDate()}`
+    );
+  };
   return (
     <section className="year-view">
       <article>
@@ -35,7 +42,7 @@ const YearView: FC = () => {
           >
             <SVGIcon icon="up-arrow" viewBox="0 8 48 48" />
           </button>
-          <button className='today'>Today</button>
+          <button className="today">Today</button>
           <button
             title="Next year"
             className="GDCalendar_NextMonth-btn"
@@ -48,7 +55,13 @@ const YearView: FC = () => {
       <article className="widgets">
         <div className="year-layout">
           {months.map((month) => {
-            return <MonthOnlyCalendar date={month} key={month.toISOString()} />;
+            return (
+              <MonthOnlyCalendar
+                date={month}
+                key={month.toISOString()}
+                onMonthSelected={handleMonthSelected}
+              />
+            );
           })}
         </div>
       </article>
@@ -61,7 +74,11 @@ const YearView: FC = () => {
 
 export default YearView;
 
-const MonthOnlyCalendar: FC<IProps> = ({
+const MonthOnlyCalendar: FC<
+  IProps & {
+    onMonthSelected?: (month: Date) => void;
+  }
+> = ({
   onDateChanged,
   date = new Date(),
   yearSpan = 100,
@@ -72,6 +89,7 @@ const MonthOnlyCalendar: FC<IProps> = ({
   onDateSelected,
   mondayFirst,
   locale,
+  onMonthSelected,
 }) => {
   return (
     <GDCalendarProvider
@@ -90,7 +108,9 @@ const MonthOnlyCalendar: FC<IProps> = ({
         <div className="GDCalendar_Header">
           {/* left */}
           <div className="GDCalendar_Header_leftSlot">
-            <GDCurrentMonth />
+            <GDCurrentMonth
+              onClick={onMonthSelected && (() => onMonthSelected(date))}
+            />
           </div>
           {/* middle */}
           <div className="GDCalendar_Header_middleSlot"></div>

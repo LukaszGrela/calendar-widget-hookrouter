@@ -1,11 +1,19 @@
+import { classNames } from '../../../utils/classNames';
 import { useGDCalendarContext } from '../context/GDCalendarContext';
 import './GDCurrentMonth.scss';
 import type { FC } from 'react';
 
-export const GDCurrentMonth: FC = () => {
+export const GDCurrentMonth: FC<{
+  onClick?: () => void;
+}> = ({ onClick }) => {
   const { currentMonth, today } = useGDCalendarContext();
+  
   return (
-    <span className="GDCurrentMonth">
+    <span
+      className={classNames('GDCurrentMonth', onClick && 'interactive')}
+      role={onClick ? 'button' : undefined}
+      onClick={onClick}
+    >
       {currentMonth.toLocaleDateString([], {
         month: 'long',
         year:
