@@ -1,12 +1,14 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { add, startOfDay, subtract } from '../components/GDCalendar/utils';
-import type { IProps } from '../components/GDCalendar/types';
+import { add, getRange, startOfDay, subtract } from '../components/GDCalendar/utils';
+import type { IProps, TRangeSelection } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
 import { GDCurrentMonth } from '../components/GDCalendar/GDCurrentMonth';
 import { GDCalendarWeekRow } from '../components/GDCalendar/GDCalendarWeekRow';
 import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
 import SVGIcon from '../components/GDCalendar/SVGIcon';
+import { CalendarSelectionProvider } from '../components/GDCalendar/context/CalendarSelectionProvider';
+import { useImmer } from '../utils/useImmer';
 
 const jan = startOfDay(new Date());
 jan.setDate(1);
@@ -16,6 +18,22 @@ const YearView: FC = () => {
   const navigate = useNavigate();
 
   const [curentDateRef, setCurrentRefDate] = useState(jan);
+
+  const [selection, setSelection] = useImmer<TRangeSelection>([null, null
+    
+  ]);
+  const handleRangeSelection = useCallback(
+    (range?: Date | TRangeSelection) => {
+      // console.log('LinkedCalendar.handleRangeSelection', range);
+      if (!(range instanceof Date)) {
+        setSelection((draft) => {
+          draft[0] = range?.[0] ?? null;
+          draft[1] = range?.[1] ?? null;
+        });
+      }
+    },
+    [setSelection]
+  );
 
   const nextYear = useCallback(() => {
     setCurrentRefDate((date) => {
@@ -52,6 +70,12 @@ const YearView: FC = () => {
       </article>
       <article className="toolbox">
         <span className="year">{months[0].getFullYear()}</span>
+
+        <div>
+          <span>Selected:</span>
+          <span>{getRange(selection)}</span>
+        </div>
+
         <div className="navigation">
           <button
             title="Previous year"
@@ -78,15 +102,20 @@ const YearView: FC = () => {
       </article>
       <article className="widgets">
         <div className="year-layout">
-          {months.map((month) => {
-            return (
-              <MonthOnlyCalendar
-                date={month}
-                key={month.toISOString()}
-                onMonthSelected={handleMonthSelected}
-              />
-            );
-          })}
+          <CalendarSelectionProvider
+            selection={selection}
+            onDateSelected={handleRangeSelection}
+          >
+            {months.map((month) => {
+              return (
+                <MonthOnlyCalendar
+                  date={month}
+                  key={month.toISOString()}
+                  onMonthSelected={handleMonthSelected}
+                />
+              );
+            })}
+          </CalendarSelectionProvider>
         </div>
       </article>
       <nav>

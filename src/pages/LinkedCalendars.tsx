@@ -1,21 +1,13 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
 import { GDCalendar } from '../components/GDCalendar';
-import { add, clone, subtract } from '../components/GDCalendar/utils';
+import { add, clone, getRange, subtract } from '../components/GDCalendar/utils';
 import type { TRangeSelection } from '../components/GDCalendar/types';
 import { useImmer } from '../utils/useImmer';
 
 interface IProps {
   initialDate?: Date;
 }
-
-const getRange = (range: TRangeSelection): string => {
-  const dates = range.filter(Boolean) as Date[];
-  if (dates.length === 0) return 'not selected';
-  if (dates.length === 1) return dates[0].toLocaleDateString();
-
-  return `${dates[0].toLocaleDateString()} - ${dates[1].toLocaleDateString()}`;
-};
 
 const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
   const [current, setCurrent] = useState(() => initialDate);
