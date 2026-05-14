@@ -1,6 +1,6 @@
-import { useMemo, type FC } from 'react';
+import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { add, startOfDay } from '../components/GDCalendar/utils';
+import { add, startOfDay, subtract } from '../components/GDCalendar/utils';
 import type { IProps } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
 import { GDCurrentMonth } from '../components/GDCalendar/GDCurrentMonth';
@@ -8,25 +8,43 @@ import { GDCalendarWeekRow } from '../components/GDCalendar/GDCalendarWeekRow';
 import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
 import SVGIcon from '../components/GDCalendar/SVGIcon';
 
+const jan = startOfDay(new Date());
+jan.setDate(1);
+jan.setMonth(0);
+
 const YearView: FC = () => {
   const navigate = useNavigate();
-  const months = useMemo(() => {
-    const jan = startOfDay(new Date());
-    jan.setDate(1);
-    jan.setMonth(0);
 
+  const [curentDateRef, setCurrentRefDate] = useState(jan);
+
+  const nextYear = useCallback(() => {
+    setCurrentRefDate((date) => {
+      return add(date, 1, 'year');
+    });
+  }, []);
+  const prevYear = useCallback(() => {
+    setCurrentRefDate((date) => {
+      return subtract(date, 1, 'year');
+    });
+  }, []);
+  const setCurrentYear = useCallback(() => {
+    setCurrentRefDate(jan);
+  }, []);
+
+  const months = useMemo(() => {
     const list: Date[] = [];
     for (let monthIndex = 0; monthIndex < 12; monthIndex += 1) {
-      list.push(startOfDay(add(jan, monthIndex, 'month')));
+      list.push(startOfDay(add(curentDateRef, monthIndex, 'month')));
     }
     return list;
-  }, []);
+  }, [curentDateRef]);
 
   const handleMonthSelected = (month: Date) => {
     navigate(
       `/router-calendar/${month.getFullYear()}/${month.getMonth() + 1}/${month.getDate()}`
     );
   };
+
   return (
     <section className="year-view">
       <article>
@@ -38,15 +56,21 @@ const YearView: FC = () => {
           <button
             title="Previous year"
             className="GDCalendar_PrevMonth-btn"
-            // onClick={prevMonth}
+            onClick={prevYear}
           >
             <SVGIcon icon="up-arrow" viewBox="0 8 48 48" />
           </button>
-          <button className="today">Today</button>
+          <button
+            className="today"
+            onClick={setCurrentYear}
+            disabled={curentDateRef.getFullYear() === jan.getFullYear()}
+          >
+            Today
+          </button>
           <button
             title="Next year"
             className="GDCalendar_NextMonth-btn"
-            // onClick={nextMonth}
+            onClick={nextYear}
           >
             <SVGIcon icon="down-arrow" viewBox="16 8 48 48" />
           </button>
@@ -109,6 +133,7 @@ const MonthOnlyCalendar: FC<
           {/* left */}
           <div className="GDCalendar_Header_leftSlot">
             <GDCurrentMonth
+              hideYear
               onClick={onMonthSelected && (() => onMonthSelected(date))}
             />
           </div>

@@ -5,9 +5,10 @@ import type { FC } from 'react';
 
 export const GDCurrentMonth: FC<{
   onClick?: () => void;
-}> = ({ onClick }) => {
+  hideYear?: boolean;
+}> = ({ onClick, hideYear = false }) => {
   const { currentMonth, today } = useGDCalendarContext();
-  
+
   return (
     <span
       className={classNames('GDCurrentMonth', onClick && 'interactive')}
@@ -17,7 +18,7 @@ export const GDCurrentMonth: FC<{
       {currentMonth.toLocaleDateString([], {
         month: 'long',
         year:
-          currentMonth.getFullYear() !== today.getFullYear()
+          currentMonth.getFullYear() !== today.getFullYear() && !hideYear
             ? 'numeric'
             : undefined,
       })}

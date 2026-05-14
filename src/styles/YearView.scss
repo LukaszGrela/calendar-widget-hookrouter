@@ -36,7 +36,7 @@ $squareHalfRatio: math.div(100, 14);
         color: colors.$primary-color;
         font-size: 2rem;
         transition: all 0.25s ease;
-        &:hover {
+        &:not(:disabled):hover {
           color: colors.$color-blue;
         }
       }
