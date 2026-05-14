@@ -23,24 +23,7 @@ import {
   dateEarlierThan,
 } from '../utils';
 import type { IProps, TDateData, TRangeSelection } from '../types';
-
-const normalizeSelection = (
-  selection?: Date | TRangeSelection
-): Date | TRangeSelection | undefined => {
-  if (!selection) return undefined;
-  if (selection instanceof Date) return startOfDay(selection);
-
-  const range = selection.map((date) =>
-    date ? startOfDay(date) : null
-  ) as TRangeSelection;
-
-  if (range[0] == null && range[1] != null) {
-    range[0] = range[1];
-    range[1] = null;
-  }
-
-  return range;
-};
+import { normalizeSelection } from '../utils/date/normalizeSelection';
 
 export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   children,

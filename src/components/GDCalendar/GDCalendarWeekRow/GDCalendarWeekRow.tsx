@@ -9,7 +9,7 @@ export const GDCalendarWeekRow = () => {
     <div className="GDCalendar_WeekHeader GDCalendar_Row">
       {weekdays.map((day, index) => (
         <GDCalendarWeekDay
-          key={day}
+          key={`${day}-${index}`}
           className={classNames(
             `weekday-${index}`,
             !mondayFirst && index === 0 && 'weekend',
