@@ -6,6 +6,7 @@ import RouterCalendar from './RouterCalendar';
 import TSClock from './TSClock';
 import Calendar from './Calendar';
 import { subtract } from '../components/GDCalendar/utils';
+import YearView from './YearView';
 
 type TRouter = ReturnType<typeof createBrowserRouter>;
 
@@ -37,6 +38,10 @@ export const getRouteObjectList = (): RouteObject[] => {
         element: (
           <LinkedCalendars initialDate={subtract(new Date(), 5, 'months')} />
         ),
+      },
+      {
+        path: '/year-view',
+        element: <YearView />,
       },
     ] as RouteObject[]
   ).concat(devpaths);

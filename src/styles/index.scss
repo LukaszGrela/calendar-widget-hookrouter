@@ -4,6 +4,7 @@
 @use 'Home.scss';
 @use 'Calendar.scss';
 @use 'TSClock.scss';
+@use 'YearView.scss';
 
 html {
   font-size: 62.5%;
@@ -51,7 +52,7 @@ header {
 }
 
 nav {
-  margin: 1rem auto;
+  margin: 1rem;
   font-size: 2rem;
   font-weight: bold;
   text-align: center;

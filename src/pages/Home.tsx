@@ -16,6 +16,7 @@ const Home = () => {
         </Link>
         <Link to="/linked-calendars">Linked Calendars</Link>
         <Link to="/ts-clock">TypeScript GDClock</Link>
+        <Link to="/year-view">12 months</Link>
       </nav>
     </section>
   );

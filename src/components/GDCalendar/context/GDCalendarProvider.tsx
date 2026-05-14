@@ -52,8 +52,6 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
     setSelection(normalizeSelection(incomingSelection));
   }, [incomingSelection]);
 
-  console.log(selection);
-
   const yearList = useMemo(
     () => getYearList(today.getFullYear(), yearSpan),
     [today, yearSpan]
