@@ -10,30 +10,22 @@ import { GDCalendarContext } from './GDCalendarContext';
 import type { TCalendarContext } from './types';
 import {
   calendarDates,
-  datesSame,
   getYearList,
   monthNames,
   weekDays,
   useToday,
   add,
   clone,
-  dateWithinRange,
-  dateLaterThan,
-  startOfDay,
-  dateEarlierThan,
 } from '../utils';
-import type { IProps, TDateData, TRangeSelection } from '../types';
-import { normalizeSelection } from '../utils/date/normalizeSelection';
+import type { IProps } from '../types';
 
 export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   children,
   onDateChanged,
-  selection: incomingSelection,
   date = new Date(),
   yearSpan = 100,
   formatWeekDays = 'short',
   formatMonthDays = 'short',
-  onDateSelected,
   mondayFirst = false,
   locale,
   // className,
@@ -44,13 +36,6 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   useEffect(() => {
     setCurrentDate(date);
   }, [date]);
-
-  const [selection, setSelection] = useState(() =>
-    normalizeSelection(incomingSelection)
-  );
-  useEffect(() => {
-    setSelection(normalizeSelection(incomingSelection));
-  }, [incomingSelection]);
 
   const yearList = useMemo(
     () => getYearList(today.getFullYear(), yearSpan),
@@ -109,66 +94,6 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
     // onDateChanged?.();
   }, []);
 
-  const selectDate = useCallback(
-    (args?: TDateData) => {
-      if (args && !datesSame(args.date, currentDate, 'month')) {
-        // navigate to this dates month
-        setCurrentDate(args.date);
-        onDateChanged?.(args.date);
-      }
-      if (selection && !(selection instanceof Date)) {
-        const copy = selection.concat() as TRangeSelection;
-        const currentDate = args?.date ? startOfDay(args.date) : null;
-        if (copy[0] == null) {
-          // [null, null]
-          copy[0] = currentDate;
-        } else if (copy[1] == null) {
-          // [Date, null]
-          if (currentDate == null) {
-            copy[0] = null;
-          } else if (datesSame(currentDate, copy[0], 'date')) {
-            copy[0] = null;
-          } else if (dateLaterThan(currentDate, copy[0])) {
-            copy[1] = currentDate;
-          } else if (currentDate < copy[0]) {
-            /* swap */
-            copy[1] = copy[0];
-            copy[0] = currentDate;
-          }
-        } else {
-          // [Date, Date]
-          if (currentDate == null) {
-            copy[1] = null;
-          } else if (
-            // dateWithinRange(currentDate, copy) &&
-            datesSame(currentDate, copy[1], 'date')
-          ) {
-            // reselected right edge, set to first and nullify second
-            copy[0] = currentDate;
-            copy[1] = null;
-          } else if (datesSame(currentDate, copy[0], 'date')) {
-            // reselected left edge, remove range selection
-            copy[0] = null;
-            copy[1] = null;
-          } else if (dateEarlierThan(currentDate, copy[0])) {
-            // expand selection to left
-            copy[0] = currentDate;
-          } else if (dateLaterThan(currentDate, copy[1])) {
-            // expand selection to right
-            copy[1] = currentDate;
-          } else if (dateWithinRange(currentDate, copy)) {
-            // narrow selection
-            copy[1] = currentDate;
-          }
-        }
-        onDateSelected?.(copy);
-      } else {
-        onDateSelected?.(args?.date);
-      }
-    },
-    [currentDate, onDateChanged, onDateSelected, selection]
-  );
-
   const weekdays = weekDays(formatWeekDays, locale, mondayFirst);
   const monthList = monthNames(formatMonthDays, locale);
   const weeks = calendarDates(currentDate, mondayFirst);
@@ -189,8 +114,6 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       monthList,
       yearSpan,
       yearList,
-      selection,
-      selectDate,
       mondayFirst,
       locale,
       weeks,
@@ -210,8 +133,6 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       monthList,
       yearSpan,
       yearList,
-      selection,
-      selectDate,
       mondayFirst,
       locale,
       weeks,

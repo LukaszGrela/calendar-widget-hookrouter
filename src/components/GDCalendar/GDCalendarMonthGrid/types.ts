@@ -8,5 +8,5 @@ export interface IProps {
   // current month grid data
   weeks: TDateData[][];
   className?: string;
-  onClick: (data: TDateData) => void;
+  onClick?: (data: TDateData) => void;
 }

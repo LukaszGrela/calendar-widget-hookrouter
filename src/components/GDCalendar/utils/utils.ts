@@ -218,7 +218,7 @@ export const calendarDates = (
 
   if (start === 0 || (mondayFirst && start === 1)) {
     // this will make sure previous month is available in the first row
-    start = -7;
+    start -= 7;
   }
 
   let week = 0;

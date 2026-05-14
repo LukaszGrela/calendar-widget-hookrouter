@@ -11,15 +11,12 @@ export type TCalendarContext = {
   setYear: (date: Date) => void;
   setMonth: (date: Date) => void;
 
-  selectDate: (date?: TDateData | undefined) => void;
-
   today: Date;
 
   weekdays: string[];
   monthList: string[];
 
   currentMonth: Date;
-  selection?: Date | TRangeSelection;
 
   yearSpan: number;
   yearList: number[];
@@ -27,4 +24,11 @@ export type TCalendarContext = {
   mondayFirst: boolean;
   locale?: Intl.LocalesArgument;
   weeks: TDateData[][];
+};
+
+export type TCalendarSelectionContext = {
+  selection?: Date | TRangeSelection;
+};
+export type TCalendarSelectionActionContext = {
+  selectDate: (date?: TDateData | undefined) => void;
 };
