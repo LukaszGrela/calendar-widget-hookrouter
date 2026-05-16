@@ -12,21 +12,39 @@ $squareHalfRatio: math.div(100, 14);
     gap: 16px;
   }
   & .DatePopoverTrigger {
-    padding: 0 8px 0 0;
+    padding: 8px;
     display: flex;
     gap: 8px;
     align-items: center;
     font-size: 1.6rem;
+    color: colors.$primary-color;
+    border: 2px solid colors.$primary-color;
+    border-radius: 8px;
+    background-color: colors.$popover-background-color;
+
+    &:not(:disabled):hover {
+      color: colors.$color-blue;
+      border-color: colors.$color-blue;
+      
+    }
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 }
 .RangeDateSelect {
   &_trigger {
     min-width: 226px;
   }
+
+  & .LinkedCalendarGridsInner {
+    display: flex;
+  }
 }
 
 .DatePopoverContainer {
   & .PopoverHeading {
+    padding: 8px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,12 +70,45 @@ $squareHalfRatio: math.div(100, 14);
     }
   }
   & .MinimalCalendar {
+    &_footer {
+      font-weight: bold;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      line-height: 1;
+
+      background-color: colors.$popover-background-color;
+      padding: 8px 22px;
+      margin-bottom: 0;
+      button.ok {
+        border: none;
+        background: none;
+
+        padding: 0 0.8rem;
+
+        color: colors.$primary-color;
+        font-size: 1.6rem;
+        transition: all 0.25s ease;
+        &:not(:disabled):hover {
+          color: colors.$color-blue;
+        }
+        &:disabled {
+          opacity: 0.5;
+        }
+      }
+    }
     &.GDCalendar {
       container-type: inline-size;
       margin: 0;
       min-width: 250px;
 
       & .GDCalendar {
+        &_Header {
+          margin: 0;
+          padding: 0 1.6rem;
+          padding-top: 1rem;
+        }
         &_View {
           padding: 1rem;
         }

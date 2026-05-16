@@ -8,7 +8,7 @@ import {
 } from '../components/GDCalendar/utils';
 import type { IProps, TRangeSelection } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
-import { GDCurrentMonth } from '../components/GDCalendar/GDCurrentMonth';
+import { GDCurrentMonthConnected } from '../components/GDCalendar/GDCurrentMonth';
 import { GDCalendarWeekRow } from '../components/GDCalendar/GDCalendarWeekRow';
 import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
 import SVGIcon from '../components/GDCalendar/SVGIcon';
@@ -165,7 +165,7 @@ const MonthOnlyCalendar: FC<
         <div className="GDCalendar_Header">
           {/* left */}
           <div className="GDCalendar_Header_leftSlot">
-            <GDCurrentMonth
+            <GDCurrentMonthConnected
               hideYear
               onClick={date && onMonthSelected && (() => onMonthSelected(date))}
             />

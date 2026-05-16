@@ -2,7 +2,7 @@ import './GDCalendarHeader.scss';
 import type { FC } from 'react';
 import { GDYearSelector } from '../GDYearSelector';
 import { GDMonthSelector } from '../GDMonthSelector';
-import { GDCurrentMonth } from '../GDCurrentMonth';
+import { GDCurrentMonthConnected } from '../GDCurrentMonth';
 import { GDMonthNavigation } from '../GDMonthNavigation';
 
 export const GDCalendarHeader: FC = () => {
@@ -15,7 +15,7 @@ export const GDCalendarHeader: FC = () => {
       </div>
       {/* middle */}
       <div className="GDCalendar_Header_middleSlot">
-        <GDCurrentMonth />
+        <GDCurrentMonthConnected />
       </div>
       {/* right */}
       <div className="GDCalendar_Header_rightSlot">

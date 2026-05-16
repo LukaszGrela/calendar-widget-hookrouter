@@ -52,6 +52,13 @@ header {
   }
 }
 
+a {
+  color: colors.$color-blue;
+  &:hover {
+    color: colors.$primary-color;
+  }
+}
+
 nav {
   margin: 1rem;
   font-size: 2rem;
@@ -60,14 +67,10 @@ nav {
 }
 
 nav a {
-  color: colors.$color-blue;
   font-size: 3.2rem;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
-}
-nav a:hover {
-  color: colors.$primary-color;
 }
 
 .page-404 {
