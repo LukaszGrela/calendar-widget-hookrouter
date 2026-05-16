@@ -16,7 +16,7 @@ const IconCalendar = (props) => (
       width="52"
       height="44"
       rx="6"
-      fill="#ffffff"
+      fill="transparent"
       stroke="currentColor"
       strokeWidth="2"
     />

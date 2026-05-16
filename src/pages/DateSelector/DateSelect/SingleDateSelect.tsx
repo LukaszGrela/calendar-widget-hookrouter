@@ -6,7 +6,7 @@ import { usePopoverContext } from '../../../components/Popover';
 import type { TRangeSelection } from '../../../components/GDCalendar';
 import {
   MinimalCalendar,
-  MinimalCalendarHeading,
+  MinimalCalendarHeadingConnected,
   MinimalCalendarInner,
 } from '../MinimalCalendar';
 
@@ -51,7 +51,7 @@ const DatePopoverContentCalendar: FC<Omit<TCalendarConfig, 'children'>> = ({
       date={date}
       onDateChanged={setDate}
     >
-      <MinimalCalendarHeading />
+      <MinimalCalendarHeadingConnected />
       <MinimalCalendarInner
         onDateSelected={handleDateSelection}
         selection={selection}
