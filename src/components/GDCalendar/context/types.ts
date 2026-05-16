@@ -34,6 +34,8 @@ export type TCalendarActionsContext = {
   setYear: (year: number) => void;
   setMonth: (month: number) => void;
 
+  setToday: () => void;
+
   setDisplayedMonth: (date: Date) => void;
 };
 

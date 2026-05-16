@@ -98,15 +98,20 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
     onDateChanged(newDate);
   }, [currentDate, onDateChanged]);
 
-  const setDate = useCallback(
+  const setDisplayedMonth = useCallback(
     (newDate: Date) => {
       const date = startOfDay(newDate);
-      console.log('GDFCalendarProvider.setDate', newDate, date);
-      // setCurrentDate(date);
+
       onDateChanged(date);
     },
     [onDateChanged]
   );
+
+  const setToday = useCallback(() => {
+    const date = startOfDay(today);
+
+    onDateChanged(date);
+  }, [onDateChanged, today]);
 
   const weekdays = weekDays(formatWeekDays, locale, mondayFirst);
   const monthList = monthNames(formatMonthDays, locale);
@@ -148,7 +153,8 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       prevYear,
       setMonth,
       setYear,
-      setDisplayedMonth: setDate,
+      setDisplayedMonth,
+      setToday,
     }),
     [
       nextDay,
@@ -159,7 +165,8 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       prevYear,
       setMonth,
       setYear,
-      setDate,
+      setDisplayedMonth,
+      setToday,
     ]
   );
   return (
