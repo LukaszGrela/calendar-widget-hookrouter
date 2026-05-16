@@ -1,14 +1,15 @@
 import {
-  useCalendarSelectionActionContext,
-  useCalendarSelectionContext,
-} from '../context/CalendarSelectionContext';
+  useGDCalendarSelectionActionContext,
+  useGDCalendarSelectionContext,
+} from '../context/GDCalendarSelectionContext';
 import { useGDCalendarContext } from '../context/GDCalendarContext';
 import { GDCalendarMonthGrid } from '../GDCalendarMonthGrid';
 
 export const GDCalendarGrid = () => {
   const { today, weeks } = useGDCalendarContext();
-  const selectionActions = useCalendarSelectionActionContext();
-  const selectionContext = useCalendarSelectionContext();
+
+  const selectionActions = useGDCalendarSelectionActionContext();
+  const selectionContext = useGDCalendarSelectionContext();
   return (
     <GDCalendarMonthGrid
       selection={selectionContext?.selection}

@@ -1,21 +1,23 @@
-import './GDMonthSelector.scss'
-import { useCallback, type FC } from 'react';
-import { useGDCalendarContext } from '../context/GDCalendarContext';
+import './GDMonthSelector.scss';
+import { memo, useCallback, type FC } from 'react';
+import {
+  useGDCalendarActionsContext,
+  useGDCalendarContext,
+} from '../context/GDCalendarContext';
 
 export const GDMonthSelector: FC = () => {
-    const { currentMonth, monthList, setMonth } = useGDCalendarContext();
-  
-    const handleChange: React.ChangeEventHandler<
-      HTMLSelectElement,
-      HTMLSelectElement
-    > = useCallback(
-      (e) => {
-        const date = new Date(currentMonth);
-        date.setMonth(parseInt(e.target.value));
-        setMonth(date);
-      },
-      [currentMonth, setMonth]
-    );
+  const actions = useGDCalendarActionsContext();
+  const { currentMonth, monthList } = useGDCalendarContext();
+
+  const handleChange: React.ChangeEventHandler<
+    HTMLSelectElement,
+    HTMLSelectElement
+  > = useCallback(
+    (e) => {
+      actions?.setMonth(parseInt(e.target.value));
+    },
+    [actions]
+  );
   return (
     <select
       className="GDMonthSelector month-selector"
@@ -23,11 +25,17 @@ export const GDMonthSelector: FC = () => {
       onChange={handleChange}
       value={currentMonth.getMonth()}
     >
-      {monthList.map((month, index) => (
-        <option key={index} value={index}>
-          {month}
-        </option>
-      ))}
+      <Options monthsList={monthList} />
     </select>
   );
 };
+
+const Options: FC<{ monthsList: string[] }> = memo(function Options({
+  monthsList,
+}) {
+  return monthsList.map((month, index) => (
+    <option key={index} value={index}>
+      {month}
+    </option>
+  ));
+});

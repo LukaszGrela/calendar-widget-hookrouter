@@ -1,17 +1,21 @@
 import './styles/index.scss';
-import { useCallback, useState, type FC } from 'react';
+import { useCallback, type FC, type ReactNode } from 'react';
 import { GDCalendarProvider } from './context/GDCalendarProvider';
 import { GDCalendarHeader } from './GDCalendarHeader';
 import type { IProps, TRangeSelection } from './types';
 import { GDCalendarWeekRow } from './GDCalendarWeekRow';
 import { GDCalendarGrid } from './GDCalendarGrid';
-import { CalendarSelectionProvider } from './context/CalendarSelectionProvider';
 import { datesSame } from './utils';
 import { classNames } from '../../utils/classNames';
+import {
+  useGDCalendarActionsContext,
+  useGDCalendarContext,
+} from './context/GDCalendarContext';
+import { GDCalendarSelectionProvider } from './context/GDCalendarSelectionProvider';
 
 export const GDCalendar: FC<IProps> = ({
   onDateChanged,
-  date = new Date(),
+  date,
   yearSpan = 100,
   formatMonthDays = 'short',
   formatWeekDays = 'short',
@@ -21,41 +25,20 @@ export const GDCalendar: FC<IProps> = ({
   mondayFirst,
   locale,
 }) => {
-  const [currentDate, setCurrentDate] = useState(date);
-
-  const dateChangeHandler = useCallback(
-    (arg: Date) => {
-      setCurrentDate(arg);
-      onDateChanged?.(arg);
-    },
-    [onDateChanged]
-  );
-
-  const selectionHandler = useCallback(
-    (arg?: Date | TRangeSelection | undefined) => {
-      if (arg && arg instanceof Date && !datesSame(arg, currentDate, 'month')) {
-        // navigate to this dates month
-        dateChangeHandler(arg);
-      }
-
-      onDateSelected?.(arg);
-    },
-    [currentDate, dateChangeHandler, onDateSelected]
-  );
-
   return (
     <GDCalendarProvider
       yearSpan={yearSpan}
       date={date}
-      onDateChanged={dateChangeHandler}
+      onDateChanged={onDateChanged}
       formatMonthDays={formatMonthDays}
       formatWeekDays={formatWeekDays}
       mondayFirst={mondayFirst}
       locale={locale}
     >
-      <CalendarSelectionProvider
+      <SelectionWrapper
         selection={selection}
-        onDateSelected={selectionHandler}
+        onDateSelected={onDateSelected}
+        onDateChanged={onDateChanged}
       >
         <div className={classNames('GDCalendar', className)}>
           {/* Header */}
@@ -67,7 +50,45 @@ export const GDCalendar: FC<IProps> = ({
           </div>
           {/* Footer */}
         </div>
-      </CalendarSelectionProvider>
+      </SelectionWrapper>
     </GDCalendarProvider>
+  );
+};
+
+const SelectionWrapper: FC<
+  Pick<IProps, 'onDateSelected' | 'selection' | 'onDateChanged'> & {
+    children: ReactNode;
+  }
+> = ({ children, selection, onDateSelected, onDateChanged }) => {
+  const { isControlled, currentMonth } = useGDCalendarContext();
+  const actions = useGDCalendarActionsContext();
+
+  const selectionHandler = useCallback(
+    (arg?: Date | TRangeSelection | undefined) => {
+      if (
+        arg &&
+        arg instanceof Date &&
+        !datesSame(arg, currentMonth, 'month')
+      ) {
+        if (!isControlled) {
+          // navigate to this dates month
+          actions?.setDisplayedMonth(arg);
+        } else {
+          onDateChanged?.(arg);
+        }
+      }
+
+      onDateSelected?.(arg);
+    },
+    [actions, currentMonth, isControlled, onDateChanged, onDateSelected]
+  );
+
+  return (
+    <GDCalendarSelectionProvider
+      selection={selection}
+      onDateSelected={selectionHandler}
+    >
+      {children}
+    </GDCalendarSelectionProvider>
   );
 };

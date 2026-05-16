@@ -127,6 +127,15 @@ export const startOfDay = (date: Date): Date => {
 
   return change;
 };
+
+export const startOfMonth = (date: Date): Date => {
+  const change = clone(date);
+
+  change.setDate(1);
+
+  return startOfDay(change);
+};
+
 /*
 console.group('startOfDay');
 console.log('startOfDay(now)', startOfDay(new Date()));
@@ -366,7 +375,13 @@ export const dateWithinRange = (date: Date, range: Date | TRangeSelection) => {
   }
 };
 
-export const getRange = (range: TRangeSelection): string => {
+export const getDateString = (
+  range?: TRangeSelection | Date | null
+): string => {
+  if (!range) return 'not selected';
+
+  if (range instanceof Date) return range.toLocaleDateString();
+
   const dates = range.filter(Boolean) as Date[];
   if (dates.length === 0) return 'not selected';
   if (dates.length === 1) return dates[0].toLocaleDateString();
