@@ -2,15 +2,23 @@
 
 [React Calendar Widget](https://github.com/LukaszGrela/calendar-widget) example.
 
+##
+
 ```TSX
 import { useState, type ReactNode, type FC } from 'react';
-import { GDCalendar } from './components/GDCalendar';
+import { GDCalendar, type TRangeSelection } from './components/GDCalendar';
 
 const Example: FC = (): ReactNode => {
   const [date, setDate] = useState<Date>();
-  const calendarDayClicked = (date: Date | undefined): void => {
+
+  const calendarDayClicked = (clicked?: Date | TRangeSelection): void => {
     console.log('Example.calendarDayClicked', date);
-    setDate(date);
+    if (!clicked || clicked instanceof Date) {
+      setDate((prevState) => {
+        if (datesSame(prevState, clicked)) return undefined;
+        return clicked;
+      });
+    }
   };
 
   return (
@@ -21,14 +29,11 @@ const Example: FC = (): ReactNode => {
       <article className="toolbox">
         <p>
           <span>Selected:</span>
-          <span>{date ? date.toLocaleDateString():'not selected'}</span>
+          <span>{date ? date.toLocaleDateString() : 'not selected'}</span>
         </p>
       </article>
       <article className="widgets">
-        <GDCalendar
-          selectedDate={date}
-          onDateSelected={calendarDayClicked}
-        />
+        <GDCalendar selection={date} onDateSelected={calendarDayClicked} />
       </article>
     </section>
   );

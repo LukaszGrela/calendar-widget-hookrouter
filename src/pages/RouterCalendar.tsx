@@ -30,6 +30,7 @@ const RouterCalendar = () => {
         <p>
           React Calendar Widget example - calendar date is fed from the route
         </p>
+        <p style={{ fontSize: '0.75em' }}>Controlled</p>
       </article>
       <article className="widgets">
         <GDCalendar date={current} onDateChanged={calendarDateChanged} />

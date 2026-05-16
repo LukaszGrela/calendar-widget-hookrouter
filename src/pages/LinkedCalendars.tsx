@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
 import { GDCalendar } from '../components/GDCalendar';
-import { add, clone, getRange, subtract } from '../components/GDCalendar/utils';
+import { add, clone, getDateString, subtract } from '../components/GDCalendar/utils';
 import type { TRangeSelection } from '../components/GDCalendar/types';
 import { useImmer } from '../utils/useImmer';
 
@@ -52,7 +52,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
         </button>
         <div>
           <span>Selected:</span>
-          <span>{getRange(selection)}</span>
+          <span>{getDateString(selection)}</span>
         </div>
       </article>
       <article className="widgets">

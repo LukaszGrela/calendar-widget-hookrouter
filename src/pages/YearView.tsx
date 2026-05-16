@@ -1,14 +1,20 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { add, getRange, startOfDay, subtract } from '../components/GDCalendar/utils';
+import {
+  add,
+  getDateString,
+  startOfDay,
+  subtract,
+} from '../components/GDCalendar/utils';
 import type { IProps, TRangeSelection } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
 import { GDCurrentMonth } from '../components/GDCalendar/GDCurrentMonth';
 import { GDCalendarWeekRow } from '../components/GDCalendar/GDCalendarWeekRow';
 import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
 import SVGIcon from '../components/GDCalendar/SVGIcon';
-import { CalendarSelectionProvider } from '../components/GDCalendar/context/CalendarSelectionProvider';
+
 import { useImmer } from '../utils/useImmer';
+import { GDCalendarSelectionProvider } from '../components/GDCalendar/context/GDCalendarSelectionProvider';
 
 const jan = startOfDay(new Date());
 jan.setDate(1);
@@ -19,9 +25,7 @@ const YearView: FC = () => {
 
   const [curentDateRef, setCurrentRefDate] = useState(jan);
 
-  const [selection, setSelection] = useImmer<TRangeSelection>([null, null
-    
-  ]);
+  const [selection, setSelection] = useImmer<TRangeSelection>([null, null]);
   const handleRangeSelection = useCallback(
     (range?: Date | TRangeSelection) => {
       // console.log('LinkedCalendar.handleRangeSelection', range);
@@ -73,7 +77,7 @@ const YearView: FC = () => {
 
         <div>
           <span>Selected:</span>
-          <span>{getRange(selection)}</span>
+          <span>{getDateString(selection)}</span>
         </div>
 
         <div className="navigation">
@@ -102,7 +106,7 @@ const YearView: FC = () => {
       </article>
       <article className="widgets">
         <div className="year-layout">
-          <CalendarSelectionProvider
+          <GDCalendarSelectionProvider
             selection={selection}
             onDateSelected={handleRangeSelection}
           >
@@ -115,7 +119,7 @@ const YearView: FC = () => {
                 />
               );
             })}
-          </CalendarSelectionProvider>
+          </GDCalendarSelectionProvider>
         </div>
       </article>
       <nav>
@@ -133,7 +137,7 @@ const MonthOnlyCalendar: FC<
   }
 > = ({
   onDateChanged,
-  date = new Date(),
+  date,
   yearSpan = 100,
   formatMonthDays = 'short',
   formatWeekDays = 'narrow',
@@ -163,7 +167,7 @@ const MonthOnlyCalendar: FC<
           <div className="GDCalendar_Header_leftSlot">
             <GDCurrentMonth
               hideYear
-              onClick={onMonthSelected && (() => onMonthSelected(date))}
+              onClick={date && onMonthSelected && (() => onMonthSelected(date))}
             />
           </div>
           {/* middle */}
