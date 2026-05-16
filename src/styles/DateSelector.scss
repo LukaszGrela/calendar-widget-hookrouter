@@ -19,7 +19,13 @@ $squareHalfRatio: math.div(100, 14);
     font-size: 1.6rem;
   }
 }
-.DatePopoverContentCalendar {
+.RangeDateSelect {
+  &_trigger {
+    min-width: 226px;
+  }
+}
+
+.DatePopoverContainer {
   & .PopoverHeading {
     display: flex;
     justify-content: space-between;

@@ -7,7 +7,7 @@ import TSClock from './TSClock';
 import Calendar from './Calendar';
 import { subtract } from '../components/GDCalendar/utils';
 import YearView from './YearView';
-import DateSelector from './DateSelector';
+import { DateSelectorPage } from './DateSelector';
 
 type TRouter = ReturnType<typeof createBrowserRouter>;
 
@@ -46,7 +46,7 @@ export const getRouteObjectList = (): RouteObject[] => {
       },
       {
         path: '/date-selector',
-        element: <DateSelector />,
+        element: <DateSelectorPage />,
       },
     ] as RouteObject[]
   ).concat(devpaths);

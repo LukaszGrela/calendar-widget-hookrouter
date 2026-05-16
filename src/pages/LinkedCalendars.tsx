@@ -1,7 +1,12 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
 import { GDCalendar } from '../components/GDCalendar';
-import { add, clone, getDateString, subtract } from '../components/GDCalendar/utils';
+import {
+  add,
+  clone,
+  getDateString,
+  subtract,
+} from '../components/GDCalendar/utils';
 import type { TRangeSelection } from '../components/GDCalendar/types';
 import { useImmer } from '../utils/useImmer';
 
@@ -16,7 +21,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
     add(initialDate, 8, 'day'),
   ]);
   const handleRangeSelection = useCallback(
-    (range?: Date | TRangeSelection) => {
+    (range?: Date | TRangeSelection | null) => {
       // console.log('LinkedCalendar.handleRangeSelection', range);
       if (!(range instanceof Date)) {
         setSelection((draft) => {
