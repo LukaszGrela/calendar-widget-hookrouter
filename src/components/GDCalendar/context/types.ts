@@ -1,21 +1,17 @@
 import type { TDateData, TRangeSelection } from '../types';
 
 export type TCalendarContext = {
-  prevDay: () => void;
-  nextDay: () => void;
-  prevMonth: () => void;
-  nextMonth: () => void;
-  prevYear: () => void;
-  nextYear: () => void;
-
-  setYear: (date: Date) => void;
-  setMonth: (date: Date) => void;
-
+  /**
+   * Reference to the todays date. Auto updated.
+   */
   today: Date;
 
   weekdays: string[];
   monthList: string[];
 
+  /**
+   * Reference date of the currently displayed month.
+   */
   currentMonth: Date;
 
   yearSpan: number;
@@ -24,6 +20,21 @@ export type TCalendarContext = {
   mondayFirst: boolean;
   locale?: Intl.LocalesArgument;
   weeks: TDateData[][];
+
+  isControlled?: boolean;
+};
+export type TCalendarActionsContext = {
+  prevDay: () => void;
+  nextDay: () => void;
+  prevMonth: () => void;
+  nextMonth: () => void;
+  prevYear: () => void;
+  nextYear: () => void;
+
+  setYear: (year: number) => void;
+  setMonth: (month: number) => void;
+
+  setDisplayedMonth: (date: Date) => void;
 };
 
 export type TCalendarSelectionContext = {

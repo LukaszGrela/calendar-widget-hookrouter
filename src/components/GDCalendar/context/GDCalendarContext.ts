@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TCalendarContext } from './types';
+import type { TCalendarActionsContext, TCalendarContext } from './types';
 
 export const GDCalendarContext = React.createContext<TCalendarContext | null>(
   null
@@ -15,4 +15,11 @@ export const useGDCalendarContext = () => {
   }
 
   return context;
+};
+
+export const GDCalendarActionsContext =
+  React.createContext<TCalendarActionsContext | null>(null);
+
+export const useGDCalendarActionsContext = () => {
+  return React.useContext(GDCalendarActionsContext);
 };

@@ -1,13 +1,9 @@
+import { useCallback, useMemo, type FC, type ReactNode } from 'react';
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type FC,
-  type ReactNode,
-} from 'react';
-import { GDCalendarContext } from './GDCalendarContext';
-import type { TCalendarContext } from './types';
+  GDCalendarActionsContext,
+  GDCalendarContext,
+} from './GDCalendarContext';
+import type { TCalendarActionsContext, TCalendarContext } from './types';
 import {
   calendarDates,
   getYearList,
@@ -16,13 +12,16 @@ import {
   useToday,
   add,
   clone,
+  subtract,
+  startOfDay,
 } from '../utils';
 import type { IProps } from '../types';
+import { useControlled } from '../utils/useControlled';
 
 export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   children,
-  onDateChanged,
-  date = new Date(),
+  onDateChanged: controlledOnDateChanged,
+  date: controlledDate,
   yearSpan = 100,
   formatWeekDays = 'short',
   formatMonthDays = 'short',
@@ -32,10 +31,11 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
 }) => {
   const today = useToday();
 
-  const [currentDate, setCurrentDate] = useState(date);
-  useEffect(() => {
-    setCurrentDate(date);
-  }, [date]);
+  const {
+    value: currentDate,
+    onChange: onDateChanged,
+    isControlled,
+  } = useControlled(controlledDate, controlledOnDateChanged, new Date());
 
   const yearList = useMemo(
     () => getYearList(today.getFullYear(), yearSpan),
@@ -43,80 +43,112 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   );
 
   const setMonth = useCallback(
-    (monthDate: Date) => {
+    (month: number) => {
       const newDate = clone(currentDate);
-      newDate.setMonth(monthDate.getMonth());
-      setCurrentDate(newDate);
-      onDateChanged?.(newDate);
+
+      newDate.setMonth(Math.max(0, Math.min(month, 11)));
+
+      onDateChanged(newDate);
     },
     [onDateChanged, currentDate]
   );
 
   const setYear = useCallback(
-    (yearDate: Date) => {
-      console.log('GDCalendarProvider.setYear', yearDate);
+    (year: number) => {
+      console.log('GDCalendarProvider.setYear', year);
       const newDate = clone(currentDate);
 
-      newDate.setFullYear(yearDate.getFullYear());
-      setCurrentDate(newDate);
+      newDate.setFullYear(year);
 
-      onDateChanged?.(newDate);
+      onDateChanged(newDate);
     },
     [currentDate, onDateChanged]
   );
 
   const nextDay = useCallback(() => {
     // setToday((prevState) => {});
-    // onDateChanged?.();
+    // onDateChanged();
   }, []);
 
   const nextMonth = useCallback(() => {
     const newDate = add(currentDate, 1, 'month');
-    setCurrentDate(newDate);
-    onDateChanged?.(newDate);
+
+    onDateChanged(newDate);
   }, [currentDate, onDateChanged]);
 
   const nextYear = useCallback(() => {
-    // onDateChanged?.();
-  }, []);
-  const prevDay = useCallback(() => {
-    // onDateChanged?.();
-  }, []);
-  const prevMonth = useCallback(() => {
-    const newDate = clone(currentDate);
-    newDate.setDate(0); // will set to last day of previous month
-    newDate.setDate(1); // set it to the first day of that month
+    const newDate = add(currentDate, 1, 'year');
 
-    setCurrentDate(newDate);
-    onDateChanged?.(newDate);
+    onDateChanged(newDate);
   }, [currentDate, onDateChanged]);
-  const prevYear = useCallback(() => {
-    // onDateChanged?.();
+
+  const prevDay = useCallback(() => {
+    // onDateChanged();
   }, []);
+
+  const prevMonth = useCallback(() => {
+    const newDate = subtract(currentDate, 1, 'month');
+
+    onDateChanged(newDate);
+  }, [currentDate, onDateChanged]);
+
+  const prevYear = useCallback(() => {
+    const newDate = subtract(currentDate, 1, 'year');
+
+    onDateChanged(newDate);
+  }, [currentDate, onDateChanged]);
+
+  const setDate = useCallback(
+    (newDate: Date) => {
+      const date = startOfDay(newDate);
+      console.log('GDFCalendarProvider.setDate', newDate, date);
+      // setCurrentDate(date);
+      onDateChanged(date);
+    },
+    [onDateChanged]
+  );
 
   const weekdays = weekDays(formatWeekDays, locale, mondayFirst);
   const monthList = monthNames(formatMonthDays, locale);
   const weeks = calendarDates(currentDate, mondayFirst);
 
-  const state: TCalendarContext = useMemo(
-    () => ({
-      nextDay,
-      nextMonth,
-      nextYear,
-      prevDay,
-      prevMonth,
-      prevYear,
+  const state = useMemo(
+    (): TCalendarContext => ({
       today,
       weekdays,
       currentMonth: currentDate,
-      setMonth,
-      setYear,
       monthList,
       yearSpan,
       yearList,
       mondayFirst,
       locale,
       weeks,
+      isControlled,
+    }),
+    [
+      today,
+      weekdays,
+      currentDate,
+      monthList,
+      yearSpan,
+      yearList,
+      mondayFirst,
+      locale,
+      weeks,
+      isControlled,
+    ]
+  );
+  const actions = useMemo(
+    (): TCalendarActionsContext => ({
+      nextDay,
+      nextMonth,
+      nextYear,
+      prevDay,
+      prevMonth,
+      prevYear,
+      setMonth,
+      setYear,
+      setDisplayedMonth: setDate,
     }),
     [
       nextDay,
@@ -125,22 +157,16 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       prevDay,
       prevMonth,
       prevYear,
-      today,
-      weekdays,
-      currentDate,
       setMonth,
       setYear,
-      monthList,
-      yearSpan,
-      yearList,
-      mondayFirst,
-      locale,
-      weeks,
+      setDate,
     ]
   );
   return (
-    <GDCalendarContext.Provider value={state}>
-      {children}
-    </GDCalendarContext.Provider>
+    <GDCalendarActionsContext.Provider value={actions}>
+      <GDCalendarContext.Provider value={state}>
+        {children}
+      </GDCalendarContext.Provider>
+    </GDCalendarActionsContext.Provider>
   );
 };
