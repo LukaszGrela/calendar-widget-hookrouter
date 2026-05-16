@@ -7,9 +7,9 @@ import {
   type ReactNode,
 } from 'react';
 import {
-  CalendarSelectionActionContext,
-  CalendarSelectionContext,
-} from './CalendarSelectionContext';
+  GDCalendarSelectionActionContext,
+  GDCalendarSelectionContext,
+} from './GDCalendarSelectionContext';
 import type { IProps, TDateData, TRangeSelection } from '../types';
 import { normalizeSelection } from '../utils/date/normalizeSelection';
 import type {
@@ -24,7 +24,7 @@ import {
   startOfDay,
 } from '../utils';
 
-export const CalendarSelectionProvider: FC<
+export const GDCalendarSelectionProvider: FC<
   Pick<IProps, 'onDateSelected' | 'selection'> & { children: ReactNode }
 > = ({ children, onDateSelected, selection: incomingSelection }) => {
   const [selection, setSelection] = useState(() =>
@@ -36,11 +36,6 @@ export const CalendarSelectionProvider: FC<
 
   const selectDate = useCallback(
     (args?: TDateData) => {
-      // if (args && !datesSame(args.date, currentDate, 'month')) {
-      //   // navigate to this dates month
-      //   setCurrentDate(args.date);
-      //   onDateChanged?.(args.date);
-      // }
       if (selection && !(selection instanceof Date)) {
         const copy = selection.concat() as TRangeSelection;
         const currentDate = args?.date ? startOfDay(args.date) : null;
@@ -108,10 +103,10 @@ export const CalendarSelectionProvider: FC<
   );
 
   return (
-    <CalendarSelectionActionContext.Provider value={actionContext}>
-      <CalendarSelectionContext.Provider value={selectionContext}>
+    <GDCalendarSelectionActionContext.Provider value={actionContext}>
+      <GDCalendarSelectionContext.Provider value={selectionContext}>
         {children}
-      </CalendarSelectionContext.Provider>
-    </CalendarSelectionActionContext.Provider>
+      </GDCalendarSelectionContext.Provider>
+    </GDCalendarSelectionActionContext.Provider>
   );
 };
