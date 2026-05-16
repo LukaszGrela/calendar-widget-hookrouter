@@ -27,7 +27,7 @@ const YearView: FC = () => {
 
   const [selection, setSelection] = useImmer<TRangeSelection>([null, null]);
   const handleRangeSelection = useCallback(
-    (range?: Date | TRangeSelection) => {
+    (range?: Date | TRangeSelection | null) => {
       // console.log('LinkedCalendar.handleRangeSelection', range);
       if (!(range instanceof Date)) {
         setSelection((draft) => {

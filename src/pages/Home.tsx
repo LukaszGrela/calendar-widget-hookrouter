@@ -17,6 +17,7 @@ const Home = () => {
         <Link to="/linked-calendars">Linked Calendars</Link>
         <Link to="/ts-clock">TypeScript GDClock</Link>
         <Link to="/year-view">12 months</Link>
+        <Link to="/date-selector">Date selector dropdown</Link>
       </nav>
     </section>
   );

@@ -1,0 +1,16 @@
+@use '../../styles/colors';
+
+.PopoverHeading {
+  font-weight: bold;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem;
+  line-height: 1;
+
+  background-color: colors.$light-background-color;
+  padding: 8px 22px;
+  margin-bottom: 0;
+
+  border-bottom: solid colors.$border-color 1px;
+}

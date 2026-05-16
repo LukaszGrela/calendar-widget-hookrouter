@@ -1,0 +1,80 @@
+@use 'colors';
+@use 'sass:math';
+
+$squareRatio: math.div(100, 7);
+$squareHalfRatio: math.div(100, 14);
+
+.date-selector {
+  & .single-select,
+  .range-select {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  & .DatePopoverTrigger {
+    padding: 0 8px 0 0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 1.6rem;
+  }
+}
+.DatePopoverContentCalendar {
+  & .PopoverHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & .year {
+      font-size: 2.4rem;
+    }
+    & .navigation {
+      display: flex;
+
+      & button.today {
+        border: none;
+        background: none;
+
+        padding: 0 0.8rem;
+
+        color: colors.$primary-color;
+        font-size: 1.6rem;
+        transition: all 0.25s ease;
+        &:not(:disabled):hover {
+          color: colors.$color-blue;
+        }
+      }
+    }
+  }
+  & .MinimalCalendar {
+    &.GDCalendar {
+      container-type: inline-size;
+      margin: 0;
+      min-width: 250px;
+
+      & .GDCalendar {
+        &_View {
+          padding: 1rem;
+        }
+
+        &_Row {
+          container-type: inline-size;
+        }
+
+        &_Day {
+          font-size: clamp(0.8rem, $squareHalfRatio * 1cqw, 2.25rem);
+          padding: 0;
+
+          width: clamp(1.6rem, $squareRatio * 1cqw, 4.5rem);
+          height: clamp(1.6rem, $squareRatio * 1cqw, 4.5rem);
+
+          min-width: unset;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}

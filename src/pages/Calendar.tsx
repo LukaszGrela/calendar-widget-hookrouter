@@ -4,13 +4,17 @@ import { GDCalendar, type TRangeSelection } from '../components/GDCalendar';
 import { datesSame } from '../components/GDCalendar/utils';
 
 const Calendar: React.FC = (): ReactNode => {
-  const [date, setDate] = useState<Date | undefined>();
+  const [date, setDate] = useState<Date | undefined | null>();
   const [mondayFirst, setMondayFirst] = useState(true);
 
-  const calendarDayClicked = (clicked?: Date | TRangeSelection): void => {
+  const calendarDayClicked = (
+    clicked?: Date | TRangeSelection | null
+  ): void => {
     if (!clicked || clicked instanceof Date) {
       setDate((prevState) => {
-        if (datesSame(prevState, clicked)) return undefined;
+        if (clicked && prevState && datesSame(prevState, clicked))
+          return null;
+
         return clicked;
       });
     }
