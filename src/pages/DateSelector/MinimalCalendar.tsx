@@ -21,6 +21,7 @@ import {
 } from '../../components/GDCalendar/context/GDCalendarSelectionContext';
 import { GDCalendarMonthGrid } from '../../components/GDCalendar/GDCalendarMonthGrid';
 import { AnimatedContainer } from '../../components/GDCalendar/AnimatedContainer';
+import type { TCalendarContext } from '../../components/GDCalendar/context/types';
 
 export const MinimalCalendarHeadingConnected: FC = () => {
   const todayReference = useToday();
@@ -140,45 +141,17 @@ export const MinimalCalendarInner: FC<TMinimalCalendarInnerProps> = ({
 }) => {
   const { today, weeks, currentMonth } = useGDCalendarContext();
 
-  const selectionActions = useGDCalendarSelectionActionContext();
-  const selectionContext = useGDCalendarSelectionContext();
-
   const calendarElement = useMemo(() => {
     return (
-      <div className={classNames('GDCalendar', 'MinimalCalendar', className)}>
-        {/* Header */}
-        <div className="GDCalendar_Header">
-          {/* left */}
-          <div className="GDCalendar_Header_leftSlot">
-            <GDCurrentMonth currentMonth={currentMonth} hideYear />
-          </div>
-          {/* middle */}
-          <div className="GDCalendar_Header_middleSlot"></div>
-          {/* right */}
-          <div className="GDCalendar_Header_rightSlot"></div>
-        </div>
-        {/* View */}
-        <div className="GDCalendar_View">
-          <GDCalendarWeekRow />
-          <GDCalendarMonthGrid
-            selection={selectionContext?.selection}
-            weeks={weeks}
-            now={today}
-            onClick={selectionActions?.selectDate}
-          />
-        </div>
-        {/* Footer */}
-      </div>
+      <MinimalCalendarGrid
+        className={className}
+        currentMonth={currentMonth}
+        weeks={weeks}
+        today={today}
+      />
     );
-  }, [
-    className,
-    currentMonth,
-    selectionActions?.selectDate,
-    selectionContext?.selection,
-    today,
-    weeks,
-  ]);
-  console.log('MinimalCalendar.animate', animate);
+  }, [className, currentMonth, today, weeks]);
+
   return (
     <GDCalendarSelectionWrapper
       selection={selection}
@@ -192,5 +165,41 @@ export const MinimalCalendarInner: FC<TMinimalCalendarInnerProps> = ({
       )}
       {!animate && calendarElement}
     </GDCalendarSelectionWrapper>
+  );
+};
+
+const MinimalCalendarGrid: FC<
+  { className?: string } & Pick<
+    TCalendarContext,
+    'weeks' | 'today' | 'currentMonth'
+  >
+> = ({ className, currentMonth, today, weeks }) => {
+  const selectionActions = useGDCalendarSelectionActionContext();
+  const selectionContext = useGDCalendarSelectionContext();
+  return (
+    <div className={classNames('GDCalendar', 'MinimalCalendar', className)}>
+      {/* Header */}
+      <div className="GDCalendar_Header">
+        {/* left */}
+        <div className="GDCalendar_Header_leftSlot">
+          <GDCurrentMonth currentMonth={currentMonth} hideYear />
+        </div>
+        {/* middle */}
+        <div className="GDCalendar_Header_middleSlot"></div>
+        {/* right */}
+        <div className="GDCalendar_Header_rightSlot"></div>
+      </div>
+      {/* View */}
+      <div className="GDCalendar_View">
+        <GDCalendarWeekRow />
+        <GDCalendarMonthGrid
+          selection={selectionContext?.selection}
+          weeks={weeks}
+          now={today}
+          onClick={selectionActions?.selectDate}
+        />
+      </div>
+      {/* Footer */}
+    </div>
   );
 };
