@@ -1,6 +1,9 @@
 @use '../styles/colors';
 
 .GDMonthNavigation {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
   button {
     svg {
       fill: colors.$gd-calendar-primary-color;

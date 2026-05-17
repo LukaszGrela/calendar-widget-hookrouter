@@ -1,7 +1,8 @@
 import './GDMonthNavigation.scss';
 import type { FC } from 'react';
 import { useGDCalendarActionsContext } from '../context/GDCalendarContext';
-import SVGIcon from '../SVGIcon';
+import { IconUp } from '../icons/IconUp';
+import { IconDown } from '../icons/IconDown';
 
 export const GDMonthNavigation: FC = () => {
   const actions = useGDCalendarActionsContext();
@@ -12,14 +13,14 @@ export const GDMonthNavigation: FC = () => {
         className="GDCalendar_PrevMonth-btn"
         onClick={actions?.prevMonth}
       >
-        <SVGIcon icon="up-arrow" viewBox="0 8 48 48" />
+        <IconUp />
       </button>
       <button
         title="Next month"
         className="GDCalendar_NextMonth-btn"
         onClick={actions?.nextMonth}
       >
-        <SVGIcon icon="down-arrow" viewBox="16 8 48 48" />
+        <IconDown />
       </button>
     </div>
   );
