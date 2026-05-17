@@ -1,0 +1,52 @@
+@mixin transition($duration: 150ms, $easing: ease) {
+  transition: $duration $easing;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.RangeDateSelect {
+  overflow: hidden;
+
+  &_grids {
+    overflow: hidden;
+  }
+
+  .dir-next {
+    & .month-enter {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+
+    & .month-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      @include transition(150ms, ease);
+    }
+
+    & .month-exit {
+      opacity: 0;
+      transform: translateY(-100%);
+      @include transition(150ms, ease);
+    }
+  }
+
+  .dir-prev {
+    & .month-enter {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    & .month-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      @include transition(150ms, ease);
+    }
+
+    & .month-exit {
+      opacity: 0;
+      transform: translateY(100%);
+      @include transition(150ms, ease);
+    }
+  }
+}
