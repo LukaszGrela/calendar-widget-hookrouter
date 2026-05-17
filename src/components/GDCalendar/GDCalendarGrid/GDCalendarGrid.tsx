@@ -1,16 +1,28 @@
+import { type FC } from 'react';
 import {
   useGDCalendarSelectionActionContext,
   useGDCalendarSelectionContext,
 } from '../context/GDCalendarSelectionContext';
 import { useGDCalendarContext } from '../context/GDCalendarContext';
 import { GDCalendarMonthGrid } from '../GDCalendarMonthGrid';
+import { AnimatedContainer } from '../AnimatedContainer';
 
-export const GDCalendarGrid = () => {
+export const GDCalendarGrid: FC<{ animate?: boolean }> = ({ animate }) => {
   const { today, weeks } = useGDCalendarContext();
 
   const selectionActions = useGDCalendarSelectionActionContext();
   const selectionContext = useGDCalendarSelectionContext();
-  return (
+
+  return animate ? (
+    <AnimatedContainer transitionClassNames={'month'}>
+      <GDCalendarMonthGrid
+        selection={selectionContext?.selection}
+        weeks={weeks}
+        now={today}
+        onClick={selectionActions?.selectDate}
+      />
+    </AnimatedContainer>
+  ) : (
     <GDCalendarMonthGrid
       selection={selectionContext?.selection}
       weeks={weeks}

@@ -41,7 +41,7 @@ export const GDCalendar: FC<IProps> = ({
           {/* View */}
           <div className="GDCalendar_View">
             <GDCalendarWeekRow />
-            <GDCalendarGrid />
+            <GDCalendarGrid animate />
           </div>
           {/* Footer */}
         </div>
