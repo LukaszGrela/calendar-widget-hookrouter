@@ -22,6 +22,7 @@ import {
   add,
   calendarDates,
   datesSame,
+  subtract,
 } from '../../../components/GDCalendar/utils';
 import { GDCalendarWeekRow } from '../../../components/GDCalendar/GDCalendarWeekRow';
 import { classNames } from '../../../utils/classNames';
@@ -121,6 +122,14 @@ const CalendarHeadingConnected: FC = () => {
     [actions?.setToday, currentMonth, nextMonth, todayReference]
   );
 
+  const next = useCallback(() => {
+    actions?.setDisplayedMonth(add(currentMonth, 2, 'months'), 'next');
+  }, [actions, currentMonth]);
+
+  const prev = useCallback(() => {
+    actions?.setDisplayedMonth(subtract(currentMonth, 2, 'months'), 'prev');
+  }, [actions, currentMonth]);
+
   return (
     <MinimalCalendarHeading
       year={
@@ -135,8 +144,8 @@ const CalendarHeadingConnected: FC = () => {
         </>
       }
       today={todayBtnConfig}
-      next={actions?.nextMonth}
-      prev={actions?.prevMonth}
+      next={next}
+      prev={prev}
     />
   );
 };
