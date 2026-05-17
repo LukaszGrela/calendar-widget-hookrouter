@@ -44,10 +44,6 @@ const DateSelector: FC = () => {
         <button onClick={() => setMondayFirst((old) => !old)}>
           {!mondayFirst ? 'Monday first' : 'Sunday first'}
         </button>
-        <div>
-          <span>Selected:</span>
-          <span>{getDateString([null, null])}</span>
-        </div>
       </article>
       <article className="widgets">
         <div className="single-select">

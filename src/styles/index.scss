@@ -59,6 +59,18 @@ a {
   }
 }
 
+button {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid colors.$color-blue;
+  background: none;
+  color: colors.$color-blue;
+  &:hover {
+    color: colors.$primary-color;
+    border-color: colors.$primary-color;
+  }
+}
+
 nav {
   margin: 1rem;
   font-size: 2rem;
