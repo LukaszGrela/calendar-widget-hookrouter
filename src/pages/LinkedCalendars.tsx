@@ -1,14 +1,12 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
 import { GDCalendar } from '../components/GDCalendar';
-import {
-  add,
-  clone,
-  getDateString,
-  subtract,
-} from '../components/GDCalendar/utils';
+import { add, clone, subtract } from '../components/GDCalendar/utils';
 import type { TRangeSelection } from '../components/GDCalendar/types';
 import { useImmer } from '../utils/useImmer';
+import { MondayFirstButton } from './toolbox/MondayFirstButton';
+import { AnimateToggleButton } from './toolbox/AnimateToggleButton';
+import { DateSelected } from './toolbox/DateSelected';
 
 interface IProps {
   initialDate?: Date;
@@ -34,6 +32,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
   );
 
   const [mondayFirst, setMondayFirst] = useState(true);
+  const [animate, setAnimate] = useState(false);
 
   const currentCalendarDateChanged = useCallback((date: Date) => {
     console.log('currentCalendarDateChanged', date.toISOString());
@@ -52,13 +51,17 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
         <p>React Calendar Widget example.</p>
       </article>
       <article className="toolbox">
-        <button onClick={() => setMondayFirst((old) => !old)}>
-          {!mondayFirst ? 'Monday first' : 'Sunday first'}
-        </button>
-        <div>
-          <span>Selected:</span>
-          <span>{getDateString(selection)}</span>
+        <div className="button-group">
+          <MondayFirstButton
+            onClick={() => setMondayFirst((old) => !old)}
+            mondayFirst={mondayFirst}
+          />
+          <AnimateToggleButton
+            onClick={() => setAnimate((old) => !old)}
+            animate={animate}
+          />
         </div>
+        <DateSelected selection={selection} />
       </article>
       <article className="widgets">
         <GDCalendar
@@ -67,6 +70,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
           onDateChanged={currentCalendarDateChanged}
           selection={selection}
           onDateSelected={handleRangeSelection}
+          animate={animate}
           mondayFirst={mondayFirst}
         />
         <GDCalendar
@@ -75,6 +79,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
           onDateChanged={nextCalendarDateChanged}
           selection={selection}
           onDateSelected={handleRangeSelection}
+          animate={animate}
           mondayFirst={mondayFirst}
         />
       </article>

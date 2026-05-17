@@ -19,6 +19,7 @@ export const GDCalendar: FC<IProps> = ({
   onDateSelected,
   mondayFirst,
   locale,
+  animate,
 }) => {
   return (
     <GDCalendarProvider
@@ -41,7 +42,7 @@ export const GDCalendar: FC<IProps> = ({
           {/* View */}
           <div className="GDCalendar_View">
             <GDCalendarWeekRow />
-            <GDCalendarGrid animate />
+            <GDCalendarGrid animate={animate} />
           </div>
           {/* Footer */}
         </div>

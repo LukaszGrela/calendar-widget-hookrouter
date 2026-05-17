@@ -2,18 +2,21 @@ import React, { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { GDCalendar, type TRangeSelection } from '../components/GDCalendar';
 import { datesSame } from '../components/GDCalendar/utils';
+import { MondayFirstButton } from './toolbox/MondayFirstButton';
+import { AnimateToggleButton } from './toolbox/AnimateToggleButton';
+import { DateSelected } from './toolbox/DateSelected';
 
 const Calendar: React.FC = (): ReactNode => {
   const [date, setDate] = useState<Date | undefined | null>();
   const [mondayFirst, setMondayFirst] = useState(true);
+  const [animate, setAnimate] = useState(false);
 
   const calendarDayClicked = (
     clicked?: Date | TRangeSelection | null
   ): void => {
     if (!clicked || clicked instanceof Date) {
       setDate((prevState) => {
-        if (clicked && prevState && datesSame(prevState, clicked))
-          return null;
+        if (clicked && prevState && datesSame(prevState, clicked)) return null;
 
         return clicked;
       });
@@ -27,19 +30,24 @@ const Calendar: React.FC = (): ReactNode => {
         <p style={{ fontSize: '0.75em' }}>Uncontrolled</p>
       </article>
       <article className="toolbox">
-        <button onClick={() => setMondayFirst((old) => !old)}>
-          {!mondayFirst ? 'Monday first' : 'Sunday first'}
-        </button>
-        <div>
-          <span>Selected:</span>
-          <span>{date ? date.toLocaleDateString() : 'not selected'}</span>
+        <div className="button-group">
+          <MondayFirstButton
+            onClick={() => setMondayFirst((old) => !old)}
+            mondayFirst={mondayFirst}
+          />
+          <AnimateToggleButton
+            onClick={() => setAnimate((old) => !old)}
+            animate={animate}
+          />
         </div>
+        <DateSelected selection={date} />
       </article>
       <article className="widgets">
         <GDCalendar
           onDateSelected={calendarDayClicked}
           selection={date}
           mondayFirst={mondayFirst}
+          animate={animate}
         />
       </article>
       <nav>

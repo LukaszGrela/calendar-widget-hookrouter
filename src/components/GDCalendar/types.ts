@@ -17,6 +17,12 @@ export interface IProps {
   mondayFirst?: boolean;
 
   locale?: Intl.LocalesArgument;
+
+  /**
+   * Should calendar change animate. 
+   * `false` by default.
+   */
+  animate?: boolean;
 }
 
 export type TArrayElementType<A extends readonly unknown[] | null> =

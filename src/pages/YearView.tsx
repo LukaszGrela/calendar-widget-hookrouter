@@ -1,11 +1,6 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  add,
-  getDateString,
-  startOfDay,
-  subtract,
-} from '../components/GDCalendar/utils';
+import { add, startOfDay, subtract } from '../components/GDCalendar/utils';
 import type { IProps, TRangeSelection } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
 import { GDCurrentMonthConnected } from '../components/GDCalendar/GDCurrentMonth';
@@ -15,6 +10,7 @@ import SVGIcon from '../components/GDCalendar/SVGIcon';
 
 import { useImmer } from '../utils/useImmer';
 import { GDCalendarSelectionProvider } from '../components/GDCalendar/context/GDCalendarSelectionProvider';
+import { DateSelected } from './toolbox/DateSelected';
 
 const jan = startOfDay(new Date());
 jan.setDate(1);
@@ -75,10 +71,7 @@ const YearView: FC = () => {
       <article className="toolbox">
         <span className="year">{months[0].getFullYear()}</span>
 
-        <div>
-          <span>Selected:</span>
-          <span>{getDateString(selection)}</span>
-        </div>
+        <DateSelected selection={selection} />
 
         <div className="navigation">
           <button
