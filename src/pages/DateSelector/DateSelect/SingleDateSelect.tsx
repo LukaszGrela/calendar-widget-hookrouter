@@ -1,3 +1,5 @@
+import './SingleDateSelect.scss';
+
 import { useCallback, useState, type FC } from 'react';
 import type { TCalendarConfig } from './types';
 import { DatePopoverContainer } from './DatePopoverContainer';

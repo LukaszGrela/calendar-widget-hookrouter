@@ -1,0 +1,60 @@
+@mixin transition($duration: 150ms, $easing: ease) {
+  transition: $duration $easing;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.dir-next {
+  & .month-enter {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  & .month-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    @include transition(150ms, ease);
+  }
+
+  & .month-exit {
+    opacity: 0;
+    transform: translateX(-100%);
+    @include transition(150ms, ease);
+  }
+}
+
+.dir-prev {
+  & .month-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  & .month-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    @include transition(150ms, ease);
+  }
+
+  & .month-exit {
+    opacity: 0;
+    transform: translateX(100%);
+    @include transition(150ms, ease);
+  }
+}
+
+.dir-none {
+  & .month-enter {
+    opacity: 0;
+  }
+
+  & .month-enter-active {
+    opacity: 1;
+    @include transition(150ms, ease);
+  }
+
+  & .month-exit {
+    opacity: 0;
+    @include transition(150ms, ease);
+  }
+}
