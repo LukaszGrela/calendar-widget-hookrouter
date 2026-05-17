@@ -16,6 +16,7 @@ export const SingleDateSelect: FC<TCalendarConfig> = ({
   mondayFirst,
   onDateSelected,
   selection,
+  animate,
 }) => {
   return (
     <DatePopoverContainer className="SingleDateSelect" selection={selection}>
@@ -23,6 +24,7 @@ export const SingleDateSelect: FC<TCalendarConfig> = ({
         mondayFirst={mondayFirst}
         selection={selection}
         onDateSelected={onDateSelected}
+        animate={animate}
       />
     </DatePopoverContainer>
   );
@@ -32,6 +34,7 @@ const DatePopoverContentCalendar: FC<Omit<TCalendarConfig, 'children'>> = ({
   mondayFirst,
   onDateSelected,
   selection,
+  animate,
 }) => {
   const [date, setDate] = useState(pickDate(selection));
 
@@ -57,6 +60,7 @@ const DatePopoverContentCalendar: FC<Omit<TCalendarConfig, 'children'>> = ({
       <MinimalCalendarInner
         onDateSelected={handleDateSelection}
         selection={selection}
+        animate={animate}
       />
     </MinimalCalendar>
   );

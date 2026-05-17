@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { type TRangeSelection } from '../../components/GDCalendar';
 import { useImmer } from '../../utils/useImmer';
 import { RangeDateSelect, SingleDateSelect } from './DateSelect';
+import { MondayFirstButton } from '../toolbox/MondayFirstButton';
+import { AnimateToggleButton } from '../toolbox/AnimateToggleButton';
 
 const DateSelector: FC = () => {
   const [mondayFirst, setMondayFirst] = useState(true);
+  const [animate, setAnimate] = useState(false);
 
   const [singleDateSelection, setSingleSelection] = useState<Date | null>(null);
   const onSingleDateSelected = useCallback(
@@ -40,9 +43,16 @@ const DateSelector: FC = () => {
         <p>Calendar widget used within the float-ui dropdown</p>
       </article>
       <article className="toolbox">
-        <button onClick={() => setMondayFirst((old) => !old)}>
-          {!mondayFirst ? 'Monday first' : 'Sunday first'}
-        </button>
+        <div className="button-group">
+          <MondayFirstButton
+            onClick={() => setMondayFirst((old) => !old)}
+            mondayFirst={mondayFirst}
+          />
+          <AnimateToggleButton
+            onClick={() => setAnimate((old) => !old)}
+            animate={animate}
+          />
+        </div>
       </article>
       <article className="widgets">
         <div className="single-select">
@@ -51,6 +61,7 @@ const DateSelector: FC = () => {
             mondayFirst={mondayFirst}
             onDateSelected={onSingleDateSelected}
             selection={singleDateSelection}
+            animate={animate}
           />
         </div>
         <div className="range-select">
@@ -59,6 +70,7 @@ const DateSelector: FC = () => {
             mondayFirst={mondayFirst}
             onDateSelected={onRangeDateSelected}
             selection={rangeDateSelection}
+            animate={animate}
           />
         </div>
       </article>

@@ -9,44 +9,61 @@
   overflow: hidden;
 
   &_grids {
-    overflow: hidden;
+    display: flex;
   }
 
-  .dir-next {
-    & .month-enter {
-      opacity: 0;
-      transform: translateY(100%);
+  .AnimatedContainer {
+    &.dir-next {
+      & .range-enter {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      & .range-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        @include transition(150ms, ease);
+      }
+
+      & .range-exit {
+        opacity: 0;
+        transform: translateY(-100%);
+        @include transition(150ms, ease);
+      }
     }
 
-    & .month-enter-active {
-      opacity: 1;
-      transform: translateY(0);
-      @include transition(150ms, ease);
-    }
+    &.dir-prev {
+      & .range-enter {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
 
-    & .month-exit {
-      opacity: 0;
-      transform: translateY(-100%);
-      @include transition(150ms, ease);
-    }
-  }
+      & .range-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        @include transition(150ms, ease);
+      }
 
-  .dir-prev {
-    & .month-enter {
-      opacity: 0;
-      transform: translateY(-100%);
+      & .range-exit {
+        opacity: 0;
+        transform: translateY(100%);
+        @include transition(150ms, ease);
+      }
     }
+    &.dir-none {
+      & .range-enter {
+        opacity: 0;
+      }
 
-    & .month-enter-active {
-      opacity: 1;
-      transform: translateY(0);
-      @include transition(150ms, ease);
-    }
+      & .range-enter-active {
+        opacity: 1;
+        @include transition(150ms, ease);
+      }
 
-    & .month-exit {
-      opacity: 0;
-      transform: translateY(100%);
-      @include transition(150ms, ease);
+      & .range-exit {
+        opacity: 0;
+        @include transition(150ms, ease);
+      }
     }
   }
 }

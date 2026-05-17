@@ -1,6 +1,6 @@
 import './MinimalCalendar.scss';
 
-import { useMemo, useRef, type FC, type ReactNode } from 'react';
+import { useMemo, type FC, type ReactNode } from 'react';
 
 import type { IProps } from '../../components/GDCalendar';
 import {
@@ -20,7 +20,7 @@ import {
   useGDCalendarSelectionContext,
 } from '../../components/GDCalendar/context/GDCalendarSelectionContext';
 import { GDCalendarMonthGrid } from '../../components/GDCalendar/GDCalendarMonthGrid';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { AnimatedContainer } from '../../components/GDCalendar/AnimatedContainer';
 
 export const MinimalCalendarHeadingConnected: FC = () => {
   const todayReference = useToday();
@@ -124,7 +124,7 @@ export const MinimalCalendar: FC<
 
 type TMinimalCalendarInnerProps = Pick<
   IProps,
-  'onDateChanged' | 'onDateSelected' | 'className' | 'selection'
+  'onDateChanged' | 'onDateSelected' | 'className' | 'selection' | 'animate'
 >;
 
 /**
@@ -136,61 +136,61 @@ export const MinimalCalendarInner: FC<TMinimalCalendarInnerProps> = ({
   className,
   selection,
   onDateSelected,
+  animate,
 }) => {
-  const { today, weeks, direction, currentMonth } = useGDCalendarContext();
+  const { today, weeks, currentMonth } = useGDCalendarContext();
 
   const selectionActions = useGDCalendarSelectionActionContext();
   const selectionContext = useGDCalendarSelectionContext();
 
-  const transitionRef = useRef<HTMLDivElement>(null);
-
+  const calendarElement = useMemo(() => {
+    return (
+      <div className={classNames('GDCalendar', 'MinimalCalendar', className)}>
+        {/* Header */}
+        <div className="GDCalendar_Header">
+          {/* left */}
+          <div className="GDCalendar_Header_leftSlot">
+            <GDCurrentMonth currentMonth={currentMonth} hideYear />
+          </div>
+          {/* middle */}
+          <div className="GDCalendar_Header_middleSlot"></div>
+          {/* right */}
+          <div className="GDCalendar_Header_rightSlot"></div>
+        </div>
+        {/* View */}
+        <div className="GDCalendar_View">
+          <GDCalendarWeekRow />
+          <GDCalendarMonthGrid
+            selection={selectionContext?.selection}
+            weeks={weeks}
+            now={today}
+            onClick={selectionActions?.selectDate}
+          />
+        </div>
+        {/* Footer */}
+      </div>
+    );
+  }, [
+    className,
+    currentMonth,
+    selectionActions?.selectDate,
+    selectionContext?.selection,
+    today,
+    weeks,
+  ]);
+  console.log('MinimalCalendar.animate', animate);
   return (
     <GDCalendarSelectionWrapper
       selection={selection}
       onDateSelected={onDateSelected}
       onDateChanged={onDateChanged}
     >
-      <div className={`dir-${direction}`}>
-        {/* <TransitionGroup className={classNames('SlideAnimation', direction)}> */}
-        <SwitchTransition mode={'out-in'}>
-          <CSSTransition
-            // appear
-            key={`${direction}-${currentMonth.toISOString()}`}
-            classNames="month"
-            nodeRef={transitionRef}
-            timeout={150}
-          >
-            <div
-              ref={transitionRef}
-              className={classNames('GDCalendar', 'MinimalCalendar', className)}
-            >
-              {/* Header */}
-              <div className="GDCalendar_Header">
-                {/* left */}
-                <div className="GDCalendar_Header_leftSlot">
-                  <GDCurrentMonth currentMonth={currentMonth} hideYear />
-                </div>
-                {/* middle */}
-                <div className="GDCalendar_Header_middleSlot"></div>
-                {/* right */}
-                <div className="GDCalendar_Header_rightSlot"></div>
-              </div>
-              {/* View */}
-              <div className="GDCalendar_View">
-                <GDCalendarWeekRow />
-                <GDCalendarMonthGrid
-                  selection={selectionContext?.selection}
-                  weeks={weeks}
-                  now={today}
-                  onClick={selectionActions?.selectDate}
-                />
-              </div>
-              {/* Footer */}
-            </div>
-          </CSSTransition>
-        </SwitchTransition>
-        {/* </TransitionGroup> */}
-      </div>
+      {animate && (
+        <AnimatedContainer transitionClassNames={'minimal'}>
+          {calendarElement}
+        </AnimatedContainer>
+      )}
+      {!animate && calendarElement}
     </GDCalendarSelectionWrapper>
   );
 };

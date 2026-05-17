@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from 'react';
-import { getDateString } from '../../../components/GDCalendar/utils';
 import {
   Popover,
   PopoverTrigger,
@@ -8,6 +7,7 @@ import {
 import IconCalendar from '../../../icons/IconCalendar';
 import type { TCalendarConfig } from './types';
 import { classNames } from '../../../utils/classNames';
+import { getDateString } from '../../utils';
 
 export const DatePopoverContainer: FC<
   TCalendarConfig & { children: ReactNode; className?: string }

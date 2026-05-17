@@ -1,5 +1,5 @@
 import './RangeDateSelect.scss';
-import { useCallback, useMemo, useRef, useState, type FC } from 'react';
+import { useCallback, useMemo, useState, type FC } from 'react';
 import type { TCalendarConfig } from './types';
 import { DatePopoverContainer } from './DatePopoverContainer';
 import { pickDate } from './utils';
@@ -27,17 +27,18 @@ import { GDCalendarWeekRow } from '../../../components/GDCalendar/GDCalendarWeek
 import { classNames } from '../../../utils/classNames';
 import { GDCalendarSelectionWrapper } from '../../../components/GDCalendar/GDCalendarSelectionWrapper';
 import { GDCurrentMonth } from '../../../components/GDCalendar/GDCurrentMonth';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { AnimatedContainer } from '../../../components/GDCalendar/AnimatedContainer';
 
 export const RangeDateSelect: FC<
   Omit<TCalendarConfig, 'selection'> & { selection?: TRangeSelection | null }
-> = ({ mondayFirst, onDateSelected, selection }) => {
+> = ({ mondayFirst, onDateSelected, selection, animate }) => {
   return (
     <DatePopoverContainer className="RangeDateSelect" selection={selection}>
       <DateRangePopoverContentCalendar
         mondayFirst={mondayFirst}
         selection={selection}
         onDateSelected={onDateSelected}
+        animate={animate}
       />
     </DatePopoverContainer>
   );
@@ -45,7 +46,7 @@ export const RangeDateSelect: FC<
 
 const DateRangePopoverContentCalendar: FC<
   Omit<TCalendarConfig, 'selection'> & { selection?: TRangeSelection | null }
-> = ({ mondayFirst, onDateSelected, selection }) => {
+> = ({ mondayFirst, onDateSelected, selection, animate }) => {
   const [date, setDate] = useState(pickDate(selection));
   const [localSelection, setLocalSelection] = useState<
     TRangeSelection | null | undefined
@@ -83,6 +84,7 @@ const DateRangePopoverContentCalendar: FC<
       <LinkedCalendarGridsInner
         onDateSelected={handleDateSelection}
         selection={localSelection}
+        animate={animate}
       />
       <div className="MinimalCalendar_footer">
         <span style={{ flexGrow: 1 }}>&nbsp;</span>
@@ -140,10 +142,12 @@ const CalendarHeadingConnected: FC = () => {
 };
 
 export const LinkedCalendarGridsInner: FC<
-  Pick<IProps, 'onDateChanged' | 'onDateSelected' | 'className' | 'selection'>
-> = ({ onDateChanged, className, selection, onDateSelected }) => {
-  const { today, weeks, currentMonth, mondayFirst, direction } =
-    useGDCalendarContext();
+  Pick<
+    IProps,
+    'onDateChanged' | 'onDateSelected' | 'className' | 'selection' | 'animate'
+  >
+> = ({ onDateChanged, className, selection, onDateSelected, animate }) => {
+  const { today, weeks, currentMonth, mondayFirst } = useGDCalendarContext();
 
   const nextMonth = useMemo(() => {
     return add(currentMonth, 1, 'months');
@@ -152,7 +156,65 @@ export const LinkedCalendarGridsInner: FC<
     return calendarDates(nextMonth, mondayFirst);
   }, [mondayFirst, nextMonth]);
 
-  const transitionRef = useRef<HTMLDivElement>(null);
+  const calendarGridsElement = useMemo(() => {
+    return (
+      <div className="RangeDateSelect_grids">
+        <div
+          className={classNames(
+            'GDCalendar',
+            'MinimalCalendar',
+            'currentMonth',
+            className
+          )}
+        >
+          {/* Header */}
+          <div className="GDCalendar_Header">
+            {/* left */}
+            <div className="GDCalendar_Header_leftSlot">
+              <GDCurrentMonth hideYear currentMonth={currentMonth} />
+            </div>
+            {/* middle */}
+            <div className="GDCalendar_Header_middleSlot"></div>
+            {/* right */}
+            <div className="GDCalendar_Header_rightSlot"></div>
+          </div>
+          {/* View */}
+          <div className="GDCalendar_View">
+            <GDCalendarWeekRow />
+            <GDCalendarMonthGridConnected weeks={weeks} now={today} />
+          </div>
+          {/* Footer */}
+        </div>
+
+        <div
+          className={classNames(
+            'GDCalendar',
+            'MinimalCalendar',
+            'nextMonth',
+            className
+          )}
+        >
+          {/* Header */}
+          <div className="GDCalendar_Header">
+            {/* left */}
+            <div className="GDCalendar_Header_leftSlot">
+              <GDCurrentMonth hideYear currentMonth={nextMonth} />
+            </div>
+            {/* middle */}
+            <div className="GDCalendar_Header_middleSlot"></div>
+            {/* right */}
+            <div className="GDCalendar_Header_rightSlot"></div>
+          </div>
+          {/* View */}
+          <div className="GDCalendar_View">
+            <GDCalendarWeekRow />
+            <GDCalendarMonthGridConnected weeks={next} now={today} />
+          </div>
+          {/* Footer */}
+        </div>
+      </div>
+    );
+  }, [className, currentMonth, next, nextMonth, today, weeks]);
 
   return (
     <GDCalendarSelectionWrapper
@@ -160,75 +222,12 @@ export const LinkedCalendarGridsInner: FC<
       onDateSelected={onDateSelected}
       onDateChanged={onDateChanged}
     >
-      <div className={classNames('RangeDateSelect_grids', `dir-${direction}`)}>
-        {/* <TransitionGroup className={classNames('SlideAnimation', direction)}> */}
-        <SwitchTransition mode={'out-in'}>
-          <CSSTransition
-            // appear
-            key={`${direction}-${currentMonth.toISOString()}`}
-            classNames="month"
-            nodeRef={transitionRef}
-            timeout={150}
-          >
-            <div ref={transitionRef} className={'LinkedCalendarGridsInner'}>
-              <div
-                className={classNames(
-                  'GDCalendar',
-                  'MinimalCalendar',
-                  'currentMonth',
-                  className
-                )}
-              >
-                {/* Header */}
-                <div className="GDCalendar_Header">
-                  {/* left */}
-                  <div className="GDCalendar_Header_leftSlot">
-                    <GDCurrentMonth hideYear currentMonth={currentMonth} />
-                  </div>
-                  {/* middle */}
-                  <div className="GDCalendar_Header_middleSlot"></div>
-                  {/* right */}
-                  <div className="GDCalendar_Header_rightSlot"></div>
-                </div>
-                {/* View */}
-                <div className="GDCalendar_View">
-                  <GDCalendarWeekRow />
-                  <GDCalendarMonthGridConnected weeks={weeks} now={today} />
-                </div>
-                {/* Footer */}
-              </div>
-
-              <div
-                className={classNames(
-                  'GDCalendar',
-                  'MinimalCalendar',
-                  'nextMonth',
-                  className
-                )}
-              >
-                {/* Header */}
-                <div className="GDCalendar_Header">
-                  {/* left */}
-                  <div className="GDCalendar_Header_leftSlot">
-                    <GDCurrentMonth hideYear currentMonth={nextMonth} />
-                  </div>
-                  {/* middle */}
-                  <div className="GDCalendar_Header_middleSlot"></div>
-                  {/* right */}
-                  <div className="GDCalendar_Header_rightSlot"></div>
-                </div>
-                {/* View */}
-                <div className="GDCalendar_View">
-                  <GDCalendarWeekRow />
-                  <GDCalendarMonthGridConnected weeks={next} now={today} />
-                </div>
-                {/* Footer */}
-              </div>
-            </div>
-          </CSSTransition>
-        </SwitchTransition>
-        {/* </TransitionGroup> */}
-      </div>
+      {!animate && calendarGridsElement}
+      {animate && (
+        <AnimatedContainer transitionClassNames={'range'} timeout={150}>
+          {calendarGridsElement}
+        </AnimatedContainer>
+      )}
     </GDCalendarSelectionWrapper>
   );
 };
