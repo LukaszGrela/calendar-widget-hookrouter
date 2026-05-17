@@ -49,8 +49,8 @@ export type TCalendarActionsContext = {
 };
 
 export type TCalendarSelectionContext = {
-  selection?: Date | TRangeSelection;
+  selection?: Date | TRangeSelection | null;
 };
 export type TCalendarSelectionActionContext = {
-  selectDate: (date?: TDateData | undefined) => void;
+  selectDate: (date?: TDateData | undefined | null) => void;
 };

@@ -2,9 +2,9 @@ import type { TRangeSelection } from '../../types';
 import { startOfDay } from '../utils';
 
 export const normalizeSelection = (
-  selection?: Date | TRangeSelection
-): Date | TRangeSelection | undefined => {
-  if (!selection) return undefined;
+  selection?: Date | TRangeSelection | null
+): Date | TRangeSelection | undefined | null => {
+  if (!selection) return selection;
   if (selection instanceof Date) return startOfDay(selection);
 
   const range = selection.map((date) =>

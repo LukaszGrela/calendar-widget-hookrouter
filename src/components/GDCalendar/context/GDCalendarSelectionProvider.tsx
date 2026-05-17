@@ -35,7 +35,7 @@ export const GDCalendarSelectionProvider: FC<
   }, [incomingSelection]);
 
   const selectDate = useCallback(
-    (args?: TDateData) => {
+    (args?: TDateData | null) => {
       if (selection && !(selection instanceof Date)) {
         const copy = selection.concat() as TRangeSelection;
         const currentDate = args?.date ? startOfDay(args.date) : null;

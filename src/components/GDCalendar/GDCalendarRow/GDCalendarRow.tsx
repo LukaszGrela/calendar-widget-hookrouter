@@ -8,7 +8,7 @@ export interface IProps {
   className?: string;
   days: TDateData[];
   // selected date
-  selection?: Date | TRangeSelection;
+  selection?: Date | TRangeSelection | null;
   // reference date for "now"/"today"
   now?: Date;
   onClick: (data: TDateData) => void;
@@ -36,20 +36,24 @@ const GDCalendarRow: React.FC<IProps> = ({
             data={data}
             onClick={onClick}
             today={now && datesSame(day, now, 'day')}
-            selected={selection && dateWithinRange(day, selection)}
+            selected={!!(selection && dateWithinRange(day, selection))}
             startSelection={
-              selection &&
-              !(selection instanceof Date) &&
-              !!selection[0] &&
-              datesSame(day, selection[0])
+              !!(
+                selection &&
+                !(selection instanceof Date) &&
+                !!selection[0] &&
+                datesSame(day, selection[0])
+              )
             }
             endSelection={
-              selection &&
-              !(selection instanceof Date) &&
-              ((!!selection[1] && datesSame(day, selection[1])) ||
-                (!!selection[0] &&
-                  !selection[1] &&
-                  datesSame(day, selection[0])))
+              !!(
+                selection &&
+                !(selection instanceof Date) &&
+                ((!!selection[1] && datesSame(day, selection[1])) ||
+                  (!!selection[0] &&
+                    !selection[1] &&
+                    datesSame(day, selection[0])))
+              )
             }
           />
         );

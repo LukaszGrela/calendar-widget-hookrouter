@@ -2,7 +2,7 @@ import type { TDateData, TRangeSelection } from '../types';
 
 export interface IProps {
   // selected date
-  selection?: Date | TRangeSelection;
+  selection?: Date | TRangeSelection | null;
   // current date reference
   now?: Date;
   // current month grid data
