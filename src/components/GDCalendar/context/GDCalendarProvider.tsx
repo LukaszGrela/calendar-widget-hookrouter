@@ -1,9 +1,13 @@
-import { useCallback, useMemo, type FC, type ReactNode } from 'react';
+import { useCallback, useMemo, useState, type FC, type ReactNode } from 'react';
 import {
   GDCalendarActionsContext,
   GDCalendarContext,
 } from './GDCalendarContext';
-import type { TCalendarActionsContext, TCalendarContext } from './types';
+import type {
+  TCalendarActionsContext,
+  TCalendarContext,
+  TChangeDirection,
+} from './types';
 import {
   calendarDates,
   getYearList,
@@ -31,6 +35,7 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
 }) => {
   const today = useToday();
 
+  const [direction, setDirection] = useState<TChangeDirection>('none');
   const {
     value: currentDate,
     onChange: onDateChanged,
@@ -48,6 +53,8 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
 
       newDate.setMonth(Math.max(0, Math.min(month, 11)));
 
+      setDirection('none');
+
       onDateChanged(newDate);
     },
     [onDateChanged, currentDate]
@@ -60,48 +67,41 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
 
       newDate.setFullYear(year);
 
+      setDirection('none');
+
       onDateChanged(newDate);
     },
     [currentDate, onDateChanged]
   );
 
-  const nextDay = useCallback(() => {
-    // setToday((prevState) => {});
-    // onDateChanged();
-  }, []);
-
   const nextMonth = useCallback(() => {
     const newDate = add(currentDate, 1, 'month');
-
+    setDirection('next');
     onDateChanged(newDate);
   }, [currentDate, onDateChanged]);
 
   const nextYear = useCallback(() => {
     const newDate = add(currentDate, 1, 'year');
-
+    setDirection('next');
     onDateChanged(newDate);
   }, [currentDate, onDateChanged]);
 
-  const prevDay = useCallback(() => {
-    // onDateChanged();
-  }, []);
-
   const prevMonth = useCallback(() => {
     const newDate = subtract(currentDate, 1, 'month');
-
+    setDirection('prev');
     onDateChanged(newDate);
   }, [currentDate, onDateChanged]);
 
   const prevYear = useCallback(() => {
     const newDate = subtract(currentDate, 1, 'year');
-
+    setDirection('prev');
     onDateChanged(newDate);
   }, [currentDate, onDateChanged]);
 
   const setDisplayedMonth = useCallback(
-    (newDate: Date) => {
+    (newDate: Date, dir = 'none' as TChangeDirection) => {
       const date = startOfDay(newDate);
-
+      setDirection(dir);
       onDateChanged(date);
     },
     [onDateChanged]
@@ -109,6 +109,7 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
 
   const setToday = useCallback(() => {
     const date = startOfDay(today);
+    setDirection('none');
 
     onDateChanged(date);
   }, [onDateChanged, today]);
@@ -129,6 +130,7 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       locale,
       weeks,
       isControlled,
+      direction,
     }),
     [
       today,
@@ -141,14 +143,13 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       locale,
       weeks,
       isControlled,
+      direction,
     ]
   );
   const actions = useMemo(
     (): TCalendarActionsContext => ({
-      nextDay,
       nextMonth,
       nextYear,
-      prevDay,
       prevMonth,
       prevYear,
       setMonth,
@@ -157,10 +158,8 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       setToday,
     }),
     [
-      nextDay,
       nextMonth,
       nextYear,
-      prevDay,
       prevMonth,
       prevYear,
       setMonth,

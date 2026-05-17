@@ -1,5 +1,6 @@
 import type { TDateData, TRangeSelection } from '../types';
 
+export type TChangeDirection = 'next' | 'prev' | 'none';
 export type TCalendarContext = {
   /**
    * Reference to the todays date. Auto updated.
@@ -8,6 +9,14 @@ export type TCalendarContext = {
 
   weekdays: string[];
   monthList: string[];
+
+  /**
+   * Direction of the month change
+   * - `none` - change within current month, all `set*` methods
+   * - `next` - change to next month, all `next*` methods, and `setDisplayedMonth` with optional `direction` param
+   * - `prev` - change to previous month, all `prev*` methods, and `setDisplayedMonth` with optional `direction` param
+   */
+  direction: TChangeDirection;
 
   /**
    * Reference date of the currently displayed month.
@@ -24,8 +33,8 @@ export type TCalendarContext = {
   isControlled?: boolean;
 };
 export type TCalendarActionsContext = {
-  prevDay: () => void;
-  nextDay: () => void;
+  // prevDay: () => void;
+  // nextDay: () => void;
   prevMonth: () => void;
   nextMonth: () => void;
   prevYear: () => void;
@@ -36,7 +45,7 @@ export type TCalendarActionsContext = {
 
   setToday: () => void;
 
-  setDisplayedMonth: (date: Date) => void;
+  setDisplayedMonth: (date: Date, direction?: TChangeDirection) => void;
 };
 
 export type TCalendarSelectionContext = {
