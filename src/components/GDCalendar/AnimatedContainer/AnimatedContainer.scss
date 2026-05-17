@@ -1,0 +1,58 @@
+@use '../styles/mixins';
+
+.AnimatedContainer {
+  overflow: hidden;
+
+  &.dir-none {
+    & .AnimatedContainer_transition.month-enter {
+      opacity: 0;
+    }
+
+    & .AnimatedContainer_transition.month-enter-active {
+      opacity: 1;
+      @include mixins.transition(150ms, ease);
+    }
+
+    & .AnimatedContainer_transition.month-exit {
+      opacity: 0;
+      @include mixins.transition(150ms, ease);
+    }
+  }
+  &.dir-next {
+    & .AnimatedContainer_transition.month-enter {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+
+    & .AnimatedContainer_transition.month-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      @include mixins.transition(150ms, ease);
+    }
+
+    & .AnimatedContainer_transition.month-exit {
+      opacity: 0;
+      transform: translateY(-100%);
+      @include mixins.transition(150ms, ease);
+    }
+  }
+
+  &.dir-prev {
+    & .AnimatedContainer_transition.month-enter {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    & .AnimatedContainer_transition.month-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      @include mixins.transition(150ms, ease);
+    }
+
+    & .AnimatedContainer_transition.month-exit {
+      opacity: 0;
+      transform: translateY(100%);
+      @include mixins.transition(150ms, ease);
+    }
+  }
+}
