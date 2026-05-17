@@ -26,9 +26,6 @@ const GDCalendarRow: React.FC<IProps> = ({
       {days.map((data, index): ReactNode => {
         const { date: day } = data;
         const key = day.toISOString();
-        // console.log('GDCalendarRow.now', now);
-        // console.log('GDCalendarRow.day', day);
-        // console.log('GDCalendarRow.same', datesSame(day, now, 'day'));
         return (
           <GDCalendarDay
             key={key}

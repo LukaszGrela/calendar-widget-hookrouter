@@ -12,10 +12,8 @@ const GDCalendarDay: React.FC<TDateProps> = ({
   startSelection,
 }: TDateProps): ReactNode => {
   const clickHandler = useCallback(() => {
-    console.log('GDCalendarDay', data);
     onClick(data);
   }, [data, onClick]);
-  // console.log('GDCalendarDay', data);
   return (
     <div
       className={classNames(

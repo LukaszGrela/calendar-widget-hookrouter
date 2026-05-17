@@ -4,7 +4,7 @@ import { useGDCalendarActionsContext } from '../context/GDCalendarContext';
 import { IconUp } from '../icons/IconUp';
 import { IconDown } from '../icons/IconDown';
 
-export const GDMonthNavigation: FC = () => {
+export const GDMonthNavigationConnected: FC = () => {
   const actions = useGDCalendarActionsContext();
   return (
     <div className="GDMonthNavigation">

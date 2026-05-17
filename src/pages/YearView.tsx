@@ -6,11 +6,12 @@ import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarP
 import { GDCurrentMonthConnected } from '../components/GDCalendar/GDCurrentMonth';
 import { GDCalendarWeekRow } from '../components/GDCalendar/GDCalendarWeekRow';
 import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
-import SVGIcon from '../components/GDCalendar/SVGIcon';
 
 import { useImmer } from '../utils/useImmer';
 import { GDCalendarSelectionProvider } from '../components/GDCalendar/context/GDCalendarSelectionProvider';
 import { DateSelected } from './toolbox/DateSelected';
+import IconDown from '../icons/IconDown';
+import IconUp from '../icons/IconUp';
 
 const jan = startOfDay(new Date());
 jan.setDate(1);
@@ -79,7 +80,7 @@ const YearView: FC = () => {
             className="GDCalendar_PrevMonth-btn"
             onClick={prevYear}
           >
-            <SVGIcon icon="up-arrow" viewBox="0 8 48 48" />
+            <IconUp />
           </button>
           <button
             className="today"
@@ -93,7 +94,7 @@ const YearView: FC = () => {
             className="GDCalendar_NextMonth-btn"
             onClick={nextYear}
           >
-            <SVGIcon icon="down-arrow" viewBox="16 8 48 48" />
+            <IconDown />
           </button>
         </div>
       </article>

@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { GDYearSelector } from '../GDYearSelector';
 import { GDMonthSelector } from '../GDMonthSelector';
 import { GDCurrentMonthConnected } from '../GDCurrentMonth';
-import { GDMonthNavigation } from '../GDMonthNavigation';
+import { GDMonthNavigationConnected } from '../GDMonthNavigation';
 
 export const GDCalendarHeader: FC = () => {
   return (
@@ -19,7 +19,7 @@ export const GDCalendarHeader: FC = () => {
       </div>
       {/* right */}
       <div className="GDCalendar_Header_rightSlot">
-        <GDMonthNavigation />
+        <GDMonthNavigationConnected />
       </div>
     </div>
   );

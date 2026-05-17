@@ -1,6 +1,6 @@
-import React from 'react';
+import { type FC } from 'react';
 
-const IconCalendar = (props) => (
+const IconCalendar: FC<{ date?: string }> = ({ date, ...props }) => (
   <svg
     width="64"
     height="64"
@@ -39,7 +39,7 @@ const IconCalendar = (props) => (
       fontWeight="700"
       fill="currentColor"
     >
-      {props.date ?? '31'}
+      {date ?? '31'}
     </text>
   </svg>
 );

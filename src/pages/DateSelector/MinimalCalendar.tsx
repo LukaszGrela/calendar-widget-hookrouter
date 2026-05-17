@@ -10,7 +10,6 @@ import {
 import { GDCalendarProvider } from '../../components/GDCalendar/context/GDCalendarProvider';
 import { GDCalendarSelectionWrapper } from '../../components/GDCalendar/GDCalendarSelectionWrapper';
 import { GDCalendarWeekRow } from '../../components/GDCalendar/GDCalendarWeekRow';
-import SVGIcon from '../../components/GDCalendar/SVGIcon';
 import { useToday, datesSame } from '../../components/GDCalendar/utils';
 import { PopoverHeading } from '../../components/Popover';
 import { classNames } from '../../utils/classNames';
@@ -22,6 +21,8 @@ import {
 import { GDCalendarMonthGrid } from '../../components/GDCalendar/GDCalendarMonthGrid';
 import { AnimatedContainer } from '../../components/GDCalendar/AnimatedContainer';
 import type { TCalendarContext } from '../../components/GDCalendar/context/types';
+import IconUp from '../../icons/IconUp';
+import IconDown from '../../icons/IconDown';
 
 export const MinimalCalendarHeadingConnected: FC = () => {
   const todayReference = useToday();
@@ -71,7 +72,7 @@ export const MinimalCalendarHeading: FC<IHeadingProps> = ({
           className="GDCalendar_PrevMonth-btn"
           onClick={prev}
         >
-          <SVGIcon icon="up-arrow" viewBox="0 8 48 48" />
+          <IconUp />
         </button>
         {today && (
           <button
@@ -87,7 +88,7 @@ export const MinimalCalendarHeading: FC<IHeadingProps> = ({
           className="GDCalendar_NextMonth-btn"
           onClick={next}
         >
-          <SVGIcon icon="down-arrow" viewBox="16 8 48 48" />
+          <IconDown />
         </button>
       </div>
     </PopoverHeading>
