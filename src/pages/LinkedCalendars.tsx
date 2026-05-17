@@ -35,7 +35,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
   const [animate, setAnimate] = useState(false);
 
   const currentCalendarDateChanged = useCallback((date: Date) => {
-    console.log('currentCalendarDateChanged', date.toISOString());
+    // console.log('currentCalendarDateChanged', date.toISOString());
     setCurrent(clone(date));
   }, []);
 

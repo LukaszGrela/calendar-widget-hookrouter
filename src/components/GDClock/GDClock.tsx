@@ -64,7 +64,7 @@ function clockReducer(state: IClockState, action: IClockAction): IClockState {
         newTime = new Date(state.time);
         newTime.setMinutes(snapTo(newTime.getMinutes(), snap, true) % 60);
       }
-      console.log(action.type, snap, newTime);
+      // console.log(action.type, snap, newTime);
 
       return { ...state, snapMinutes: snap, time: newTime };
     }

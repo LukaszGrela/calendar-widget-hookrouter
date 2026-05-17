@@ -40,6 +40,21 @@ $squareHalfRatio: math.div(100, 14);
           color: colors.$color-blue;
         }
       }
+
+      & button {
+        &.GDCalendar_PrevMonth-btn,
+        &.GDCalendar_NextMonth-btn {
+          width: 2.8rem;
+          height: 2.8rem;
+        }
+        svg {
+          width: 1.6rem;
+          fill: colors.$primary-color;
+        }
+        &:hover svg {
+          fill: colors.$color-blue;
+        }
+      }
     }
   }
 

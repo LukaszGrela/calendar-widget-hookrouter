@@ -10,7 +10,7 @@ const RouterCalendar = () => {
   const [mondayFirst, setMondayFirst] = useState(true);
   const [animate, setAnimate] = useState(false);
 
-  console.log(year, month, date);
+  // console.log(year, month, date);
 
   const calendarDateChanged = (date: Date) => {
     navigate(

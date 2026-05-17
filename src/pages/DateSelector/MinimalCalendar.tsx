@@ -62,7 +62,6 @@ export const MinimalCalendarHeading: FC<IHeadingProps> = ({
   prev,
   today,
 }) => {
-  console.log('MinimalCalendarHeading', today);
   return (
     <PopoverHeading>
       <span className="year">{year}</span>

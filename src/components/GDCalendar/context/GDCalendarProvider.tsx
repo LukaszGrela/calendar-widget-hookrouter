@@ -62,7 +62,6 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
 
   const setYear = useCallback(
     (year: number) => {
-      console.log('GDCalendarProvider.setYear', year);
       const newDate = clone(currentDate);
 
       newDate.setFullYear(year);
