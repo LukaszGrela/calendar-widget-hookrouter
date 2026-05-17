@@ -71,7 +71,7 @@ const DateRangePopoverContentCalendar: FC<
 
   const disableConfirm = useMemo(() => {
     return (
-      !!(localSelection && localSelection.filter(Boolean).length == 2) === false
+      !!(localSelection && localSelection.filter(Boolean).length != 1) === false
     );
   }, [localSelection]);
 
