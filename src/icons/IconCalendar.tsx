@@ -1,6 +1,9 @@
-import { type FC } from 'react';
+import { type FC, type SVGProps } from 'react';
 
-const IconCalendar: FC<{ date?: string }> = ({ date, ...props }) => (
+const IconCalendar: FC<{ date?: string } & SVGProps<SVGSVGElement>> = ({
+  date,
+  ...props
+}) => (
   <svg
     width="64"
     height="64"

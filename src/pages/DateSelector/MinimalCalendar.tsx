@@ -9,7 +9,7 @@ import {
 } from '../../components/GDCalendar/context/GDCalendarContext';
 import { GDCalendarProvider } from '../../components/GDCalendar/context/GDCalendarProvider';
 import { GDCalendarSelectionWrapper } from '../../components/GDCalendar/GDCalendarSelectionWrapper';
-import { GDCalendarWeekRow } from '../../components/GDCalendar/GDCalendarWeekRow';
+import { GDCalendarWeekRowConnected } from '../../components/GDCalendar/GDCalendarWeekRow';
 import { useToday, datesSame } from '../../components/GDCalendar/utils';
 import { PopoverHeading } from '../../components/Popover';
 import { classNames } from '../../utils/classNames';
@@ -191,7 +191,7 @@ const MinimalCalendarGrid: FC<
       </div>
       {/* View */}
       <div className="GDCalendar_View">
-        <GDCalendarWeekRow />
+        <GDCalendarWeekRowConnected />
         <GDCalendarMonthGrid
           selection={selectionContext?.selection}
           weeks={weeks}

@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React, { useMemo, type ReactNode } from 'react';
 import { GDCalendarDay } from '../GDCalendarDay';
 import { classNames } from '../../../utils/classNames';
 import type { TDateData, TRangeSelection } from '../types';
@@ -12,6 +12,9 @@ export interface IProps {
   // reference date for "now"/"today"
   now?: Date;
   onClick: (data: TDateData) => void;
+
+  workingWeek?: 7 | 6 | 5;
+  mondayFirst?: boolean;
 }
 
 const GDCalendarRow: React.FC<IProps> = ({
@@ -20,10 +23,23 @@ const GDCalendarRow: React.FC<IProps> = ({
   now,
   selection,
   onClick = () => {},
+  workingWeek = 7,
+  mondayFirst = false,
 }: IProps): ReactNode => {
+  const filteredWeek = useMemo(() => {
+    if (workingWeek !== 7) {
+      if (mondayFirst) {
+        return days.splice(0, workingWeek);
+      } else {
+        return days.splice(1, workingWeek);
+      }
+    }
+    return days;
+  }, [mondayFirst, days, workingWeek]);
+
   return (
     <div className={classNames('GDCalendar_Row', className)}>
-      {days.map((data, index): ReactNode => {
+      {filteredWeek.map((data, index): ReactNode => {
         const { date: day } = data;
         const key = day.toISOString();
         return (

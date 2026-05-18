@@ -24,7 +24,7 @@ import {
   datesSame,
   subtract,
 } from '../../../components/GDCalendar/utils';
-import { GDCalendarWeekRow } from '../../../components/GDCalendar/GDCalendarWeekRow';
+import { GDCalendarWeekRowConnected } from '../../../components/GDCalendar/GDCalendarWeekRow';
 import { classNames } from '../../../utils/classNames';
 import { GDCalendarSelectionWrapper } from '../../../components/GDCalendar/GDCalendarSelectionWrapper';
 import { GDCurrentMonth } from '../../../components/GDCalendar/GDCurrentMonth';
@@ -189,7 +189,7 @@ export const LinkedCalendarGridsInner: FC<
           </div>
           {/* View */}
           <div className="GDCalendar_View">
-            <GDCalendarWeekRow />
+            <GDCalendarWeekRowConnected />
             <GDCalendarMonthGridConnected weeks={weeks} now={today} />
           </div>
           {/* Footer */}
@@ -216,7 +216,7 @@ export const LinkedCalendarGridsInner: FC<
           </div>
           {/* View */}
           <div className="GDCalendar_View">
-            <GDCalendarWeekRow />
+            <GDCalendarWeekRowConnected />
             <GDCalendarMonthGridConnected weeks={next} now={today} />
           </div>
           {/* Footer */}
@@ -243,7 +243,7 @@ export const LinkedCalendarGridsInner: FC<
 
 const GDCalendarMonthGridConnected: FC<
   Omit<IGDCalendarGridProps, 'selection' | 'onClick'>
-> = ({ weeks, now, className }) => {
+> = ({ weeks, now, className, mondayFirst, workingWeek }) => {
   const selectionActions = useGDCalendarSelectionActionContext();
   const selectionContext = useGDCalendarSelectionContext();
   return (
@@ -253,6 +253,8 @@ const GDCalendarMonthGridConnected: FC<
       weeks={weeks}
       now={now}
       onClick={selectionActions?.selectDate}
+      mondayFirst={mondayFirst}
+      workingWeek={workingWeek}
     />
   );
 };

@@ -60,6 +60,7 @@ a {
 }
 
 button {
+  font-size: 1.6rem;
   padding: 1rem;
   border-radius: 1rem;
   border: 1px solid colors.$color-blue;
@@ -88,5 +89,29 @@ nav a {
 .page-404 {
   article {
     text-align: center;
+  }
+}
+
+.toolbox {
+  display: flex;
+  gap: 8px;
+}
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: baseline;
+}
+
+fieldset.WorkingWeekLength {
+  color: colors.$color-blue;
+  border: 1px solid colors.$color-blue;
+  padding: 1rem;
+  border-radius: 8px;
+
+  & label {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
   }
 }

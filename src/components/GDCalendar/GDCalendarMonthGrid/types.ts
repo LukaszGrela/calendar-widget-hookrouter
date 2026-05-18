@@ -9,4 +9,7 @@ export interface IProps {
   weeks: TDateData[][];
   className?: string;
   onClick?: (data: TDateData) => void;
+
+  workingWeek?: 7 | 6 | 5;
+  mondayFirst?: boolean;
 }

@@ -3,7 +3,7 @@ import { type FC } from 'react';
 import { GDCalendarProvider } from './context/GDCalendarProvider';
 import { GDCalendarHeader } from './GDCalendarHeader';
 import type { IProps } from './types';
-import { GDCalendarWeekRow } from './GDCalendarWeekRow';
+import { GDCalendarWeekRowConnected } from './GDCalendarWeekRow';
 import { GDCalendarGrid } from './GDCalendarGrid';
 import { classNames } from '../../utils/classNames';
 import { GDCalendarSelectionWrapper } from './GDCalendarSelectionWrapper';
@@ -20,6 +20,7 @@ export const GDCalendar: FC<IProps> = ({
   mondayFirst,
   locale,
   animate,
+  workingWeek,
 }) => {
   return (
     <GDCalendarProvider
@@ -30,6 +31,7 @@ export const GDCalendar: FC<IProps> = ({
       formatWeekDays={formatWeekDays}
       mondayFirst={mondayFirst}
       locale={locale}
+      workingWeek={workingWeek}
     >
       <GDCalendarSelectionWrapper
         selection={selection}
@@ -41,7 +43,7 @@ export const GDCalendar: FC<IProps> = ({
           <GDCalendarHeader />
           {/* View */}
           <div className="GDCalendar_View">
-            <GDCalendarWeekRow />
+            <GDCalendarWeekRowConnected />
             <GDCalendarGrid animate={animate} />
           </div>
           {/* Footer */}

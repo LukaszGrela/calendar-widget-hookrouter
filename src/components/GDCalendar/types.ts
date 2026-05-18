@@ -19,10 +19,18 @@ export interface IProps {
   locale?: Intl.LocalesArgument;
 
   /**
-   * Should calendar change animate. 
+   * Should calendar change animate.
    * `false` by default.
    */
   animate?: boolean;
+
+  /**
+   * Length of the week to display,
+   * Mon-Sun - `7` - default
+   * Mon-Sat - `6`
+   * Mon-Fri - `5`
+   */
+  workingWeek?: 7 | 6 | 5;
 }
 
 export type TArrayElementType<A extends readonly unknown[] | null> =

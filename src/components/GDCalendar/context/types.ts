@@ -1,7 +1,19 @@
-import type { TDateData, TRangeSelection } from '../types';
+import type { ReactNode } from 'react';
+import type { IProps, TDateData, TRangeSelection } from '../types';
+
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type TGDCalendarProviderProps = Omit<
+  IProps,
+  'selection' | 'onDateSelected' | 'className' | 'animate'
+> & { children: ReactNode };
+
+type TCalendarContextFromProps = Pick<
+  IProps,
+  'workingWeek' | 'mondayFirst' | 'locale'
+>;
 
 export type TChangeDirection = 'next' | 'prev' | 'none';
-export type TCalendarContext = {
+export type TCalendarContext = TCalendarContextFromProps & {
   /**
    * Reference to the todays date. Auto updated.
    */
@@ -26,12 +38,11 @@ export type TCalendarContext = {
   yearSpan: number;
   yearList: number[];
 
-  mondayFirst: boolean;
-  locale?: Intl.LocalesArgument;
   weeks: TDateData[][];
 
   isControlled?: boolean;
 };
+
 export type TCalendarActionsContext = {
   // prevDay: () => void;
   // nextDay: () => void;

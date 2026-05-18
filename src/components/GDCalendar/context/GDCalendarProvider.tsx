@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type FC, type ReactNode } from 'react';
+import { useCallback, useMemo, useState, type FC } from 'react';
 import {
   GDCalendarActionsContext,
   GDCalendarContext,
@@ -7,6 +7,7 @@ import type {
   TCalendarActionsContext,
   TCalendarContext,
   TChangeDirection,
+  TGDCalendarProviderProps,
 } from './types';
 import {
   calendarDates,
@@ -19,10 +20,9 @@ import {
   subtract,
   startOfDay,
 } from '../utils';
-import type { IProps } from '../types';
 import { useControlled } from '../utils/useControlled';
 
-export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
+export const GDCalendarProvider: FC<TGDCalendarProviderProps> = ({
   children,
   onDateChanged: controlledOnDateChanged,
   date: controlledDate,
@@ -31,7 +31,7 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
   formatMonthDays = 'short',
   mondayFirst = false,
   locale,
-  // className,
+  workingWeek,
 }) => {
   const today = useToday();
 
@@ -130,6 +130,7 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       weeks,
       isControlled,
       direction,
+      workingWeek,
     }),
     [
       today,
@@ -143,6 +144,7 @@ export const GDCalendarProvider: FC<IProps & { children: ReactNode }> = ({
       weeks,
       isControlled,
       direction,
+      workingWeek,
     ]
   );
   const actions = useMemo(

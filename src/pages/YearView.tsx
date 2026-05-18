@@ -4,7 +4,7 @@ import { add, startOfDay, subtract } from '../components/GDCalendar/utils';
 import type { IProps, TRangeSelection } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
 import { GDCurrentMonthConnected } from '../components/GDCalendar/GDCurrentMonth';
-import { GDCalendarWeekRow } from '../components/GDCalendar/GDCalendarWeekRow';
+import { GDCalendarWeekRowConnected } from '../components/GDCalendar/GDCalendarWeekRow';
 import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
 
 import { useImmer } from '../utils/useImmer';
@@ -136,8 +136,6 @@ const MonthOnlyCalendar: FC<
   formatMonthDays = 'short',
   formatWeekDays = 'narrow',
   className,
-  selection,
-  onDateSelected,
   mondayFirst,
   locale,
   onMonthSelected,
@@ -149,8 +147,6 @@ const MonthOnlyCalendar: FC<
       onDateChanged={onDateChanged}
       formatMonthDays={formatMonthDays}
       formatWeekDays={formatWeekDays}
-      selection={selection}
-      onDateSelected={onDateSelected}
       mondayFirst={mondayFirst}
       locale={locale}
     >
@@ -171,7 +167,7 @@ const MonthOnlyCalendar: FC<
         </div>
         {/* View */}
         <div className="GDCalendar_View">
-          <GDCalendarWeekRow />
+          <GDCalendarWeekRowConnected />
           <GDCalendarGrid />
         </div>
         {/* Footer */}

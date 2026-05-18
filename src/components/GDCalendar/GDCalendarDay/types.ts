@@ -18,6 +18,8 @@ type TDate = {
   today?: boolean;
 
   data: TDateData;
+
+  disabled?: boolean;
 };
 
 export type TDateProps = {

@@ -1,15 +1,22 @@
 import React, { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { GDCalendar, type TRangeSelection } from '../components/GDCalendar';
+import {
+  GDCalendar,
+  type IProps,
+  type TRangeSelection,
+} from '../components/GDCalendar';
 import { datesSame } from '../components/GDCalendar/utils';
 import { MondayFirstButton } from './toolbox/MondayFirstButton';
 import { AnimateToggleButton } from './toolbox/AnimateToggleButton';
 import { DateSelected } from './toolbox/DateSelected';
+import { WorkingWeekLength } from './toolbox/WorkingWeekLength';
 
 const Calendar: React.FC = (): ReactNode => {
   const [date, setDate] = useState<Date | undefined | null>();
   const [mondayFirst, setMondayFirst] = useState(true);
   const [animate, setAnimate] = useState(false);
+  const [workingWeek, setWorkingWeek] =
+    useState<Exclude<IProps['workingWeek'], undefined | null>>(7);
 
   const calendarDayClicked = (
     clicked?: Date | TRangeSelection | null
@@ -39,6 +46,7 @@ const Calendar: React.FC = (): ReactNode => {
             onClick={() => setAnimate((old) => !old)}
             animate={animate}
           />
+          <WorkingWeekLength value={workingWeek} onChange={setWorkingWeek} />
         </div>
         <DateSelected selection={date} />
       </article>
@@ -48,6 +56,7 @@ const Calendar: React.FC = (): ReactNode => {
           selection={date}
           mondayFirst={mondayFirst}
           animate={animate}
+          workingWeek={workingWeek}
         />
       </article>
       <nav>
