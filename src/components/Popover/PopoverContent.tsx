@@ -27,10 +27,10 @@ export const PopoverContent = React.forwardRef<
       className: classNames(
         'PopoverContent',
         props.className,
-        context.className,
+        context.className
       ),
     }),
-    [context.className, props],
+    [context.className, props]
   );
 
   if (!floatingContext.open) return null;

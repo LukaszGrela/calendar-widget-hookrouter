@@ -29,7 +29,7 @@ export const PopoverDescription = React.forwardRef<
       ...props,
       className: classNames('PopoverDescription', props.className),
     }),
-    [props],
+    [props]
   );
 
   return <p {...updatedProps} ref={ref} id={id} />;

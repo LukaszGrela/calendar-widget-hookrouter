@@ -29,7 +29,7 @@ export const PopoverHeading = React.forwardRef<
       ...props,
       className: classNames('PopoverHeading', props.className),
     }),
-    [props],
+    [props]
   );
 
   return (

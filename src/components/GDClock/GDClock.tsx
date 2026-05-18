@@ -21,7 +21,7 @@ const ClockActionType = {
   SNAP_TO: 'clock/change/SNAP_TO',
 } as const;
 
-type ClockActionType = typeof ClockActionType[keyof typeof ClockActionType];
+type ClockActionType = (typeof ClockActionType)[keyof typeof ClockActionType];
 
 interface IClockAction {
   type: ClockActionType;
@@ -92,15 +92,13 @@ const GDClock: React.FC<IProps> = ({
     return `GDClock${className ? ` ${className}` : ''}`;
   }, [className]);
 
-  const [
-    { type, isAm, is24Hours, time, snapMinutes: snapTo },
-    dispatch,
-  ] = useReducer(clockReducer, {
-    time: new Date(date),
-    type: hoursType,
-    isAm: date.getHours() < 12,
-    is24Hours: hoursType === '24hours',
-  });
+  const [{ type, isAm, is24Hours, time, snapMinutes: snapTo }, dispatch] =
+    useReducer(clockReducer, {
+      time: new Date(date),
+      type: hoursType,
+      isAm: date.getHours() < 12,
+      is24Hours: hoursType === '24hours',
+    });
 
   const getValue = (time: Date, type: TTimeSelectorType): number => {
     const hours = time.getHours();

@@ -27,16 +27,15 @@ export const WorkingWeekLength: FC<WorkingWeekLengthProps> = ({
   onChange,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(parseInt(event.target.value) as unknown as TWorkingWeekLengthOption);
+    onChange(
+      parseInt(event.target.value) as unknown as TWorkingWeekLengthOption
+    );
   };
-
-  console.log('WorkingWeekLength', value, options);
 
   return (
     <fieldset className="WorkingWeekLength">
       <legend>Working week length</legend>
       {options.map((option) => {
-        console.log('Option', typeof option.value, typeof value, option.value === value);
         return (
           <label key={`${option.label}-${option.value}`}>
             <input
