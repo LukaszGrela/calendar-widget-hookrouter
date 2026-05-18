@@ -5,11 +5,14 @@ import {
 } from '../context/GDCalendarSelectionContext';
 import { useGDCalendarContext } from '../context/GDCalendarContext';
 import GDCalendarMonthGrid from './GDCalendarMonthGrid';
-import { AnimatedContainer } from '../AnimatedContainer';
+import {
+  AnimatedContainer,
+  type IProps as IAnimatedContainerProps,
+} from '../AnimatedContainer';
 
-export const GDCalendarMonthGridConnected: FC<{ animate?: boolean }> = ({
-  animate,
-}) => {
+export const GDCalendarMonthGridConnected: FC<{
+  animate?: boolean | Pick<IAnimatedContainerProps, 'appear' | 'timeout'>;
+}> = ({ animate }) => {
   const { today, weeks, mondayFirst, workingWeek } = useGDCalendarContext();
 
   const selectionActions = useGDCalendarSelectionActionContext();
@@ -37,7 +40,10 @@ export const GDCalendarMonthGridConnected: FC<{ animate?: boolean }> = ({
   );
 
   return animate ? (
-    <AnimatedContainer transitionClassNames={'month'}>
+    <AnimatedContainer
+      transitionClassNames={'month'}
+      {...(typeof animate === 'boolean' ? {} : animate)}
+    >
       {monthGridElement}
     </AnimatedContainer>
   ) : (

@@ -1,3 +1,5 @@
+import { type IProps as IAnimatedContainerProps } from './AnimatedContainer';
+
 export interface IProps {
   // current month and day
   date?: Date;
@@ -20,9 +22,10 @@ export interface IProps {
 
   /**
    * Should calendar change animate.
-   * `false` by default.
+   * By default `false`.
+   * It accepts config object with appear and timeout props - empty object is treated as `true`.
    */
-  animate?: boolean;
+  animate?: boolean | Pick<IAnimatedContainerProps, 'appear' | 'timeout'>;
 
   /**
    * Length of the week to display,
