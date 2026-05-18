@@ -6,5 +6,6 @@ export interface IProps {
   children: ReactNode;
   mode?: SwitchTransitionProps['mode'];
   transitionClassNames?: CSSTransitionProps['classNames'];
-  timeout?: number;
+  timeout?: CSSTransitionProps['timeout'];
+  appear?: boolean;
 }
