@@ -32,7 +32,7 @@ import { AnimatedContainer } from '../../../components/GDCalendar/AnimatedContai
 
 export const RangeDateSelect: FC<
   Omit<TCalendarConfig, 'selection'> & { selection?: TRangeSelection | null }
-> = ({ mondayFirst, onDateSelected, selection, animate }) => {
+> = ({ mondayFirst, onDateSelected, selection, animate, workingWeek }) => {
   return (
     <DatePopoverContainer className="RangeDateSelect" selection={selection}>
       <DateRangePopoverContentCalendar
@@ -40,6 +40,7 @@ export const RangeDateSelect: FC<
         selection={selection}
         onDateSelected={onDateSelected}
         animate={animate}
+        workingWeek={workingWeek}
       />
     </DatePopoverContainer>
   );
@@ -47,7 +48,7 @@ export const RangeDateSelect: FC<
 
 const DateRangePopoverContentCalendar: FC<
   Omit<TCalendarConfig, 'selection'> & { selection?: TRangeSelection | null }
-> = ({ mondayFirst, onDateSelected, selection, animate }) => {
+> = ({ mondayFirst, onDateSelected, selection, animate, workingWeek }) => {
   const [date, setDate] = useState(pickDate(selection));
   const [localSelection, setLocalSelection] = useState<
     TRangeSelection | null | undefined
@@ -80,12 +81,14 @@ const DateRangePopoverContentCalendar: FC<
       mondayFirst={mondayFirst}
       date={date}
       onDateChanged={setDate}
+      workingWeek={workingWeek}
     >
       <CalendarHeadingConnected />
       <LinkedCalendarGridsInner
         onDateSelected={handleDateSelection}
         selection={localSelection}
         animate={animate}
+        workingWeek={workingWeek}
       />
       <div className="MinimalCalendar_footer">
         <span style={{ flexGrow: 1 }}>&nbsp;</span>
@@ -153,10 +156,16 @@ const CalendarHeadingConnected: FC = () => {
 export const LinkedCalendarGridsInner: FC<
   Pick<
     IProps,
-    'onDateChanged' | 'onDateSelected' | 'className' | 'selection' | 'animate'
+    | 'onDateChanged'
+    | 'onDateSelected'
+    | 'className'
+    | 'selection'
+    | 'animate'
+    | 'workingWeek'
   >
 > = ({ onDateChanged, className, selection, onDateSelected, animate }) => {
-  const { today, weeks, currentMonth, mondayFirst } = useGDCalendarContext();
+  const { today, weeks, currentMonth, mondayFirst, workingWeek } =
+    useGDCalendarContext();
 
   const nextMonth = useMemo(() => {
     return add(currentMonth, 1, 'months');
@@ -165,17 +174,17 @@ export const LinkedCalendarGridsInner: FC<
     return calendarDates(nextMonth, mondayFirst);
   }, [mondayFirst, nextMonth]);
 
+  const sharedClassNames = classNames(
+    'GDCalendar',
+    'MinimalCalendar',
+    `week-length-${workingWeek}`,
+    className
+  );
+
   const calendarGridsElement = useMemo(() => {
     return (
       <div className="RangeDateSelect_grids">
-        <div
-          className={classNames(
-            'GDCalendar',
-            'MinimalCalendar',
-            'currentMonth',
-            className
-          )}
-        >
+        <div className={classNames(sharedClassNames, 'currentMonth')}>
           {/* Header */}
           <div className="GDCalendar_Header">
             {/* left */}
@@ -190,19 +199,17 @@ export const LinkedCalendarGridsInner: FC<
           {/* View */}
           <div className="GDCalendar_View">
             <GDCalendarWeekRowConnected />
-            <GDCalendarMonthGridConnected weeks={weeks} now={today} />
+            <GDCalendarMonthGridConnected
+              weeks={weeks}
+              now={today}
+              workingWeek={workingWeek}
+              mondayFirst={mondayFirst}
+            />
           </div>
           {/* Footer */}
         </div>
 
-        <div
-          className={classNames(
-            'GDCalendar',
-            'MinimalCalendar',
-            'nextMonth',
-            className
-          )}
-        >
+        <div className={classNames(sharedClassNames, 'nextMonth')}>
           {/* Header */}
           <div className="GDCalendar_Header">
             {/* left */}
@@ -217,13 +224,27 @@ export const LinkedCalendarGridsInner: FC<
           {/* View */}
           <div className="GDCalendar_View">
             <GDCalendarWeekRowConnected />
-            <GDCalendarMonthGridConnected weeks={next} now={today} />
+            <GDCalendarMonthGridConnected
+              weeks={next}
+              now={today}
+              workingWeek={workingWeek}
+              mondayFirst={mondayFirst}
+            />
           </div>
           {/* Footer */}
         </div>
       </div>
     );
-  }, [className, currentMonth, next, nextMonth, today, weeks]);
+  }, [
+    currentMonth,
+    mondayFirst,
+    next,
+    nextMonth,
+    sharedClassNames,
+    today,
+    weeks,
+    workingWeek,
+  ]);
 
   return (
     <GDCalendarSelectionWrapper

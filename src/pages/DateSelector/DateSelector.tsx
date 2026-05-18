@@ -1,14 +1,17 @@
 import { useCallback, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
-import { type TRangeSelection } from '../../components/GDCalendar';
+import { type IProps, type TRangeSelection } from '../../components/GDCalendar';
 import { useImmer } from '../../utils/useImmer';
 import { RangeDateSelect, SingleDateSelect } from './DateSelect';
 import { MondayFirstButton } from '../toolbox/MondayFirstButton';
 import { AnimateToggleButton } from '../toolbox/AnimateToggleButton';
+import { WorkingWeekLength } from '../toolbox/WorkingWeekLength';
 
 const DateSelector: FC = () => {
   const [mondayFirst, setMondayFirst] = useState(true);
   const [animate, setAnimate] = useState(false);
+    const [workingWeek, setWorkingWeek] =
+      useState<Exclude<IProps['workingWeek'], undefined | null>>(7);
 
   const [singleDateSelection, setSingleSelection] = useState<Date | null>(null);
   const onSingleDateSelected = useCallback(
@@ -52,6 +55,7 @@ const DateSelector: FC = () => {
             onClick={() => setAnimate((old) => !old)}
             animate={animate}
           />
+          <WorkingWeekLength value={workingWeek} onChange={setWorkingWeek} />
         </div>
       </article>
       <article className="widgets">
@@ -62,6 +66,7 @@ const DateSelector: FC = () => {
             onDateSelected={onSingleDateSelected}
             selection={singleDateSelection}
             animate={animate}
+            workingWeek={workingWeek}
           />
         </div>
         <div className="range-select">
@@ -71,6 +76,7 @@ const DateSelector: FC = () => {
             onDateSelected={onRangeDateSelected}
             selection={rangeDateSelection}
             animate={animate}
+            workingWeek={workingWeek}
           />
         </div>
       </article>

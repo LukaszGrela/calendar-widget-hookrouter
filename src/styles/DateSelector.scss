@@ -1,8 +1,7 @@
 @use 'colors';
+@use '../components/GDCalendar/styles/variables';
 @use 'sass:math';
 
-$squareRatio: math.div(100, 7);
-$squareHalfRatio: math.div(100, 14);
 
 .date-selector {
   & .single-select,
@@ -135,6 +134,14 @@ $squareHalfRatio: math.div(100, 14);
         }
 
         &_Day {
+          $squareRatio: #{var(
+              --gdc-square-ratio,
+              variables.$default7DaySquareRatio
+            )};
+          $squareHalfRatio: #{var(
+              --gdc-square-ratio-half,
+              variables.$default7DaySquareRatioHalf
+            )};
           font-size: clamp(0.8rem, $squareHalfRatio * 1cqw, 2.25rem);
           padding: 0;
 

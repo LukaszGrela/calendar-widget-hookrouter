@@ -38,7 +38,14 @@ export const GDCalendar: FC<IProps> = ({
         onDateSelected={onDateSelected}
         onDateChanged={onDateChanged}
       >
-        <div className={classNames('GDCalendar', className)}>
+        <div
+          className={classNames(
+            'GDCalendar',
+            'built-in',
+            `week-length-${workingWeek}`,
+            className
+          )}
+        >
           {/* Header */}
           <GDCalendarHeader />
           {/* View */}

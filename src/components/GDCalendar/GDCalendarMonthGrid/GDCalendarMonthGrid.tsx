@@ -16,13 +16,7 @@ const GDCalendarMonthGrid: React.FC<IProps> = ({
   mondayFirst = false,
 }: IProps): ReactNode => {
   return (
-    <div
-      className={classNames(
-        'GDCalendar_MonthGrid',
-        `week-length-${workingWeek}`,
-        className
-      )}
-    >
+    <div className={classNames('GDCalendar_MonthGrid', className)}>
       {weeks.map((week, index): ReactNode => {
         const key = week.reduce((acc: string, curr: TDateData): string => {
           return `${acc}.${curr.date.getDate()}`;

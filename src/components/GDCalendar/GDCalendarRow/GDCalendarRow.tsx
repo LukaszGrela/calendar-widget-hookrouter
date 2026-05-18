@@ -27,14 +27,15 @@ const GDCalendarRow: React.FC<IProps> = ({
   mondayFirst = false,
 }: IProps): ReactNode => {
   const filteredWeek = useMemo(() => {
+    const copy = days.concat();
     if (workingWeek !== 7) {
       if (mondayFirst) {
-        return days.splice(0, workingWeek);
+        return copy.splice(0, workingWeek);
       } else {
-        return days.splice(1, workingWeek);
+        return copy.splice(1, workingWeek);
       }
     }
-    return days;
+    return copy;
   }, [mondayFirst, days, workingWeek]);
 
   return (

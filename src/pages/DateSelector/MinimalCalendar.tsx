@@ -94,8 +94,9 @@ export const MinimalCalendarHeading: FC<IHeadingProps> = ({
   );
 };
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export const MinimalCalendar: FC<
-  Omit<IProps, 'onDateSelected' | 'selection' | 'className'> & {
+  Omit<IProps, 'onDateSelected' | 'selection' | 'className' | 'animate'> & {
     children: ReactNode;
   }
 > = ({
@@ -107,6 +108,7 @@ export const MinimalCalendar: FC<
   mondayFirst,
   locale,
   children,
+  workingWeek,
 }) => {
   return (
     <GDCalendarProvider
@@ -117,6 +119,7 @@ export const MinimalCalendar: FC<
       formatWeekDays={formatWeekDays}
       mondayFirst={mondayFirst}
       locale={locale}
+      workingWeek={workingWeek}
     >
       {children}
     </GDCalendarProvider>
@@ -139,7 +142,8 @@ export const MinimalCalendarInner: FC<TMinimalCalendarInnerProps> = ({
   onDateSelected,
   animate,
 }) => {
-  const { today, weeks, currentMonth } = useGDCalendarContext();
+  const { today, weeks, currentMonth, workingWeek, mondayFirst } =
+    useGDCalendarContext();
 
   const calendarElement = useMemo(() => {
     return (
@@ -148,9 +152,11 @@ export const MinimalCalendarInner: FC<TMinimalCalendarInnerProps> = ({
         currentMonth={currentMonth}
         weeks={weeks}
         today={today}
+        workingWeek={workingWeek}
+        mondayFirst={mondayFirst}
       />
     );
-  }, [className, currentMonth, today, weeks]);
+  }, [className, currentMonth, mondayFirst, today, weeks, workingWeek]);
 
   return (
     <GDCalendarSelectionWrapper
@@ -171,13 +177,20 @@ export const MinimalCalendarInner: FC<TMinimalCalendarInnerProps> = ({
 const MinimalCalendarGrid: FC<
   { className?: string } & Pick<
     TCalendarContext,
-    'weeks' | 'today' | 'currentMonth'
+    'weeks' | 'today' | 'currentMonth' | 'workingWeek' | 'mondayFirst'
   >
-> = ({ className, currentMonth, today, weeks }) => {
+> = ({ className, currentMonth, today, weeks, workingWeek, mondayFirst }) => {
   const selectionActions = useGDCalendarSelectionActionContext();
   const selectionContext = useGDCalendarSelectionContext();
   return (
-    <div className={classNames('GDCalendar', 'MinimalCalendar', className)}>
+    <div
+      className={classNames(
+        'GDCalendar',
+        'MinimalCalendar',
+        `week-length-${workingWeek}`,
+        className
+      )}
+    >
       {/* Header */}
       <div className="GDCalendar_Header">
         {/* left */}
@@ -197,6 +210,8 @@ const MinimalCalendarGrid: FC<
           weeks={weeks}
           now={today}
           onClick={selectionActions?.selectDate}
+          mondayFirst={mondayFirst}
+          workingWeek={workingWeek}
         />
       </div>
       {/* Footer */}

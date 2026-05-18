@@ -31,7 +31,7 @@ export const GDCalendarProvider: FC<TGDCalendarProviderProps> = ({
   formatMonthDays = 'short',
   mondayFirst = false,
   locale,
-  workingWeek,
+  workingWeek = 7,
 }) => {
   const today = useToday();
 
