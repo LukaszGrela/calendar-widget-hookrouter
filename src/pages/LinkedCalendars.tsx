@@ -1,12 +1,16 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
 import { Link } from 'react-router-dom';
-import { GDCalendar } from '../components/GDCalendar';
+import {
+  GDCalendar,
+  type IProps as IGDCalendarProps,
+} from '../components/GDCalendar';
 import { add, clone, subtract } from '../components/GDCalendar/utils';
 import type { TRangeSelection } from '../components/GDCalendar/types';
 import { useImmer } from '../utils/useImmer';
 import { MondayFirstButton } from './toolbox/MondayFirstButton';
 import { AnimateToggleButton } from './toolbox/AnimateToggleButton';
 import { DateSelected } from './toolbox/DateSelected';
+import { WorkingWeekLength } from './toolbox/WorkingWeekLength';
 
 interface IProps {
   initialDate?: Date;
@@ -33,6 +37,8 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
 
   const [mondayFirst, setMondayFirst] = useState(true);
   const [animate, setAnimate] = useState(false);
+  const [workingWeek, setWorkingWeek] =
+    useState<Exclude<IGDCalendarProps['workingWeek'], undefined | null>>(7);
 
   const currentCalendarDateChanged = useCallback((date: Date) => {
     // console.log('currentCalendarDateChanged', date.toISOString());
@@ -60,6 +66,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
             onClick={() => setAnimate((old) => !old)}
             animate={animate}
           />
+          <WorkingWeekLength value={workingWeek} onChange={setWorkingWeek} />
         </div>
         <DateSelected selection={selection} />
       </article>
@@ -72,6 +79,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
           onDateSelected={handleRangeSelection}
           animate={animate}
           mondayFirst={mondayFirst}
+          workingWeek={workingWeek}
         />
         <GDCalendar
           className="linked nextMonth"
@@ -81,6 +89,7 @@ const LinkedCalendars: FC<IProps> = ({ initialDate = new Date() }) => {
           onDateSelected={handleRangeSelection}
           animate={animate}
           mondayFirst={mondayFirst}
+          workingWeek={workingWeek}
         />
       </article>
       <nav>

@@ -1,8 +1,6 @@
 @use 'colors';
+@use '../components/GDCalendar/styles/variables';
 @use 'sass:math';
-
-$squareRatio: math.div(100, 7);
-$squareHalfRatio: math.div(100, 14);
 
 .year-view {
   display: flex;
@@ -15,10 +13,12 @@ $squareHalfRatio: math.div(100, 14);
     padding: 0 1rem;
   }
 
-  & article.toolbox {
+  & div.year-header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
+    padding-bottom: 1rem;
 
     & .year {
       font-size: 6rem;
@@ -75,7 +75,15 @@ $squareHalfRatio: math.div(100, 14);
     }
 
     & .GDCalendar {
-      container-type: inline-size;
+      $squareRatio: #{var(
+          --gdc-square-ratio,
+          variables.$default7DaySquareRatio
+        )};
+      $squareHalfRatio: #{var(
+          --gdc-square-ratio-half,
+          variables.$default7DaySquareRatioHalf
+        )};
+
       margin: 0;
       max-width: 32rem;
       min-width: 15.5rem;
@@ -90,15 +98,17 @@ $squareHalfRatio: math.div(100, 14);
           font-size: clamp(1.6rem, $squareRatio * 1.25cqw, 4.5rem);
         }
       }
-      &_Row {
-        container-type: inline-size;
-      }
+      // &_Row {
+      // }
       &_Day {
         font-size: clamp(0.8rem, $squareHalfRatio * 1cqw, 2.25rem);
         padding: 0;
 
-        width: clamp(1.6rem, $squareRatio * 1cqw, 4.5rem);
-        height: clamp(1.6rem, $squareRatio * 1cqw, 4.5rem);
+
+        // GDCalendar has max-width 32rem, minimal division will be 5 days, 32/5=6.4
+        // GDCalendar has min-max 15.5rem, maximum division will be 7 days, 15.5 / 7 ≈ 2.215
+        width: clamp(2.215rem, $squareRatio * 1cqw, 6.4rem);
+        height: clamp(2.215rem, $squareRatio * 1cqw, 6.4rem);
 
         min-width: unset;
 

@@ -12,12 +12,30 @@ import { GDCalendarSelectionProvider } from '../components/GDCalendar/context/GD
 import { DateSelected } from './toolbox/DateSelected';
 import IconDown from '../icons/IconDown';
 import IconUp from '../icons/IconUp';
+import { MondayFirstButton } from './toolbox/MondayFirstButton';
+import { AnimateToggleButton } from './toolbox/AnimateToggleButton';
+import { WorkingWeekLength } from './toolbox/WorkingWeekLength';
+import { classNames } from '../utils/classNames';
 
 const jan = startOfDay(new Date());
 jan.setDate(1);
 jan.setMonth(0);
 
 const YearView: FC = () => {
+  const [mondayFirst, setMondayFirst] = useState(true);
+  const [animate, setAnimate] = useState(false);
+  const [workingWeek, setWorkingWeek] =
+    useState<Exclude<IProps['workingWeek'], undefined | null>>(7);
+
+  const animateConfig = useMemo((): IProps['animate'] => {
+    if (animate) {
+      return {
+        appear: true,
+      };
+    }
+    return false;
+  }, [animate]);
+
   const navigate = useNavigate();
 
   const [curentDateRef, setCurrentRefDate] = useState(jan);
@@ -70,35 +88,47 @@ const YearView: FC = () => {
         <p>Display 12 months</p>
       </article>
       <article className="toolbox">
-        <span className="year">{months[0].getFullYear()}</span>
-
-        <DateSelected selection={selection} />
-
-        <div className="navigation">
-          <button
-            title="Previous year"
-            className="GDCalendar_PrevMonth-btn"
-            onClick={prevYear}
-          >
-            <IconUp />
-          </button>
-          <button
-            className="today"
-            onClick={setCurrentYear}
-            disabled={curentDateRef.getFullYear() === jan.getFullYear()}
-          >
-            Today
-          </button>
-          <button
-            title="Next year"
-            className="GDCalendar_NextMonth-btn"
-            onClick={nextYear}
-          >
-            <IconDown />
-          </button>
+        <div className="button-group">
+          <MondayFirstButton
+            onClick={() => setMondayFirst((old) => !old)}
+            mondayFirst={mondayFirst}
+          />
+          <AnimateToggleButton
+            onClick={() => setAnimate((old) => !old)}
+            animate={animate}
+          />
+          <WorkingWeekLength value={workingWeek} onChange={setWorkingWeek} />
         </div>
+        <DateSelected selection={selection} />
       </article>
       <article className="widgets">
+        <div className="year-header">
+          <span className="year">{months[0].getFullYear()}</span>
+
+          <div className="navigation">
+            <button
+              title="Previous year"
+              className="GDCalendar_PrevMonth-btn"
+              onClick={prevYear}
+            >
+              <IconUp />
+            </button>
+            <button
+              className="today"
+              onClick={setCurrentYear}
+              disabled={curentDateRef.getFullYear() === jan.getFullYear()}
+            >
+              Today
+            </button>
+            <button
+              title="Next year"
+              className="GDCalendar_NextMonth-btn"
+              onClick={nextYear}
+            >
+              <IconDown />
+            </button>
+          </div>
+        </div>
         <div className="year-layout">
           <GDCalendarSelectionProvider
             selection={selection}
@@ -110,6 +140,9 @@ const YearView: FC = () => {
                   date={month}
                   key={month.toISOString()}
                   onMonthSelected={handleMonthSelected}
+                  animate={animateConfig}
+                  workingWeek={workingWeek}
+                  mondayFirst={mondayFirst}
                 />
               );
             })}
@@ -139,6 +172,8 @@ const MonthOnlyCalendar: FC<
   mondayFirst,
   locale,
   onMonthSelected,
+  workingWeek = 7,
+  animate,
 }) => {
   return (
     <GDCalendarProvider
@@ -149,8 +184,15 @@ const MonthOnlyCalendar: FC<
       formatWeekDays={formatWeekDays}
       mondayFirst={mondayFirst}
       locale={locale}
+      workingWeek={workingWeek}
     >
-      <div className={`GDCalendar ${className ? className : ''}`}>
+      <div
+        className={classNames(
+          'GDCalendar',
+          `week-length-${workingWeek}`,
+          className
+        )}
+      >
         {/* Header */}
         <div className="GDCalendar_Header">
           {/* left */}
@@ -168,7 +210,7 @@ const MonthOnlyCalendar: FC<
         {/* View */}
         <div className="GDCalendar_View">
           <GDCalendarWeekRowConnected />
-          <GDCalendarMonthGridConnected />
+          <GDCalendarMonthGridConnected animate={animate} />
         </div>
         {/* Footer */}
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, type ReactNode } from 'react';
+import React, { useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import {
   GDCalendar,
@@ -14,7 +14,7 @@ import { WorkingWeekLength } from './toolbox/WorkingWeekLength';
 const Calendar: React.FC = (): ReactNode => {
   const [date, setDate] = useState<Date | undefined | null>();
   const [mondayFirst, setMondayFirst] = useState(true);
-  const [animate, setAnimate] = useState(false);
+  const [animate, setAnimate] = useState(true);
   const [workingWeek, setWorkingWeek] =
     useState<Exclude<IProps['workingWeek'], undefined | null>>(7);
 
@@ -29,6 +29,15 @@ const Calendar: React.FC = (): ReactNode => {
       });
     }
   };
+
+  const animateConfig = useMemo((): IProps['animate'] => {
+    if (animate) {
+      return {
+        appear: true,
+      };
+    }
+    return false;
+  }, [animate]);
 
   return (
     <section className="ts-calendar">
@@ -55,7 +64,7 @@ const Calendar: React.FC = (): ReactNode => {
           onDateSelected={calendarDayClicked}
           selection={date}
           mondayFirst={mondayFirst}
-          animate={animate}
+          animate={animateConfig}
           workingWeek={workingWeek}
         />
       </article>
