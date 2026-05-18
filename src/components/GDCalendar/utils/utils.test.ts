@@ -152,5 +152,109 @@ describe('utils', () => {
       // next month
       expect(monthData2.at(5)?.at(6)?.date.getMonth()).toEqual(0);
     });
+
+    it('supports 6-day working week with mondayFirst', () => {
+      const weekReferenceDate = new Date(Date.UTC(2020, 8, 1, 0, 0, 0, 0));
+      const monthData = calendarDates(weekReferenceDate, true, 6);
+
+      expect(monthData).toHaveLength(6);
+      expect(monthData.flatMap((week) => week)).toHaveLength(42);
+      expect(monthData[0]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[1]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[2]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth()
+      );
+      expect(monthData[5]?.[6]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() + 1
+      );
+    });
+
+    it('supports 5-day working week with mondayFirst', () => {
+      const weekReferenceDate = new Date(Date.UTC(2020, 8, 1, 0, 0, 0, 0));
+      const monthData = calendarDates(weekReferenceDate, true, 5);
+
+      expect(monthData).toHaveLength(6);
+      expect(monthData.flatMap((week) => week)).toHaveLength(42);
+      expect(monthData[0]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[1]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[2]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth()
+      );
+      expect(monthData[5]?.[6]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() + 1
+      );
+    });
+
+    it('supports 7-day working week without mondayFirst for a Monday-start month', () => {
+      // Sunday is last day of previous month
+      const weekReferenceDate = new Date(Date.UTC(2021, 1, 1, 0, 0, 0, 0));
+      const monthData = calendarDates(weekReferenceDate, false, 7);
+
+      expect(monthData).toHaveLength(6);
+      expect(monthData.flatMap((week) => week)).toHaveLength(42);
+
+      // Sunday January
+      expect(monthData[0]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      // Monday February
+      expect(monthData[1]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth()
+      );
+      expect(monthData[2]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth()
+      );
+      expect(monthData[5]?.[6]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() + 1
+      );
+    });
+
+    it('supports 6-day working week without mondayFirst for a Monday-start month', () => {
+      const weekReferenceDate = new Date(Date.UTC(2021, 1, 1, 0, 0, 0, 0));
+      const monthData = calendarDates(weekReferenceDate, false, 6);
+
+      expect(monthData).toHaveLength(6);
+      expect(monthData.flatMap((week) => week)).toHaveLength(42);
+      expect(monthData[0]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[1]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[2]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth()
+      );
+      expect(monthData[5]?.[6]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() + 1
+      );
+    });
+
+    it('supports 5-day working week without mondayFirst for a Monday-start month', () => {
+      const weekReferenceDate = new Date(Date.UTC(2021, 1, 1, 0, 0, 0, 0));
+      const monthData = calendarDates(weekReferenceDate, false, 5);
+
+      expect(monthData).toHaveLength(6);
+      expect(monthData.flatMap((week) => week)).toHaveLength(42);
+      expect(monthData[0]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[1]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() - 1
+      );
+      expect(monthData[2]?.[0]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth()
+      );
+      expect(monthData[5]?.[6]?.date.getMonth()).toEqual(
+        weekReferenceDate.getMonth() + 1
+      );
+    });
   });
 });

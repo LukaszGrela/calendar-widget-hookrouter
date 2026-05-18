@@ -115,7 +115,7 @@ export const GDCalendarProvider: FC<TGDCalendarProviderProps> = ({
 
   const weekdays = weekDays(formatWeekDays, locale, mondayFirst);
   const monthList = monthNames(formatMonthDays, locale);
-  const weeks = calendarDates(currentDate, mondayFirst);
+  const weeks = calendarDates(currentDate, mondayFirst, workingWeek);
 
   const state = useMemo(
     (): TCalendarContext => ({

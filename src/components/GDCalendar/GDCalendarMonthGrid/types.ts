@@ -1,4 +1,4 @@
-import type { TDateData, TRangeSelection } from '../types';
+import type { TDateData, TRangeSelection, TWorkingWeek } from '../types';
 
 export interface IProps {
   // selected date
@@ -10,6 +10,6 @@ export interface IProps {
   className?: string;
   onClick?: (data: TDateData) => void;
 
-  workingWeek?: 7 | 6 | 5;
+  workingWeek?: TWorkingWeek;
   mondayFirst?: boolean;
 }

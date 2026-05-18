@@ -1,4 +1,4 @@
-import type { TDateData, TRangeSelection } from '../types';
+import type { TDateData, TRangeSelection, TWorkingWeek } from '../types';
 
 export type TUnitOfTime =
   | 'year'
@@ -208,7 +208,8 @@ export const getYearList = (start: number, around: number): number[] => {
  */
 export const calendarDates = (
   now: Date,
-  mondayFirst = false
+  mondayFirst = false,
+  workingWeek = 7 as TWorkingWeek
 ): TDateData[][] => {
   const firstOfMonth = clone(now);
   firstOfMonth.setDate(1);
@@ -220,12 +221,15 @@ export const calendarDates = (
   const weeks: TDateData[][] = [[], [], [], [], [], []];
 
   let start = -startsAt;
-
   if (mondayFirst) {
     start += 1;
   }
 
-  if (start === 0 || (mondayFirst && start === 1)) {
+  if (
+    start === 0 ||
+    (mondayFirst && start === 1) ||
+    (workingWeek != 7 && start === -1)
+  ) {
     // this will make sure previous month is available in the first row
     start -= 7;
   }
@@ -248,6 +252,7 @@ export const calendarDates = (
     }
     week++;
   }
+
   return weeks;
 };
 

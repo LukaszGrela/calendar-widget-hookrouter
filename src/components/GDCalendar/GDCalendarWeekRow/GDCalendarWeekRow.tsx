@@ -3,6 +3,7 @@ import { useGDCalendarContext } from '../context/GDCalendarContext';
 import { GDCalendarWeekDay } from '../GDCalendarDay';
 import { classNames } from '../../../utils/classNames';
 import { useMemo, type FC } from 'react';
+import type { TWorkingWeek } from '../types';
 
 export const GDCalendarWeekRowConnected = () => {
   const { weekdays, mondayFirst, workingWeek } = useGDCalendarContext();
@@ -23,7 +24,7 @@ type TWeekDay = {
 
 export const GDCalendarWeekRow: FC<{
   weekdays: string[];
-  workingWeek?: 7 | 6 | 5;
+  workingWeek?: TWorkingWeek;
   mondayFirst?: boolean;
 }> = ({ weekdays, workingWeek = 7, mondayFirst = false }) => {
   console.log('GDCalendarWeekRow', weekdays, mondayFirst, workingWeek);

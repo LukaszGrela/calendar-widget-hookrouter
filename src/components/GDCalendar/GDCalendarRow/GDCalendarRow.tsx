@@ -1,7 +1,7 @@
 import React, { useMemo, type ReactNode } from 'react';
 import { GDCalendarDay } from '../GDCalendarDay';
 import { classNames } from '../../../utils/classNames';
-import type { TDateData, TRangeSelection } from '../types';
+import type { TDateData, TRangeSelection, TWorkingWeek } from '../types';
 import { datesSame, dateWithinRange } from '../utils';
 
 export interface IProps {
@@ -13,7 +13,7 @@ export interface IProps {
   now?: Date;
   onClick: (data: TDateData) => void;
 
-  workingWeek?: 7 | 6 | 5;
+  workingWeek?: TWorkingWeek;
   mondayFirst?: boolean;
 }
 

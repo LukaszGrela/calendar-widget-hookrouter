@@ -1,5 +1,6 @@
 import { type IProps as IAnimatedContainerProps } from './AnimatedContainer';
 
+export type TWorkingWeek = 7 | 6 | 5;
 export interface IProps {
   // current month and day
   date?: Date;
@@ -33,7 +34,7 @@ export interface IProps {
    * Mon-Sat - `6`
    * Mon-Fri - `5`
    */
-  workingWeek?: 7 | 6 | 5;
+  workingWeek?: TWorkingWeek;
 }
 
 export type TArrayElementType<A extends readonly unknown[] | null> =
