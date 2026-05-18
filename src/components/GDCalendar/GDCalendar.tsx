@@ -4,7 +4,7 @@ import { GDCalendarProvider } from './context/GDCalendarProvider';
 import { GDCalendarHeader } from './GDCalendarHeader';
 import type { IProps } from './types';
 import { GDCalendarWeekRowConnected } from './GDCalendarWeekRow';
-import { GDCalendarGrid } from './GDCalendarGrid';
+import { GDCalendarMonthGridConnected } from './GDCalendarMonthGrid';
 import { classNames } from '../../utils/classNames';
 import { GDCalendarSelectionWrapper } from './GDCalendarSelectionWrapper';
 
@@ -44,7 +44,7 @@ export const GDCalendar: FC<IProps> = ({
           {/* View */}
           <div className="GDCalendar_View">
             <GDCalendarWeekRowConnected />
-            <GDCalendarGrid animate={animate} />
+            <GDCalendarMonthGridConnected animate={animate} />
           </div>
           {/* Footer */}
         </div>

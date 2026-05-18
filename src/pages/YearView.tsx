@@ -5,7 +5,7 @@ import type { IProps, TRangeSelection } from '../components/GDCalendar/types';
 import { GDCalendarProvider } from '../components/GDCalendar/context/GDCalendarProvider';
 import { GDCurrentMonthConnected } from '../components/GDCalendar/GDCurrentMonth';
 import { GDCalendarWeekRowConnected } from '../components/GDCalendar/GDCalendarWeekRow';
-import { GDCalendarGrid } from '../components/GDCalendar/GDCalendarGrid';
+import { GDCalendarMonthGridConnected } from '../components/GDCalendar/GDCalendarMonthGrid';
 
 import { useImmer } from '../utils/useImmer';
 import { GDCalendarSelectionProvider } from '../components/GDCalendar/context/GDCalendarSelectionProvider';
@@ -168,7 +168,7 @@ const MonthOnlyCalendar: FC<
         {/* View */}
         <div className="GDCalendar_View">
           <GDCalendarWeekRowConnected />
-          <GDCalendarGrid />
+          <GDCalendarMonthGridConnected />
         </div>
         {/* Footer */}
       </div>

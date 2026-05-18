@@ -1,3 +1,4 @@
+import './GDCalendarMonthGrid.scss';
 import React, { type ReactNode } from 'react';
 import { noop } from '../utils';
 import { GDCalendarRow } from '../GDCalendarRow';

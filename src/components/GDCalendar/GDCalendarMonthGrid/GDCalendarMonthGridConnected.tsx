@@ -4,10 +4,12 @@ import {
   useGDCalendarSelectionContext,
 } from '../context/GDCalendarSelectionContext';
 import { useGDCalendarContext } from '../context/GDCalendarContext';
-import { GDCalendarMonthGrid } from '../GDCalendarMonthGrid';
+import GDCalendarMonthGrid from './GDCalendarMonthGrid';
 import { AnimatedContainer } from '../AnimatedContainer';
 
-export const GDCalendarGrid: FC<{ animate?: boolean }> = ({ animate }) => {
+export const GDCalendarMonthGridConnected: FC<{ animate?: boolean }> = ({
+  animate,
+}) => {
   const { today, weeks, mondayFirst, workingWeek } = useGDCalendarContext();
 
   const selectionActions = useGDCalendarSelectionActionContext();
