@@ -210,7 +210,7 @@ export const calendarDates = (
   now: Date,
   mondayFirst = false,
   workingWeek = 7 as TWorkingWeek,
-  holidayCallback?: (date: Date) => boolean
+  holidayCallback?: (date: Date) => boolean | null
 ): TDateData[][] => {
   const firstOfMonth = clone(now);
   firstOfMonth.setDate(1);

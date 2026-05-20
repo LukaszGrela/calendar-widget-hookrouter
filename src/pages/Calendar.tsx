@@ -40,14 +40,14 @@ const Calendar: React.FC = (): ReactNode => {
       const isoKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
       const yearlessKey = `*-${date.getMonth()}-${date.getDate()}`;
 
-      if (!holidays) return false;
+      if (!holidays) return null;
 
       const matched = [
         ...(holidays.get(isoKey) ?? []),
         ...(holidays.get(yearlessKey) ?? []),
       ];
 
-      return (matched?.length ?? 0) > 0;
+      return (matched?.length ?? 0) > 0 ? true : null;
     },
     [holidays]
   );
