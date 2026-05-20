@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { calendarDates, monthNames, weekDays } from '../utils';
 
 describe('utils', () => {
@@ -255,6 +255,24 @@ describe('utils', () => {
       expect(monthData[5]?.[6]?.date.getMonth()).toEqual(
         weekReferenceDate.getMonth() + 1
       );
+    });
+
+    it('uses holidayCallback to override default holiday detection', () => {
+      const weekReferenceDate = new Date(Date.UTC(2020, 8, 1, 0, 0, 0, 0));
+      const holidayCallback = vi.fn((date: Date) => date.getDate() === 2);
+      const monthData = calendarDates(weekReferenceDate, false, 7, holidayCallback);
+      const allDays = monthData.flatMap((week) => week);
+
+      expect(holidayCallback).toHaveBeenCalled();
+      const secondOfMonth = allDays.find(
+        (item) => item.date.getMonth() === weekReferenceDate.getMonth() && item.date.getDate() === 2
+      );
+      expect(secondOfMonth).toBeDefined();
+      expect(secondOfMonth?.holiday).toBe(true);
+
+      const sunday = allDays.find((item) => item.date.getDay() === 0);
+      expect(sunday).toBeDefined();
+      expect(sunday?.holiday).toBe(false);
     });
   });
 });

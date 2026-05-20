@@ -27,7 +27,6 @@ export const GDCalendarWeekRow: FC<{
   workingWeek?: TWorkingWeek;
   mondayFirst?: boolean;
 }> = ({ weekdays, workingWeek = 7, mondayFirst = false }) => {
-  console.log('GDCalendarWeekRow', weekdays, mondayFirst, workingWeek);
   const options = useMemo(
     () =>
       weekdays.map((label, index) => {
@@ -47,9 +46,7 @@ export const GDCalendarWeekRow: FC<{
   const filteredWeek = useMemo((): TWeekDay[] => {
     const list = options.concat();
 
-    console.log('list', list.concat());
     if (workingWeek !== 7) {
-      console.log('workingWeek', workingWeek);
       const changed = list.concat();
       if (mondayFirst) {
         return changed.splice(0, workingWeek);
@@ -60,7 +57,6 @@ export const GDCalendarWeekRow: FC<{
     return list;
   }, [mondayFirst, options, workingWeek]);
 
-  console.log('filteredWeek', filteredWeek);
   return (
     <div className="GDCalendar_WeekHeader GDCalendar_Row">
       {filteredWeek.map((day) => (

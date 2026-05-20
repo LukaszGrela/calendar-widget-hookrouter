@@ -32,6 +32,7 @@ export const GDCalendarProvider: FC<TGDCalendarProviderProps> = ({
   mondayFirst = false,
   locale,
   workingWeek = 7,
+  holidayCallback,
 }) => {
   const today = useToday();
 
@@ -113,9 +114,18 @@ export const GDCalendarProvider: FC<TGDCalendarProviderProps> = ({
     onDateChanged(date);
   }, [onDateChanged, today]);
 
-  const weekdays = weekDays(formatWeekDays, locale, mondayFirst);
-  const monthList = monthNames(formatMonthDays, locale);
-  const weeks = calendarDates(currentDate, mondayFirst, workingWeek);
+  const weekdays = useMemo(
+    () => weekDays(formatWeekDays, locale, mondayFirst),
+    [formatWeekDays, locale, mondayFirst]
+  );
+  const monthList = useMemo(
+    () => monthNames(formatMonthDays, locale),
+    [formatMonthDays, locale]
+  );
+  const weeks = useMemo(
+    () => calendarDates(currentDate, mondayFirst, workingWeek, holidayCallback),
+    [currentDate, holidayCallback, mondayFirst, workingWeek]
+  );
 
   const state = useMemo(
     (): TCalendarContext => ({

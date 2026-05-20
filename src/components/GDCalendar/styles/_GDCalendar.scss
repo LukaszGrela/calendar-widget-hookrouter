@@ -87,16 +87,35 @@
     font-weight: bold;
     min-width: 28px;
 
-    &.holiday,
-    &.weekend {
-      font-weight: bold;
-      color: colors.$gd-calendar-color-blue;
-    }
-
     &.spill {
       color: color.adjust(colors.$gd-calendar-primary-color, $lightness: -33%);
       &:not(.holiday):not(.weekend) {
         font-weight: normal;
+      }
+    }
+
+    &.holiday,
+    &.weekend {
+      font-weight: bold;
+    }
+
+    &.weekend {
+      color: colors.$gd-calendar-color-weekend;
+      &.spill {
+        color: color.scale(
+          color.adjust(colors.$gd-calendar-color-weekend, $alpha: -0.5),
+          $saturation: -30%
+        );
+      }
+    }
+
+    &.holiday {
+      color: colors.$gd-calendar-color-holiday;
+      &.spill {
+        color: color.scale(
+          color.adjust(colors.$gd-calendar-color-holiday, $alpha: -0.5),
+          $saturation: -30%
+        );
       }
     }
   }

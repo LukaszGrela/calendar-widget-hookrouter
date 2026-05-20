@@ -35,6 +35,13 @@ export interface IProps {
    * Mon-Fri - `5`
    */
   workingWeek?: TWorkingWeek;
+
+  /**
+   * Use it to customise `holiday` property setup.
+   * @param date Date to test if it is a holiday
+   * @returns `true` if given date should be marked as `holiday`. Return `null` for default behaviour.
+   */
+  holidayCallback?: (date: Date) => boolean | null;
 }
 
 export type TArrayElementType<A extends readonly unknown[] | null> =

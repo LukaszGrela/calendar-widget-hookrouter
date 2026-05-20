@@ -105,7 +105,8 @@ nav a {
   align-items: flex-end;
 }
 
-fieldset.WorkingWeekLength {
+fieldset.WorkingWeekLength,
+fieldset.HolidaySelector {
   color: colors.$color-blue;
   border: 1px solid colors.$color-blue;
   padding: 1rem;

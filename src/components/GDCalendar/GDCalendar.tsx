@@ -21,6 +21,7 @@ export const GDCalendar: FC<IProps> = ({
   locale,
   animate,
   workingWeek,
+  holidayCallback,
 }) => {
   return (
     <GDCalendarProvider
@@ -32,6 +33,7 @@ export const GDCalendar: FC<IProps> = ({
       mondayFirst={mondayFirst}
       locale={locale}
       workingWeek={workingWeek}
+      holidayCallback={holidayCallback}
     >
       <GDCalendarSelectionWrapper
         selection={selection}

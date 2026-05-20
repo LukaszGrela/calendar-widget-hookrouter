@@ -16,16 +16,49 @@ import { MondayFirstButton } from './toolbox/MondayFirstButton';
 import { AnimateToggleButton } from './toolbox/AnimateToggleButton';
 import { WorkingWeekLength } from './toolbox/WorkingWeekLength';
 import { classNames } from '../utils/classNames';
+import {
+  HolidaySelector,
+  type THolidaysKeys,
+  type THolidaysMap,
+} from './toolbox/HolidaySelector';
 
 const jan = startOfDay(new Date());
 jan.setDate(1);
 jan.setMonth(0);
 
 const YearView: FC = () => {
+  const [holidaysSelection, setHolidaysSelection] =
+    useState<THolidaysKeys>('none');
+  const [holidays, setHolidays] = useState<THolidaysMap | null>(null);
   const [mondayFirst, setMondayFirst] = useState(true);
   const [animate, setAnimate] = useState(false);
   const [workingWeek, setWorkingWeek] =
     useState<Exclude<IProps['workingWeek'], undefined | null>>(7);
+
+  const changeHoliday = useCallback(
+    (value: THolidaysKeys, map: THolidaysMap | null) => {
+      setHolidaysSelection(value);
+      setHolidays(map);
+    },
+    []
+  );
+
+  const handleHolidayCheck = useCallback(
+    (date: Date) => {
+      const isoKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+      const yearlessKey = `*-${date.getMonth()}-${date.getDate()}`;
+
+      if (!holidays) return false;
+
+      const matched = [
+        ...(holidays.get(isoKey) ?? []),
+        ...(holidays.get(yearlessKey) ?? []),
+      ];
+
+      return (matched?.length ?? 0) > 0;
+    },
+    [holidays]
+  );
 
   const animateConfig = useMemo((): IProps['animate'] => {
     if (animate) {
@@ -98,6 +131,7 @@ const YearView: FC = () => {
             animate={animate}
           />
           <WorkingWeekLength value={workingWeek} onChange={setWorkingWeek} />
+          <HolidaySelector value={holidaysSelection} onChange={changeHoliday} />
         </div>
         <DateSelected selection={selection} />
       </article>
@@ -143,6 +177,7 @@ const YearView: FC = () => {
                   animate={animateConfig}
                   workingWeek={workingWeek}
                   mondayFirst={mondayFirst}
+                  holidayCallback={handleHolidayCheck}
                 />
               );
             })}
@@ -174,6 +209,7 @@ const MonthOnlyCalendar: FC<
   onMonthSelected,
   workingWeek = 7,
   animate,
+  holidayCallback,
 }) => {
   return (
     <GDCalendarProvider
@@ -185,6 +221,7 @@ const MonthOnlyCalendar: FC<
       mondayFirst={mondayFirst}
       locale={locale}
       workingWeek={workingWeek}
+      holidayCallback={holidayCallback}
     >
       <div
         className={classNames(

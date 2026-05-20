@@ -209,7 +209,8 @@ export const getYearList = (start: number, around: number): number[] => {
 export const calendarDates = (
   now: Date,
   mondayFirst = false,
-  workingWeek = 7 as TWorkingWeek
+  workingWeek = 7 as TWorkingWeek,
+  holidayCallback?: (date: Date) => boolean
 ): TDateData[][] => {
   const firstOfMonth = clone(now);
   firstOfMonth.setDate(1);
@@ -242,7 +243,7 @@ export const calendarDates = (
       const sunday = date.getDay() === 0;
       const data: TDateData = {
         date,
-        holiday: sunday,
+        holiday: holidayCallback?.(date) ?? sunday,
         spill: firstOfMonth.getMonth() != date.getMonth(),
         weekend: sunday || date.getDay() === 6,
       };

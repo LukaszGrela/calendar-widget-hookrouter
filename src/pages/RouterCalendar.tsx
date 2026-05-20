@@ -1,8 +1,13 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { GDCalendar } from '../components/GDCalendar';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { MondayFirstButton } from './toolbox/MondayFirstButton';
 import { AnimateToggleButton } from './toolbox/AnimateToggleButton';
+import {
+  HolidaySelector,
+  type THolidaysKeys,
+  type THolidaysMap,
+} from './toolbox/HolidaySelector';
 
 const RouterCalendar = () => {
   const navigate = useNavigate();
@@ -10,7 +15,36 @@ const RouterCalendar = () => {
   const [mondayFirst, setMondayFirst] = useState(true);
   const [animate, setAnimate] = useState(false);
 
+  const [holidaysSelection, setHolidaysSelection] =
+    useState<THolidaysKeys>('none');
+  const [holidays, setHolidays] = useState<THolidaysMap | null>(null);
+
   // console.log(year, month, date);
+
+  const changeHoliday = useCallback(
+    (value: THolidaysKeys, map: THolidaysMap | null) => {
+      setHolidaysSelection(value);
+      setHolidays(map);
+    },
+    []
+  );
+
+  const handleHolidayCheck = useCallback(
+    (date: Date) => {
+      const isoKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+      const yearlessKey = `*-${date.getMonth()}-${date.getDate()}`;
+
+      if (!holidays) return false;
+
+      const matched = [
+        ...(holidays.get(isoKey) ?? []),
+        ...(holidays.get(yearlessKey) ?? []),
+      ];
+
+      return (matched?.length ?? 0) > 0;
+    },
+    [holidays]
+  );
 
   const calendarDateChanged = (date: Date) => {
     navigate(
@@ -46,6 +80,7 @@ const RouterCalendar = () => {
             onClick={() => setAnimate((old) => !old)}
             animate={animate}
           />
+          <HolidaySelector value={holidaysSelection} onChange={changeHoliday} />
         </div>
       </article>
       <article className="widgets">
@@ -54,6 +89,7 @@ const RouterCalendar = () => {
           onDateChanged={calendarDateChanged}
           mondayFirst={mondayFirst}
           animate={animate}
+          holidayCallback={handleHolidayCheck}
         />
       </article>
       <nav>
