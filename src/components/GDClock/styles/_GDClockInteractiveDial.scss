@@ -1,5 +1,7 @@
+@use "colors";
+
 .GDClockInteractiveDial {
   & polygon {
-    fill: $gd-clock-dial;
+    fill: colors.$gd-clock-dial;
   }
 }

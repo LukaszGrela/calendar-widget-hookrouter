@@ -1,0 +1,26 @@
+import './GDCalendarHeader.scss';
+import type { FC } from 'react';
+import { GDYearSelector } from '../GDYearSelector';
+import { GDMonthSelector } from '../GDMonthSelector';
+import { GDCurrentMonthConnected } from '../GDCurrentMonth';
+import { GDMonthNavigationConnected } from '../GDMonthNavigation';
+
+export const GDCalendarHeader: FC = () => {
+  return (
+    <div className="GDCalendar_Header">
+      {/* left */}
+      <div className="GDCalendar_Header_leftSlot">
+        <GDMonthSelector />
+        <GDYearSelector />
+      </div>
+      {/* middle */}
+      <div className="GDCalendar_Header_middleSlot">
+        <GDCurrentMonthConnected />
+      </div>
+      {/* right */}
+      <div className="GDCalendar_Header_rightSlot">
+        <GDMonthNavigationConnected />
+      </div>
+    </div>
+  );
+};

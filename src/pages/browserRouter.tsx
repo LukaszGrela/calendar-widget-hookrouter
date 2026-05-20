@@ -3,9 +3,11 @@ import { type RouteObject, createBrowserRouter } from 'react-router-dom';
 import Home from './Home';
 import LinkedCalendars from './LinkedCalendars';
 import RouterCalendar from './RouterCalendar';
-import TSCalendar from './TSCalendar';
 import TSClock from './TSClock';
-import moment from 'moment';
+import Calendar from './Calendar';
+import { subtract } from '../components/GDCalendar/utils';
+import YearView from './YearView';
+import { DateSelectorPage } from './DateSelector';
 
 type TRouter = ReturnType<typeof createBrowserRouter>;
 
@@ -25,18 +27,26 @@ export const getRouteObjectList = (): RouteObject[] => {
         element: <RouterCalendar />,
       },
       {
+        path: '/ts-clock',
+        element: <TSClock />,
+      },
+      {
+        path: '/calendar',
+        element: <Calendar />,
+      },
+      {
         path: '/linked-calendars',
         element: (
-          <LinkedCalendars initialDate={moment().subtract(5, 'months')} />
+          <LinkedCalendars initialDate={subtract(new Date(), 5, 'months')} />
         ),
       },
       {
-        path: '/ts-calendar',
-        element: <TSCalendar />,
+        path: '/year-view',
+        element: <YearView />,
       },
       {
-        path: '/ts-clock',
-        element: <TSClock />,
+        path: '/date-selector',
+        element: <DateSelectorPage />,
       },
     ] as RouteObject[]
   ).concat(devpaths);

@@ -1,0 +1,9 @@
+@use '../../styles/colors';
+@use '../../styles/variables';
+
+.PopoverContent {
+  z-index: variables.$POPOVER-INDEX;
+  box-shadow: 0 0 6px 0 rgba(255,255,255, 0.1);
+  background-color: colors.$popover-background-color;
+  border-radius: 8px;
+}

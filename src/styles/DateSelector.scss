@@ -1,0 +1,161 @@
+@use 'colors';
+@use '../components/GDCalendar/styles/variables';
+@use 'sass:math';
+
+
+.date-selector {
+  & .single-select,
+  .range-select {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  & .DatePopoverTrigger {
+    padding: 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 1.6rem;
+    color: colors.$primary-color;
+    border: 2px solid colors.$primary-color;
+    border-radius: 8px;
+    background-color: colors.$popover-background-color;
+
+    &:not(:disabled):hover {
+      color: colors.$color-blue;
+      border-color: colors.$color-blue;
+    }
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+.RangeDateSelect {
+  &_trigger {
+    min-width: 226px;
+  }
+
+  & .LinkedCalendarGridsInner {
+    display: flex;
+  }
+}
+
+.DatePopoverContainer {
+  & .PopoverHeading {
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & .year {
+      font-size: 2.4rem;
+    }
+    & .navigation {
+      display: flex;
+
+      & button.today {
+        border: none;
+        background: none;
+
+        padding: 0 0.8rem;
+
+        color: colors.$primary-color;
+        font-size: 1.6rem;
+        transition: all 0.25s ease;
+        &:not(:disabled):hover {
+          color: colors.$color-blue;
+        }
+        &:disabled {
+          opacity: 0.5;
+        }
+      }
+
+      & button {
+        &.GDCalendar_PrevMonth-btn,
+        &.GDCalendar_NextMonth-btn {
+          width: 2.8rem;
+          height: 2.8rem;
+        }
+        svg {
+          width: 1.6rem;
+          fill: colors.$primary-color;
+        }
+        &:hover svg {
+          fill: colors.$color-blue;
+        }
+      }
+    }
+  }
+  & .MinimalCalendar {
+    &_footer {
+      font-weight: bold;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      line-height: 1;
+
+      background-color: colors.$popover-background-color;
+      padding: 8px 22px;
+      margin-bottom: 0;
+      button.ok {
+        border: none;
+        background: none;
+
+        padding: 0 0.8rem;
+
+        color: colors.$primary-color;
+        font-size: 1.6rem;
+        transition: all 0.25s ease;
+        &:not(:disabled):hover {
+          color: colors.$color-blue;
+        }
+        &:disabled {
+          opacity: 0.5;
+        }
+      }
+    }
+    &.GDCalendar {
+      container-type: inline-size;
+      margin: 0;
+      min-width: 250px;
+
+      & .GDCalendar {
+        &_Header {
+          margin: 0;
+          padding: 0 1.6rem;
+          padding-top: 1rem;
+        }
+        &_View {
+          padding: 1rem;
+        }
+
+        &_Row {
+          container-type: inline-size;
+        }
+
+        &_Day {
+          $squareRatio: #{var(
+              --gdc-square-ratio,
+              variables.$default7DaySquareRatio
+            )};
+          $squareHalfRatio: #{var(
+              --gdc-square-ratio-half,
+              variables.$default7DaySquareRatioHalf
+            )};
+          font-size: clamp(0.8rem, $squareHalfRatio * 1cqw, 2.25rem);
+          padding: 0;
+
+          width: clamp(1.6rem, $squareRatio * 1cqw, 4.5rem);
+          height: clamp(1.6rem, $squareRatio * 1cqw, 4.5rem);
+
+          min-width: unset;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}

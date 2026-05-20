@@ -1,0 +1,62 @@
+@mixin transition($duration: 150ms, $easing: ease) {
+  transition: $duration $easing;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.AnimatedContainer {
+  &.dir-next {
+    & .minimal-enter {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+
+    & .minimal-enter-active {
+      opacity: 1;
+      transform: translateX(0);
+      @include transition(150ms, ease);
+    }
+
+    & .minimal-exit {
+      opacity: 0;
+      transform: translateX(-100%);
+      @include transition(150ms, ease);
+    }
+  }
+
+  &.dir-prev {
+    & .minimal-enter {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+
+    & .minimal-enter-active {
+      opacity: 1;
+      transform: translateX(0);
+      @include transition(150ms, ease);
+    }
+
+    & .minimal-exit {
+      opacity: 0;
+      transform: translateX(100%);
+      @include transition(150ms, ease);
+    }
+  }
+
+  &.dir-none {
+    & .minimal-enter {
+      opacity: 0;
+    }
+
+    & .minimal-enter-active {
+      opacity: 1;
+      @include transition(150ms, ease);
+    }
+
+    & .minimal-exit {
+      opacity: 0;
+      @include transition(150ms, ease);
+    }
+  }
+}

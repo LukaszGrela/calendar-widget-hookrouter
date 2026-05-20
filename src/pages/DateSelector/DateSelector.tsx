@@ -1,0 +1,102 @@
+import { useCallback, useState, type FC } from 'react';
+import { Link } from 'react-router-dom';
+import { type IProps, type TRangeSelection } from '../../components/GDCalendar';
+import { useImmer } from '../../utils/useImmer';
+import { RangeDateSelect, SingleDateSelect } from './DateSelect';
+import { MondayFirstButton } from '../toolbox/MondayFirstButton';
+import { AnimateToggleButton } from '../toolbox/AnimateToggleButton';
+import { WorkingWeekLength } from '../toolbox/WorkingWeekLength';
+
+const DateSelector: FC = () => {
+  const [mondayFirst, setMondayFirst] = useState(true);
+  const [animate, setAnimate] = useState(false);
+    const [workingWeek, setWorkingWeek] =
+      useState<Exclude<IProps['workingWeek'], undefined | null>>(7);
+
+  const [singleDateSelection, setSingleSelection] = useState<Date | null>(null);
+  const onSingleDateSelected = useCallback(
+    (range?: Date | TRangeSelection | null) => {
+      if (!range || range instanceof Date) {
+        console.log('setSingleSelection', range);
+        setSingleSelection(range ?? null);
+      }
+    },
+    []
+  );
+
+  const [rangeDateSelection, setRangeDateSelection] = useImmer<TRangeSelection>(
+    [null, null]
+  );
+  const onRangeDateSelected = useCallback(
+    (range?: Date | TRangeSelection | null) => {
+      // console.log('LinkedCalendar.handleRangeSelection', range);
+      if (!(range instanceof Date)) {
+        setRangeDateSelection((draft) => {
+          draft[0] = range?.[0] ?? null;
+          draft[1] = range?.[1] ?? null;
+        });
+      }
+    },
+    [setRangeDateSelection]
+  );
+
+  return (
+    <section className="date-selector">
+      <article>
+        <p>Calendar widget used within the float-ui dropdown</p>
+      </article>
+      <article className="toolbox">
+        <div className="button-group">
+          <MondayFirstButton
+            onClick={() => setMondayFirst((old) => !old)}
+            mondayFirst={mondayFirst}
+          />
+          <AnimateToggleButton
+            onClick={() => setAnimate((old) => !old)}
+            animate={animate}
+          />
+          <WorkingWeekLength value={workingWeek} onChange={setWorkingWeek} />
+        </div>
+      </article>
+      <article className="widgets">
+        <div className="single-select">
+          <p>Single select</p>
+          <SingleDateSelect
+            mondayFirst={mondayFirst}
+            onDateSelected={onSingleDateSelected}
+            selection={singleDateSelection}
+            animate={animate}
+            workingWeek={workingWeek}
+          />
+        </div>
+        <div className="range-select">
+          <p>Range select</p>
+          <RangeDateSelect
+            mondayFirst={mondayFirst}
+            onDateSelected={onRangeDateSelected}
+            selection={rangeDateSelection}
+            animate={animate}
+            workingWeek={workingWeek}
+          />
+        </div>
+      </article>
+      <nav>
+        <Link to="/">Home</Link>
+      </nav>
+      <footer>
+        <div className="credits">
+          Dropdown implemented with{' '}
+          <a
+            href="https://floating-ui.com/docs/react"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @floating-ui
+          </a>
+        </div>
+      </footer>
+    </section>
+  );
+};
+
+export default DateSelector;

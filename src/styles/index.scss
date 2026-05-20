@@ -1,17 +1,19 @@
-@import './_colors.scss';
-@import './calendar-widget/CalendarWidget.scss';
-@import './LinkedCalendars.scss';
-@import './Home.scss';
-@import './TSCalendar.scss';
-@import './TSClock.scss';
+@use '_colors.scss';
+@use 'calendar-widget/CalendarWidget.scss';
+@use 'LinkedCalendars.scss';
+@use 'Home.scss';
+@use 'Calendar.scss';
+@use 'TSClock.scss';
+@use 'YearView.scss';
+@use 'DateSelector.scss';
 
 html {
   font-size: 62.5%;
 }
 
 body {
-  color: $primary-color;
-  background-color: $color-dark-grey;
+  color: colors.$primary-color;
+  background-color: colors.$color-dark-grey;
   font-size: 1.6rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -32,7 +34,7 @@ article.widgets {
 }
 
 article {
-  margin: 1rem;
+  padding: 1rem;
 }
 
 footer {
@@ -50,26 +52,69 @@ header {
   }
 }
 
+a {
+  color: colors.$color-blue;
+  &:hover {
+    color: colors.$primary-color;
+  }
+}
+
+button {
+  font-size: 1.6rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid colors.$color-blue;
+  background: none;
+  color: colors.$color-blue;
+  &:hover {
+    color: colors.$primary-color;
+    border-color: colors.$primary-color;
+  }
+}
+
 nav {
-  margin: 1rem auto;
+  margin: 1rem;
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
 }
 
 nav a {
-  color: $color-blue;
   font-size: 3.2rem;
   -webkit-transition: all 0.25s ease;
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
 }
-nav a:hover {
-  color: $primary-color;
-}
 
 .page-404 {
   article {
     text-align: center;
+  }
+}
+
+.toolbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+fieldset.WorkingWeekLength,
+fieldset.HolidaySelector {
+  color: colors.$color-blue;
+  border: 1px solid colors.$color-blue;
+  padding: 1rem;
+  border-radius: 8px;
+
+  & label {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
   }
 }

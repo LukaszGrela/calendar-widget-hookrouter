@@ -42,7 +42,7 @@ const TSClock: React.FC = (): ReactNode => {
               className="snap-selector"
               name="snap-selector"
               onChange={(e) => {
-                console.log(e.target.value);
+                // console.log(e.target.value);
                 if (e.target.value === 'none') {
                   setSnap(undefined);
                 } else {

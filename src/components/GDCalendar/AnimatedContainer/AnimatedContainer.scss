@@ -1,0 +1,96 @@
+@use '../styles/mixins';
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.2, 0.2, 0.2);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.AnimatedContainer {
+  overflow: hidden;
+
+  &.dir-none {
+    & .AnimatedContainer_transition.month-appear {
+      animation-duration: 300ms;
+    }
+
+    & .AnimatedContainer_transition.month-appear-active {
+      animation-name: zoomIn;
+      animation-fill-mode: both;
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
+    }
+
+    // & .AnimatedContainer_transition.month-appear-done {
+    //   opacity: 1;
+    //   animation-name: none;
+    //   transform: scale3d(1, 1, 1);
+    // }
+
+    & .AnimatedContainer_transition.month-exit {
+      opacity: 0;
+      @include mixins.transition(150ms, ease);
+    }
+
+    & .AnimatedContainer_transition.month-enter {
+      opacity: 0;
+    }
+
+    & .AnimatedContainer_transition.month-enter-active {
+      opacity: 1;
+      @include mixins.transition(150ms, ease);
+    }
+
+    & .AnimatedContainer_transition.month-exit {
+      opacity: 0;
+      @include mixins.transition(150ms, ease);
+    }
+  }
+  &.dir-next {
+    & .AnimatedContainer_transition.month-enter {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+
+    & .AnimatedContainer_transition.month-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      @include mixins.transition(150ms, ease);
+    }
+
+    & .AnimatedContainer_transition.month-exit {
+      opacity: 0;
+      transform: translateY(-100%);
+      @include mixins.transition(150ms, ease);
+    }
+  }
+
+  &.dir-prev {
+    & .AnimatedContainer_transition.month-enter {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    & .AnimatedContainer_transition.month-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      @include mixins.transition(150ms, ease);
+    }
+
+    & .AnimatedContainer_transition.month-exit {
+      opacity: 0;
+      transform: translateY(100%);
+      @include mixins.transition(150ms, ease);
+    }
+  }
+}

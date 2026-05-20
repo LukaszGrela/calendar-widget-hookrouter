@@ -1,0 +1,27 @@
+@use "colors";
+
+.ts-calendar {
+  & .toolbox {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+    gap: 16px;
+    & p {
+      width: 16rem;
+      align-self: center;
+      display: flex;
+      justify-content: space-between;
+    }
+    & .btn {
+      background: none;
+      border: none;
+      color: colors.$color-blue;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  }
+  & .widgets .GDCalendar {
+    margin: 0 auto;
+  }
+}

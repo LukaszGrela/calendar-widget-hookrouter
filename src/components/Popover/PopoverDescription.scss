@@ -1,0 +1,8 @@
+@use '../../styles/colors';
+
+.PopoverDescription {
+  font-size: 1rem;
+
+  background-color: colors.$popover-background-color;
+  padding: 8px 22px;
+}

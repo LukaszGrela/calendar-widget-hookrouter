@@ -1,0 +1,69 @@
+@mixin transition($duration: 150ms, $easing: ease) {
+  transition: $duration $easing;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.RangeDateSelect {
+  overflow: hidden;
+
+  &_grids {
+    display: flex;
+  }
+
+  .AnimatedContainer {
+    &.dir-next {
+      & .range-enter {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      & .range-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        @include transition(150ms, ease);
+      }
+
+      & .range-exit {
+        opacity: 0;
+        transform: translateY(-100%);
+        @include transition(150ms, ease);
+      }
+    }
+
+    &.dir-prev {
+      & .range-enter {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+
+      & .range-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        @include transition(150ms, ease);
+      }
+
+      & .range-exit {
+        opacity: 0;
+        transform: translateY(100%);
+        @include transition(150ms, ease);
+      }
+    }
+    &.dir-none {
+      & .range-enter {
+        opacity: 0;
+      }
+
+      & .range-enter-active {
+        opacity: 1;
+        @include transition(150ms, ease);
+      }
+
+      & .range-exit {
+        opacity: 0;
+        @include transition(150ms, ease);
+      }
+    }
+  }
+}
