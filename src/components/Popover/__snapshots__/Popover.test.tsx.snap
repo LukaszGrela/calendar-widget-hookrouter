@@ -1,0 +1,132 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`components > common > Popover > should close when clicking on close button 1`] = `
+<div>
+  <button
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-state="closed"
+    data-testid="trigger"
+    type="button"
+  >
+    Click
+  </button>
+</div>
+`;
+
+exports[`components > common > Popover > should close when clicking on trigger for the second time 1`] = `
+<div>
+  <button
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-state="closed"
+    data-testid="trigger"
+    type="button"
+  >
+    Click
+  </button>
+</div>
+`;
+
+exports[`components > common > Popover > should open on trigger 1`] = `
+<div>
+  <button
+    aria-controls="_r_4_"
+    aria-expanded="true"
+    aria-haspopup="dialog"
+    data-floating-ui-inert=""
+    data-state="open"
+    data-testid="trigger"
+    type="button"
+  >
+    Click
+  </button>
+  <span
+    aria-hidden="true"
+    data-floating-ui-inert=""
+    style="border: 0px; clip: rect(0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
+    tabindex="-1"
+  />
+  <span
+    data-floating-ui-focus-guard=""
+    data-type="outside"
+    role="button"
+    style="border: 0px; clip: rect(0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
+    tabindex="0"
+  />
+  <span
+    aria-owns="_r_6_"
+    data-floating-ui-inert=""
+    style="clip-path: inset(50%); position: fixed; top: 0px; left: 0px;"
+  />
+  <span
+    data-floating-ui-focus-guard=""
+    data-type="outside"
+    role="button"
+    style="border: 0px; clip: rect(0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
+    tabindex="0"
+  />
+</div>
+`;
+
+exports[`components > common > Popover > should open on trigger when asChild is true 1`] = `
+<div>
+  <div
+    aria-controls="_r_9_"
+    aria-expanded="true"
+    aria-haspopup="dialog"
+    data-floating-ui-inert=""
+    data-state="open"
+    data-testid="asChild-trigger"
+  />
+  <span
+    aria-hidden="true"
+    data-floating-ui-inert=""
+    style="border: 0px; clip: rect(0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
+    tabindex="-1"
+  />
+  <span
+    data-floating-ui-focus-guard=""
+    data-type="outside"
+    role="button"
+    style="border: 0px; clip: rect(0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
+    tabindex="0"
+  />
+  <span
+    aria-owns="_r_b_"
+    data-floating-ui-inert=""
+    style="clip-path: inset(50%); position: fixed; top: 0px; left: 0px;"
+  />
+  <span
+    data-floating-ui-focus-guard=""
+    data-type="outside"
+    role="button"
+    style="border: 0px; clip: rect(0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; white-space: nowrap; width: 1px; top: 0px; left: 0px;"
+    tabindex="0"
+  />
+</div>
+`;
+
+exports[`components > common > Popover > should render 1`] = `
+<div>
+  <button
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-state="closed"
+    type="button"
+  >
+    Click
+  </button>
+</div>
+`;
+
+exports[`components > common > Popover > should render trigger as child 1`] = `
+<div>
+  <div
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    data-state="closed"
+    data-testid="asChild"
+  />
+</div>
+`;
