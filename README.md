@@ -2,6 +2,8 @@
 
 [React Calendar Widget](https://github.com/LukaszGrela/calendar-widget) example.
 
+[Live Example - Calendar](https://clock-widget.greladesign.co/calendar)
+
 ##
 
 ```TSX
